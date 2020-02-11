@@ -1,13 +1,15 @@
 package cz.uhk.fim.pro3.attendence;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class HomeController {
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index(){
-        return "Hello";
+        return "index";
     }
 }

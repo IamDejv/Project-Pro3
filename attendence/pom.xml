@@ -9,13 +9,14 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cz.uhk.fim.pro3</groupId>
-    <artifactId>attendence</artifactId>
+    <artifactId>attendance</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Attendence</name>
+    <name>Attendance</name>
     <description>Project PRO3</description>
 
     <properties>
         <java.version>1.8</java.version>
+        <start-class>cz.uhk.fim.pro3.attendence.AttendanceApplication</start-class>
     </properties>
 
     <dependencies>
@@ -43,6 +44,23 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
