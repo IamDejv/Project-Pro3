@@ -4,8 +4,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <link rel="stylesheet" href="../webapp/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../webapp/css/layout.css">
 </head>
 <body>
-<jsp:include page="navbar.jsp" />
 </body>
 </html>
+
