@@ -15,5 +15,6 @@ public class AttendanceApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(AttendanceApplication.class, args);
+
     }
 }

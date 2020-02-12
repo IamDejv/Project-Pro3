@@ -9,5 +9,7 @@ public class AttendenceController {
     @GetMapping("/dochazka")
     public String attendence(){
         return "attendance";
+
+        //test
     }
 }
