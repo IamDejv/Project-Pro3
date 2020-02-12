@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="css/layout.css">
 </head>
 <body>
-<jsp:include page="layout.jsp" />
+<jsp:include page="navbar.jsp" />
 <div class="page-content p-5" id="content">
-    <!-- Content -->
+
 </div>
+<footer><jsp:include page="footer.jsp"/></footer>
 </body>
 </html>
 

@@ -5,6 +5,6 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp" />
-<jsp:include page="footer.jsp" />
+<footer><jsp:include page="footer.jsp" /></footer>
 </body>
 </html>
