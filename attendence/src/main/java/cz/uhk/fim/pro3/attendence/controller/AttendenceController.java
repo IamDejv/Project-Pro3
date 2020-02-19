@@ -1,15 +1,15 @@
-package cz.uhk.fim.pro3.attendence;
+package cz.uhk.fim.pro3.attendence.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequestMapping("/dochazka")
 @Controller
 public class AttendenceController {
 
-    @GetMapping("/dochazka")
+    @GetMapping
     public String attendence(){
         return "attendance";
-
-        //test
     }
 }

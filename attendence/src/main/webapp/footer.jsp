@@ -8,7 +8,7 @@
 <body>
 <body class="d-flex flex-column">
 
-<footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+<footer userid="sticky-footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
         <small>Copyright &copy; Station 91</small>
     </div>

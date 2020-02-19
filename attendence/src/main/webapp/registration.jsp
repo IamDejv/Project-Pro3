@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp" />
-<div class="page-content p-5" id="content">
+<div class="page-content p-5" userid="content">
 
 </div>
 <footer><jsp:include page="footer.jsp"/></footer>

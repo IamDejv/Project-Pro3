@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 </head>
 <body>
-<div class="vertical-nav bg-white" id="sidebar">
+<div class="vertical-nav bg-white" userid="sidebar">
     <div class="py-4 px-3 mb-4 bg-light">
         <img src="${pageContext.request.contextPath}/logo.png" alt="Logo" class="logo">
     </div>

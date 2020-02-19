@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="layout.jsp" />
-<div class="page-content p-5" id="content">
+<div class="page-content p-5" userid="content">
     <!-- Content -->
 </div>
 </body>
