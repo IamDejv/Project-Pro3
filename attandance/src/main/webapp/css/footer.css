@@ -1,0 +1,12 @@
+/* Sticky Footer Classes */
+
+
+
+#page-content {
+    flex: 1 0 auto;
+}
+
+#sticky-footer {
+    flex-shrink: none;
+}
+
