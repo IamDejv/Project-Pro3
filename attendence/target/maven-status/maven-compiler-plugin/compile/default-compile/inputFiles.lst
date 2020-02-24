@@ -1,0 +1,16 @@
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/service/AddressService.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/controller/HomeController.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/service/UserService.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/model/Address.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/controller/ProfileController.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/dao/ContactInfoRepository.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/dao/UserRepository.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/AttendanceApplication.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/dao/AddressRepository.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/controller/RegistrationController.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/controller/ExhibitionController.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/controller/AttendenceController.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/model/User.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/model/ContactInfo.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/service/ContactInfoService.java
+/home/iamdejv/IdeaProjects/Project-Pro3/attendence/src/main/java/cz/uhk/fim/pro3/attendence/controller/UserController.java
