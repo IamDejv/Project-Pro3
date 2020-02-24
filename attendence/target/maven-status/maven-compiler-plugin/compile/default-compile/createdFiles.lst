@@ -1,0 +1,16 @@
+cz/uhk/fim/pro3/attendence/dao/ContactInfoRepository.class
+cz/uhk/fim/pro3/attendence/dao/AddressRepository.class
+cz/uhk/fim/pro3/attendence/model/ContactInfo.class
+cz/uhk/fim/pro3/attendence/controller/ProfileController.class
+cz/uhk/fim/pro3/attendence/controller/HomeController.class
+cz/uhk/fim/pro3/attendence/controller/RegistrationController.class
+cz/uhk/fim/pro3/attendence/controller/ExhibitionController.class
+cz/uhk/fim/pro3/attendence/dao/UserRepository.class
+cz/uhk/fim/pro3/attendence/controller/UserController.class
+cz/uhk/fim/pro3/attendence/model/Address.class
+cz/uhk/fim/pro3/attendence/service/ContactInfoService.class
+cz/uhk/fim/pro3/attendence/AttendanceApplication.class
+cz/uhk/fim/pro3/attendence/model/User.class
+cz/uhk/fim/pro3/attendence/service/UserService.class
+cz/uhk/fim/pro3/attendence/controller/AttendenceController.class
+cz/uhk/fim/pro3/attendence/service/AddressService.class
