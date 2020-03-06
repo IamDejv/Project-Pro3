@@ -33,18 +33,10 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-//    public void updateUser(int id, User user) {
-//        User oldUser = userRepository.findById(id).get();
-//        oldUser.setFirstname(user.getFirstname());
-//        oldUser.setLastname(user.getLastname());
-//        oldUser.setDateOfBirth(user.getDateOfBirth());
-//        oldUser.setDateOfCome(user.getDateOfCome());
-//        oldUser.setDateOfLeave(user.getDateOfLeave());
-//        oldUser.setSex(user.getSex());
-//        oldUser.setPiNumber(user.getPiNumber());
-//        oldUser.setPaid(user.isPaid());
-//        userRepository.save(oldUser);
-//    }
+    public void updateUser(int id, User user) {
+        User oldUser = userRepository.findById(id).get();
+        userRepository.save(oldUser);
+    }
 
 
 }

@@ -38,10 +38,10 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-//    @PutMapping(produces = "application/json")
-//    public void updateUser(@RequestBody User user){
-//        userService.updateUser(user.getUserid(), user);
-//    }
+    @PutMapping(produces = "application/json")
+    public void updateUser(@RequestBody User user){
+        userService.updateUser(user.getUserid(), user);
+    }
 }
 
 
