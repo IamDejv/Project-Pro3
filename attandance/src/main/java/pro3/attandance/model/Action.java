@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.List;
 
@@ -17,9 +18,11 @@ public class Action {
     private String description;
 
     @Column(name = "dateaction")
+    @NotNull
     private String dateAction;
 
     @Column(name = "type")
+    @NotNull
     private String type;
 
     @ManyToOne

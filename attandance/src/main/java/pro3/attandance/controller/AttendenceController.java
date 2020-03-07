@@ -10,6 +10,6 @@ public class AttendenceController {
 
     @GetMapping
     public String attendence(){
-        return "attendance";
+        return "attendance/index";
     }
 }

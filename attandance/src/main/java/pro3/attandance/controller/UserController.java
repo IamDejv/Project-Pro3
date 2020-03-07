@@ -28,7 +28,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping(produces = "application/json")
+    @PostMapping(consumes = "application/json",produces = "application/json")
     public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }

@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -14,15 +15,19 @@ public class Training {
     private int trainingid;
 
     @Column(name = "type")
+    @NotNull
     private int type;
 
     @Column(name = "endtime")
+    @NotNull
     private String endtime;
 
     @Column(name = "starttime")
+    @NotNull
     private String starttime;
 
     @ManyToOne
+    @NotNull
     private User user ;
 
     @ManyToOne
