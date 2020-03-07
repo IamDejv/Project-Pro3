@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.List;
 
@@ -14,15 +15,19 @@ public class Address {
     private int addresid;
 
     @Column(name = "city")
+    @NotNull
     private String city;
 
     @Column(name = "state")
+    @NotNull
     private String state;
 
     @Column(name = "street")
+    @NotNull
     private String street;
 
     @Column(name = "zip")
+    @NotNull
     private String zip;
 
     public Address() {

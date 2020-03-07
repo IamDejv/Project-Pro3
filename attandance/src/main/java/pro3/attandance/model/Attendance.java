@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "attendance")
@@ -15,9 +16,11 @@ public class Attendance {
     private int presence;
 
     @ManyToOne
+    @NotNull
     private Attendee attendee;
 
     @ManyToOne
+    @NotNull
     private Training training;
 
     public Attendance() {

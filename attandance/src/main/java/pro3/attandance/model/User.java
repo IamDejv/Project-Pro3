@@ -1,7 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -13,10 +13,12 @@ public class User {
     private int userid;
 
     @Column(name = "username")
+    @NotNull
     private String username;
 
     //One to One, na strane kde chci mit id, tak staci tohle
     @OneToOne
+    @NotNull
     private Person person;
     //Many to One, na strane, kde chci mit id, tak staci tohle
     @ManyToOne

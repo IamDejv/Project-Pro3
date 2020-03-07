@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -13,24 +14,29 @@ public class Person {
     private int personid;
 
     @Column(name = "firstname")
+    @NotNull
     private String firstname;
 
     @Column(name = "lastname")
+    @NotNull
     private String lastname;
 
     @Column(name = "isactive")
+    @NotNull
     private boolean active;
 
     @Column(name = "dateofbirth")
+    @NotNull
     private String dateOfBirth;
 
     @Column(name = "dateofcome")
     private String dateofcome;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
+    @NotNull
     private Role role;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private Address address;
 
     public Person() {

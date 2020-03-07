@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usersactions")
@@ -12,9 +13,11 @@ public class UserAction {
     private int useractionid;
 
     @ManyToOne
+    @NotNull
     private User user;
 
     @ManyToOne
+    @NotNull
     private Action action;
 
     public UserAction() {

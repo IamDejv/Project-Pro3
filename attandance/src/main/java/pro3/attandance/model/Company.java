@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -13,6 +14,7 @@ public class Company {
     private int companyid;
 
     @Column(name = "name")
+    @NotNull
     private String name;
 
     public Company() {

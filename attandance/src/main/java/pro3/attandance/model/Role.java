@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -13,9 +14,11 @@ public class Role {
     private int roleid;
 
     @Column(name = "description")
+    @NotNull
     private String description;
 
     @Column(name = "name")
+    @NotNull
     private String name;
 
     public Role() {
