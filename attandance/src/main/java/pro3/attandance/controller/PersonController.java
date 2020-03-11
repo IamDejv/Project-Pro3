@@ -2,10 +2,7 @@ package pro3.attandance.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pro3.attandance.model.Person;
-import pro3.attandance.model.Training;
-import pro3.attandance.model.User;
 import pro3.attandance.services.PersonService;
-import pro3.attandance.services.TrainingService;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,26 +19,26 @@ public class PersonController {
 
     @GetMapping
     public List<Person> getUser() {
-        return personService.getUser();
+        return personService.getAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Person> getUserById(@PathVariable("id") Integer id) {
-        return personService.getUserById(id);
+        return personService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
     public void addUser(@RequestBody Person person) {
-        personService.addUser(person);
+        personService.add(person);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable ("id") Integer id){
-        personService.deleteUser(id);
+    public void deleteUser(@PathVariable("id") Integer id) {
+        personService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Person person){
-        personService.updateUser(person.getPersonid(), person);
+    public void updateUser(@RequestBody Person person) {
+        personService.update(person.getPersonid(), person);
     }
 }

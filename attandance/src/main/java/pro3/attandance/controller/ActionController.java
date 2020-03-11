@@ -3,6 +3,7 @@ package pro3.attandance.controller;
 import org.springframework.web.bind.annotation.*;
 import pro3.attandance.model.Action;
 import pro3.attandance.services.ActionService;
+import pro3.attandance.services.BaseService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,26 +20,26 @@ public class ActionController {
 
     @GetMapping
     public List<Action> getUser() {
-        return actionService.getUser();
+        return actionService.getAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Action> getUserById(@PathVariable("id") Integer id) {
-        return actionService.getUserById(id);
+        return actionService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
     public void addUser(@RequestBody Action action) {
-        actionService.addUser(action);
+        actionService.add(action);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") Integer id) {
-        actionService.deleteUser(id);
+        actionService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
     public void updateUser(@RequestBody Action action) {
-        actionService.updateUser(action.getActionsid(), action);
+        actionService.update(action.getActionsid(), action);
     }
 }

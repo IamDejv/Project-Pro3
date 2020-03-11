@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Uživatelé</title>
+    <link rel="stylesheet" href="../static/css/users.css" th:href="@{/css/users.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<div class="page-content">
+    <div id="jsGrid"></div>
+</div>
+</body>
+</html>
+
+
+<script>
+    var clients = [
+        { "Name": "Otto Clay", "Age": 25, "Country": 1, "Address": "Ap #897-1459 Quam Avenue", "Married": false },
+        { "Name": "Connor Johnston", "Age": 45, "Country": 2, "Address": "Ap #370-4647 Dis Av.", "Married": true },
+        { "Name": "Lacey Hess", "Age": 29, "Country": 3, "Address": "Ap #365-8835 Integer St.", "Married": false },
+        { "Name": "Timothy Henson", "Age": 56, "Country": 1, "Address": "911-5143 Luctus Ave", "Married": true },
+        { "Name": "Ramona Benton", "Age": 32, "Country": 3, "Address": "Ap #614-689 Vehicula Street", "Married": false }
+    ];
+
+    var countries = [
+        { Name: "", Id: 0 },
+        { Name: "United States", Id: 1 },
+        { Name: "Canada", Id: 2 },
+        { Name: "United Kingdom", Id: 3 }
+    ];
+
+    $("#jsGrid").jsGrid({
+        width: "100%",
+        height: "400px",
+
+        searching: true,
+        editing: true,
+        sorting: true,
+
+        data: clients,
+
+        fields: [
+            { name: "firstname", type: "text", title: "Jméno", width: 60 },
+            { name: "lastname", type: "text", title: "Příjmení", width: 60 },
+            { name: "role", type: "text", title: "Typ", width: 30 },
+            { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
+            { name: "company", type: "text", title: "Firma", width: 50},
+            { type: "control", width: 50 }
+        ]
+    });
+</script>
+

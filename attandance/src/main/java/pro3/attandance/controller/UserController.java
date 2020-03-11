@@ -20,27 +20,27 @@ public class UserController {
 
     @GetMapping
     public List<User> getUser() {
-        return userService.getUser();
+        return userService.getAll();
     }
 
     @GetMapping("/{id}")
     public Optional<User> getUserById(@PathVariable("id") Integer id) {
-        return userService.getUserById(id);
+        return userService.getById(id);
     }
 
-    @PostMapping(consumes = "application/json",produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public void addUser(@RequestBody User user) {
-        userService.addUser(user);
+        userService.add(user);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable ("id") Integer id){
-        userService.deleteUser(id);
+    public void deleteUser(@PathVariable("id") Integer id) {
+        userService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody User user){
-        userService.updateUser(user.getUserid(), user);
+    public void updateUser(@RequestBody User user) {
+        userService.update(user.getUserid(), user);
     }
 }
 

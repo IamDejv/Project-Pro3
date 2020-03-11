@@ -8,31 +8,35 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CompanyService {
+public class CompanyService implements BaseService<Company> {
     private final CompanyRepository companyRepository;
 
     public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> getUser() {
+    @Override
+    public List<Company> getAll() {
         return (List<Company>) companyRepository.findAll();
     }
 
-    public Optional<Company> getUserById(int id) {
+    @Override
+    public Optional<Company> getById(int id) {
         return companyRepository.findById(id);
     }
 
-    public void addUser(Company company) {
-        companyRepository.save(company);
+    @Override
+    public Company add(Company company) {
+        return companyRepository.save(company);
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteById(int id) {
         companyRepository.deleteById(id);
     }
 
-    public void updateUser(int id, Company company) {
-
+    @Override
+    public Company update(int id, Company company) {
+        return companyRepository.save(company);
     }
-
 }

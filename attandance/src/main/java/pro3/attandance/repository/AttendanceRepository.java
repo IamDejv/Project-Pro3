@@ -7,5 +7,4 @@ import pro3.attandance.model.Attendance;
 
 @Repository
 public interface AttendanceRepository extends CrudRepository<Attendance, Integer> {
-
 }

@@ -1,39 +1,36 @@
 package pro3.attandance.model;
 
 public class FormData {
-    private String fistname;
+    private String firstname;
     private String lastname;
-    private String dateBirth;
-    private String email;
-    private String phone;
-    private String street;
-    private String city;
-    private String state;
-    private String zip;
-    private int role;
+    private String dateOfBirth;
+    private String dateofcome;
+    private boolean active;
+    private ContactInfo contactInfo;
+    private int roleid;
+    private Address address;
 
-    public FormData(String fistname, String lastname, String dateBirth, String email, String phone, String street, String city, String state, String zip, int role) {
-        this.fistname = fistname;
+
+    public FormData(String firstname, String lastname, String dateOfBirth, String dateofcome, boolean active, ContactInfo contactInfo, int roleid, Address address) {
+        this.firstname = firstname;
         this.lastname = lastname;
-        this.dateBirth = dateBirth;
-        this.email = email;
-        this.phone = phone;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.dateofcome = dateofcome;
+        this.active = active;
+        this.contactInfo = contactInfo;
+        this.roleid = roleid;
+        this.address = address;
     }
 
     public FormData() {
     }
 
-    public String getFistname() {
-        return fistname;
+    public String getfirstname() {
+        return firstname;
     }
 
-    public void setFistname(String fistname) {
-        this.fistname = fistname;
+    public void setfirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public String getLastname() {
@@ -44,67 +41,65 @@ public class FormData {
         this.lastname = lastname;
     }
 
-    public String getDateBirth() {
-        return dateBirth;
+    public String getdateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDateBirth(String dateBirth) {
-        this.dateBirth = dateBirth;
+    public void setdateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDateofcome() {
+        return dateofcome;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDateofcome(String dateofcome) {
+        this.dateofcome = dateofcome;
     }
 
-    public String getPhone() {
-        return phone;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public String getStreet() {
-        return street;
+    public ContactInfo getContactInfo() {
+        return contactInfo;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setContactInfo(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
-    public String getCity() {
-        return city;
+    public int getroleid() {
+        return roleid;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setroleid(int roleid) {
+        this.roleid = roleid;
     }
 
-    public String getState() {
-        return state;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
+    @Override
+    public String toString() {
+        return "FormData{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", dateofcome='" + dateofcome + '\'' +
+                ", active=" + active +
+                ", contactInfo=" + contactInfo.getEmail() + " " + contactInfo.getPhone() +
+                ", roleid=" + roleid +
+                ", address=" + address.getCity() + " " + address.getState() + " " + address.getStreet() + " " + address.getZip() +
+                '}';
     }
 }

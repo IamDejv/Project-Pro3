@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TrainingService {
+public class TrainingService implements BaseService<Training> {
 
     private final TrainingRepository trainingRepository;
 
@@ -16,24 +16,28 @@ public class TrainingService {
         this.trainingRepository = trainingRepository;
     }
 
-    public List<Training> getUser() {
+    @Override
+    public List<Training> getAll() {
         return (List<Training>) trainingRepository.findAll();
     }
 
-    public Optional<Training> getUserById(int id) {
+    @Override
+    public Optional<Training> getById(int id) {
         return trainingRepository.findById(id);
     }
 
-    public void addUser(Training training) {
-        trainingRepository.save(training);
+    @Override
+    public Training add(Training training) {
+        return trainingRepository.save(training);
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteById(int id) {
         trainingRepository.deleteById(id);
     }
 
-    public void updateUser(int id, Training training) {
-
+    @Override
+    public Training update(int id, Training training) {
+        return trainingRepository.save(training);
     }
-
 }

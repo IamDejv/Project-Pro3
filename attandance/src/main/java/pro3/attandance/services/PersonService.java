@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonService {
+public class PersonService implements BaseService<Person> {
 
     private final PersonRepository personRepository;
 
@@ -16,23 +16,28 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public List<Person> getUser() {
+    @Override
+    public List<Person> getAll() {
         return (List<Person>) personRepository.findAll();
     }
 
-    public Optional<Person> getUserById(int id) {
+    @Override
+    public Optional<Person> getById(int id) {
         return personRepository.findById(id);
     }
 
-    public void addUser(Person person) {
-        personRepository.save(person);
+    @Override
+    public Person add(Person person) {
+        return personRepository.save(person);
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteById(int id) {
         personRepository.deleteById(id);
     }
 
-    public void updateUser(int id, Person person) {
-
+    @Override
+    public Person update(int id, Person person) {
+        return personRepository.save(person);
     }
 }

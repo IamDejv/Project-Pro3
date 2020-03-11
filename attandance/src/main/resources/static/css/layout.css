@@ -95,3 +95,6 @@ footer {
 li a:hover, .active {
     background-color: #009DFF;
 }
+.page-content {
+    margin-left: 17rem;
+}

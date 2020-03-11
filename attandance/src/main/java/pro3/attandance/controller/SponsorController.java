@@ -2,9 +2,7 @@ package pro3.attandance.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pro3.attandance.model.Sponsor;
-import pro3.attandance.model.Training;
 import pro3.attandance.services.SponsorService;
-import pro3.attandance.services.TrainingService;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,26 +19,26 @@ public class SponsorController {
 
     @GetMapping
     public List<Sponsor> getUser() {
-        return sponsorService.getUser();
+        return sponsorService.getAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Sponsor> getUserById(@PathVariable("id") Integer id) {
-        return sponsorService.getUserById(id);
+        return sponsorService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
     public void addUser(@RequestBody Sponsor sponsor) {
-        sponsorService.addUser(sponsor);
+        sponsorService.add(sponsor);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable ("id") Integer id){
-        sponsorService.deleteUser(id);
+    public void deleteUser(@PathVariable("id") Integer id) {
+        sponsorService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Sponsor sponsor){
-        sponsorService.updateUser(sponsor.getSponsorid(), sponsor);
+    public void updateUser(@RequestBody Sponsor sponsor) {
+        sponsorService.update(sponsor.getSponsorid(), sponsor);
     }
 }

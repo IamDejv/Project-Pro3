@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AddressService {
+public class AddressService implements BaseService<Address> {
 
     private final AddressRepository addressRepository;
 
@@ -17,25 +17,28 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public List<Address> getUser() {
+    @Override
+    public List<Address> getAll() {
         return (List<Address>) addressRepository.findAll();
     }
 
-    public Optional<Address> getUserById(int id) {
+    @Override
+    public Optional<Address> getById(int id) {
         return addressRepository.findById(id);
     }
 
-    public void addUser(Address address) {
-        addressRepository.save(address);
+    @Override
+    public Address add(Address address) {
+        return addressRepository.save(address);
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteById(int id) {
         addressRepository.deleteById(id);
     }
 
-    public void updateUser(int id, Address address) {
-
+    @Override
+    public Address update(int id, Address address) {
+        return addressRepository.save(address);
     }
-
-
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserActionService {
+public class UserActionService implements BaseService<UserAction> {
 
     private final UserActionRepository userActionRepository;
 
@@ -16,24 +16,28 @@ public class UserActionService {
         this.userActionRepository = userActionRepository;
     }
 
-    public List<UserAction> getUser() {
+    @Override
+    public List<UserAction> getAll() {
         return (List<UserAction>) userActionRepository.findAll();
     }
 
-    public Optional<UserAction> getUserById(int id) {
+    @Override
+    public Optional<UserAction> getById(int id) {
         return userActionRepository.findById(id);
     }
 
-    public void addUser(UserAction userAction) {
-        userActionRepository.save(userAction);
+    @Override
+    public UserAction add(UserAction userAction) {
+        return userActionRepository.save(userAction);
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteById(int id) {
         userActionRepository.deleteById(id);
     }
 
-    public void updateUser(int id, UserAction userAction) {
-
+    @Override
+    public UserAction update(int id, UserAction userAction) {
+        return userActionRepository.save(userAction);
     }
-
 }

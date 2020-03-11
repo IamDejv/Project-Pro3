@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ActionService {
+public class ActionService implements BaseService<Action> {
 
     private final ActionRepository actionRepository;
 
@@ -17,25 +17,29 @@ public class ActionService {
         this.actionRepository = actionRepository;
     }
 
-    public List<Action> getUser() {
+
+    @Override
+    public List<Action> getAll() {
         return (List<Action>) actionRepository.findAll();
     }
 
-    public Optional<Action> getUserById(int id) {
+    @Override
+    public Optional<Action> getById(int id) {
         return actionRepository.findById(id);
     }
 
-    public void addUser(Action action) {
-        actionRepository.save(action);
+    @Override
+    public Action add(Action action) {
+        return actionRepository.save(action);
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteById(int id) {
         actionRepository.deleteById(id);
     }
 
-    public void updateUser(int id, Action action) {
-
+    @Override
+    public Action update(int id, Action action) {
+        return actionRepository.save(action);
     }
-
-
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RoleService {
+public class RoleService implements BaseService<Role> {
 
 
     private final RoleRepository roleRepository;
@@ -17,24 +17,28 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public List<Role> getUser() {
+    @Override
+    public List<Role> getAll() {
         return (List<Role>) roleRepository.findAll();
     }
 
-    public Optional<Role> getUserById(int id) {
+    @Override
+    public Optional<Role> getById(int id) {
         return roleRepository.findById(id);
     }
 
-    public void addUser(Role role) {
-        roleRepository.save(role);
+    @Override
+    public Role add(Role role) {
+        return roleRepository.save(role);
     }
 
-    public void deleteUser(int id) {
+    @Override
+    public void deleteById(int id) {
         roleRepository.deleteById(id);
     }
 
-    public void updateUser(int id, Role role) {
-
+    @Override
+    public Role update(int id, Role role) {
+        return roleRepository.save(role);
     }
-
 }
