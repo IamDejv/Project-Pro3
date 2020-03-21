@@ -32,11 +32,11 @@ public class Person {
     @Column(name = "dateofcome")
     private String dateofcome;
 
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @NotNull
     private Role role;
 
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
     public Person() {

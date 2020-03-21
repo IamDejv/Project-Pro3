@@ -17,22 +17,27 @@ public class AttendanceService implements BaseService<Attendance> {
         this.attendanceRepository = attendanceRepository;
     }
 
+    @Override
     public List<Attendance> getAll() {
         return (List<Attendance>) attendanceRepository.findAll();
     }
 
+    @Override
     public Optional<Attendance> getById(int id) {
         return attendanceRepository.findById(id);
     }
 
+    @Override
     public Attendance add(Attendance attendance) {
         return attendanceRepository.save(attendance);
     }
 
+    @Override
     public void deleteById(int id) {
         attendanceRepository.deleteById(id);
     }
 
+    @Override
     public Attendance update(int id, Attendance attendance) {
         return attendanceRepository.save(attendance);
     }
