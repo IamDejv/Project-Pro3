@@ -9,9 +9,11 @@ public class FormData {
     private ContactInfo contactInfo;
     private int roleid;
     private Address address;
+    private int sex;
+    private String password;
 
 
-    public FormData(String firstname, String lastname, String dateOfBirth, String dateofcome, boolean active, ContactInfo contactInfo, int roleid, Address address) {
+    public FormData(String firstname, String lastname, String dateOfBirth, String dateofcome, boolean active, ContactInfo contactInfo, int roleid, Address address, int sex, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.dateOfBirth = dateOfBirth;
@@ -20,16 +22,18 @@ public class FormData {
         this.contactInfo = contactInfo;
         this.roleid = roleid;
         this.address = address;
+        this.sex = sex;
+        this.password = password;
     }
 
     public FormData() {
     }
 
-    public String getfirstname() {
+    public String getFirstname() {
         return firstname;
     }
 
-    public void setfirstname(String firstname) {
+    public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
@@ -41,11 +45,11 @@ public class FormData {
         this.lastname = lastname;
     }
 
-    public String getdateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setdateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -73,11 +77,11 @@ public class FormData {
         this.contactInfo = contactInfo;
     }
 
-    public int getroleid() {
+    public int getRoleid() {
         return roleid;
     }
 
-    public void setroleid(int roleid) {
+    public void setRoleid(int roleid) {
         this.roleid = roleid;
     }
 
@@ -89,17 +93,36 @@ public class FormData {
         this.address = address;
     }
 
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "FormData{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", dateofcome='" + dateofcome + '\'' +
-                ", active=" + active +
-                ", contactInfo=" + contactInfo.getEmail() + " " + contactInfo.getPhone() +
-                ", roleid=" + roleid +
-                ", address=" + address.getCity() + " " + address.getState() + " " + address.getStreet() + " " + address.getZip() +
+                "firstname=' " + firstname + '\'' +
+                ", lastname=' " + lastname + '\'' +
+                ", dateOfBirth=' " + dateOfBirth + '\'' +
+                ", dateofcome=' " + dateofcome + '\'' +
+                ", active= " + active +
+                ", contactInfo= " + contactInfo.getEmail() + " " + contactInfo.getPhone() +
+                ", roleid= " + roleid +
+                ", address= " + address.getCity() + " " + address.getState() + " " + address.getStreet() + " " + address.getZip() +
+                ", sex= " + sex +
                 '}';
     }
+
+
 }

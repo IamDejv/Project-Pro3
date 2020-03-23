@@ -10,7 +10,7 @@ public class ContactInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "contactinfoid")
-    private int companyid;
+    private int contactinfoid;
 
     @Column(name = "email")
     @NotNull
@@ -20,22 +20,15 @@ public class ContactInfo {
     @NotNull
     private String phone;
 
-    @Column(name = "ismain")
-    @NotNull
-    private boolean isMain;
-
-    @ManyToOne
-    private Person person;
-
     public ContactInfo() {
     }
 
     public int getCompanyid() {
-        return companyid;
+        return contactinfoid;
     }
 
     public void setCompanyid(int companyid) {
-        this.companyid = companyid;
+        this.contactinfoid = companyid;
     }
 
     public String getEmail() {
@@ -54,19 +47,4 @@ public class ContactInfo {
         this.phone = phone;
     }
 
-    public boolean isMain() {
-        return isMain;
-    }
-
-    public void setMain(boolean main) {
-        isMain = main;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
 }

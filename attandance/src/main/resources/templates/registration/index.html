@@ -10,55 +10,80 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
+    <h1 class="title">Registrace</h1>
     <div class="form-group" id="registrationForm">
         <form id="registrateForm">
             <div class="form-group">
                 <label for="firstname">Jméno</label>
-                <input type="text" class="form-control" id="firstname" placeholder="Jméno">
+                <input type="text" class="form-control" id="firstname" placeholder="Jméno" required>
             </div>
             <div class="form-group">
                 <label for="lastname">Příjmení</label>
-                <input type="text" class="form-control" id="lastname" placeholder="Příjmení">
+                <input type="text" class="form-control" id="lastname" placeholder="Příjmení" required>
             </div>
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input type="email" class="form-control" id="email" placeholder="E-mail">
+                <input type="email" class="form-control" id="email" placeholder="E-mail" required>
             </div>
             <div class="form-group">
                 <label for="phone">Telefonní číslo</label>
-                <input type="text" class="form-control" id="phone" placeholder="605123456" >
+                <input type="text" class="form-control" id="phone" placeholder="605123456" required>
             </div>
             <div class="form-group">
-                <label for="dateBirth">Datum narození</label>
-                <input type="date" class="form-control date-picker-popup" id="dateBirth" >
+                <label for="dateOfBirth">Datum narození</label>
+                <input type="date" class="form-control date-picker-popup" id="dateOfBirth" required>
             </div>
             <div class="form-group">
                 <label for="role">Typ</label>
-                <select class="custom-select" id="role">
-                    <option selected></option>
-                    <option value="1">Dítě</option>
-                    <option value="2">Trenér</option>
-                    <option value="3">Návštěník</option>
-                    <option value="4">Manažer</option>
+                <select class="custom-select roleSelect" id="role" required>
+                    <option value=0>Dítě</option>
+                    <option value=1>Trenér</option>
+                    <option value=2>Návštěník</option>
+                    <option value=3>Manažer</option>
+                </select>
+            </div>
+            <div class="form-group" id="sexSelect">
+                <label for="sex">Pohlaví</label>
+                <select class="custom-select" id="sex">
+                    <option value=0>Dívka</option>
+                    <option value=1>Chlapec</option>
+                </select>
+            </div>
+            <div class="form-group" id="companySelect">
+                <label for="sex">Pohlaví</label>
+                <select class="custom-select" id="company">
+                    <option value=0>Station 91</option>
+                    <option value=1>Crank</option>
+                    <option value=2>Hybatelna</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="state">Stát</label>
-                <input type="text" class="form-control" id="state" placeholder="Stát" >
+                <input type="text" class="form-control" id="state" placeholder="Stát" required>
             </div>
             <div class="form-group">
                 <label for="city">Město</label>
-                <input type="text" class="form-control" id="city" placeholder="Město" >
+                <input type="text" class="form-control" id="city" placeholder="Město" required>
             </div>
             <div class="form-group">
                 <label for="street">Ulice</label>
-                <input type="text" class="form-control" id="street" placeholder="Ulice">
+                <input type="text" class="form-control" id="street" placeholder="Ulice" required>
             </div>
             <div class="form-group">
                 <label for="zip">Poštovní číslo</label>
-                <input type="text" class="form-control" id="zip" placeholder="50003">
+                <input type="text" class="form-control" id="zip" placeholder="50003" required>
             </div>
-            <button type="button" class="btn btn-primary submitForm">Submit</button>
+            <div class="form-group">
+                <label for="password">Heslo</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="password2">Heslo znovu</label>
+                <input type="password" class="form-control" id="password2" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submitForm">Submit</button>
+            </div>
         </form>
     </div>
 </div>
@@ -66,35 +91,94 @@
 </html>
 <script>
     $(document).ready(function () {
-        $(".submitForm").on('click', function () {
-            let date = new Date();
-            let comeDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
-            var personData = {
-                'firstname'     : $('#firstname').val(),
-                'lastname'      : $('#lastname').val(),
-                'active' : true,
-                'dateOfBirth'     : $('#dateBirth').val(),
-                'dateofcome'     : comeDate,
-                'roleid'          : $('#role').val(),
-                'address' : {
-                    'street'        : $('#street').val(),
-                    'city'          : $('#city').val(),
-                    'state'         : $('#state').val(),
-                    'zip'           : $('#zip').val(),
-                },
-                'contactInfo' : {
-                    'email'         : $('#email').val(),
-                    'phone'         : $('#phone').val()
-                }
+        $("#registrateForm").on('submit', function () {
+            if ($("#password").val() !== $("#password2").val()) {
+                alert("Hesla se neshodují.");
+                $("#registrateForm").attr('action', "javascript:void(0);");
+            } else {
+                send();
+                alert("Registrace byla úspešná.");
+                $("#registrateForm").attr('action', "/");
+            }
+        });
+    });
+
+    $("#role").on('change', function () {
+        $("#role").val() === "0" ? $("#sexSelect").show() : $("#sexSelect").hide();
+        $("#role").val() === "0" ? $("#companySelect").hide() : $("#companySelect").show();
+    });
+
+    function  send() {
+        let username = $('#lastname').val().slice(0,5) + $('#firstname').val().slice(0, 2);
+        let date = new Date();
+        let comeDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
+        let url;
+        let personData;
+        if($('#role').val() !== "0") {
+            url = "/api/v1/user"
+            personData = {
+                'username': username,
+                'person':
+                    {
+                        "firstname": $('#firstname').val(),
+                        "lastname": $('#lastname').val(),
+                        "active": true,
+                        "dateOfBirth": $('#dateOfBirth').val(),
+                        "dateofcome": comeDate,
+                        "password": $('#password').val(),
+                        "roleid": $('#role').val(),
+                        "address": {
+                            "city": $('#city').val(),
+                            "state": $('#state').val(),
+                            "street": $('#street').val(),
+                            "zip": $('#zip').val()
+                        },
+                        "contactInfo": {
+                            "email": $('#email').val(),
+                            "phone": $('#phone').val()
+                        },
+                        "companyid" : $('#company').val()
+                    },
+
             };
-            console.log(personData);
-            $.ajax({
-                url: "/registrate",
-                method: "POST",
-                contentType: "application/json",
-                dataType : "json",
-                data: JSON.stringify(personData)
-            })
+        } else {
+            url = "/api/v1/attendee"
+            personData = {
+                "sex": $('#sex').val(),
+                "isPaid" : false,
+                'person':
+                    {
+                        "firstname": $('#firstname').val(),
+                        "lastname": $('#lastname').val(),
+                        "active": true,
+                        "dateOfBirth": $('#dateOfBirth').val(),
+                        "dateofcome": comeDate,
+                        "password": $('#password').val(),
+                        "roleid": $('#role').val(),
+                        "address": {
+                            "city": $('#city').val(),
+                            "state": $('#state').val(),
+                            "street": $('#street').val(),
+                            "zip": $('#zip').val()
+                        },
+                        "contactInfo": {
+                            "email": $('#email').val(),
+                            "phone": $('#phone').val()
+                        },
+                    },
+
+            };
+        }
+
+
+        console.log(personData);
+        $.ajax({
+            url: url,
+            method: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(personData)
         })
-    })
+    }
+
 </script>
