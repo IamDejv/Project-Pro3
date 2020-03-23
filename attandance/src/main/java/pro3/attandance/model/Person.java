@@ -32,12 +32,19 @@ public class Person {
     @Column(name = "dateofcome")
     private String dateofcome;
 
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    @NotNull
-    private Role role;
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "person_roleid")
+    private int roleid;
 
     @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @NotNull
     private Address address;
+
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @NotNull
+    private ContactInfo contactInfo;
 
     public Person() {
     }
@@ -90,12 +97,12 @@ public class Person {
         this.dateofcome = dateofcome;
     }
 
-    public Role getRole() {
-        return role;
+    public int getRoleid() {
+        return roleid;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleid(int roleid) {
+        this.roleid = roleid;
     }
 
     public Address getAddress() {
@@ -104,5 +111,21 @@ public class Person {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public ContactInfo getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
     }
 }

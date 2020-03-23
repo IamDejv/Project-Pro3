@@ -17,12 +17,12 @@ public class User {
     private String username;
 
     //One to One, na strane kde chci mit id, tak staci tohle
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @NotNull
     private Person person;
-    //Many to One, na strane, kde chci mit id, tak staci tohle
-    @ManyToOne
-    private Company company;
+
+    @Column(name = "user_companyid")
+    private int companyid;
 
     public User() {
     }
@@ -51,11 +51,11 @@ public class User {
         this.person = person;
     }
 
-    public Company getCompany() {
-        return company;
+    public int getCompanyid() {
+        return companyid;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyid(int companyid) {
+        this.companyid = companyid;
     }
 }

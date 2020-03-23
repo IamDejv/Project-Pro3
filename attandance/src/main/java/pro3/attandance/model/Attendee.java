@@ -23,7 +23,7 @@ public class Attendee {
     @NotNull
     private int sex;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @NotNull
     private Person person;
 

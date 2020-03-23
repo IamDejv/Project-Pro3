@@ -2,15 +2,14 @@ package pro3.attandance.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "addresses")
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name="address_generator", sequenceName = "address_seq", allocationSize=50)
     @Column(name = "addressesid")
     private int addresid;
 

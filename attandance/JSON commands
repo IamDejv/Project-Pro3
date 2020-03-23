@@ -1,0 +1,27 @@
+{
+    "userid": 5,
+    "username": "Station",
+    "person": {
+        "personid": 6,
+        "firstname": "David",
+        "lastname": "Kalianko",
+        "active": true,
+        "dateOfBirth": "12-45-2019",
+        "dateofcome": "12-45-2019",
+        "password": "123",
+        "roleid": 1,
+        "address": {
+            "addresid": 7,
+            "city": "Hradec Kralove",
+            "state": "cesko",
+            "street": "hsfkdj",
+            "zip": "50003"
+        },
+        "contactInfo": {
+            "companyid": 8,
+            "email": "sdfgjk@dfhgkj.cds",
+            "phone": "5411742"
+        }
+    },
+    "companyid": 1
+}
