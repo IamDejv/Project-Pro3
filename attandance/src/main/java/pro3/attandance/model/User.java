@@ -1,5 +1,10 @@
 package pro3.attandance.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import pro3.attandance.repository.CompanyRepository;
+import pro3.attandance.services.BaseService;
+import pro3.attandance.services.CompanyService;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -16,12 +21,15 @@ public class User {
     @NotNull
     private String username;
 
-    //One to One, na strane kde chci mit id, tak staci tohle
     @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @NotNull
     private Person person;
 
-    @Column(name = "user_companyid")
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "company_companiesid", insertable = false, updatable = false)
+    private Company company;
+
+    @Column(name = "company_companiesid")
     private int companyid;
 
     public User() {
@@ -51,6 +59,10 @@ public class User {
         this.person = person;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
     public int getCompanyid() {
         return companyid;
     }
@@ -58,4 +70,9 @@ public class User {
     public void setCompanyid(int companyid) {
         this.companyid = companyid;
     }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
 }
