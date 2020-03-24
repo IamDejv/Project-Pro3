@@ -9,6 +9,7 @@
 <div th:include="layout.html"></div>
 <div class="page-content">
     <div id="jsGrid"></div>
+    <div class="loader"></div>
 </div>
 </body>
 </html>
@@ -16,33 +17,49 @@
 
 <script>
     $(document).ready(function () {
-        var users = [];
+        let clients = [];
         $.ajax({
             url: "api/v1/user",
             data: "json",
             contentType: "application/json",
             method: "GET"
         }).then(function (items) {
-            $.each(items, function (index, item) {
-                users[index]['firstname'] = item['person']['firstname'];
-                users[index]['lastname'] = item['person']['lastname'];
-                users[index]['username'] = item['username'];
-                users[index]['role'] = item['person']['role']["name"];
-                users[index]['active'] = item['person']['active'];
-                users[index]['company'] = item['company']['name'];
-            });
-            console.log(users);
+            for (let i = 0; i < items.length; i++) {
+                console.log(items[i]);
+                let client =
+                    {
+                        "firstname": "<a href=/profil/" + items[i].userid + ">" + items[i].person.firstname + "</a>",
+                        "lastname": items[i].person.lastname,
+                        "username": items[i].username,
+                        "role": items[i].person.role.name,
+                        "active": items[i].person.active,
+                        "company": items[i].company.name
+                    };
+                clients.push(client);
+            }
+            renderJsGrid(clients);
+            $(".loader").hide();
         });
 
+    });
+
+    function f(item) {
+
+    }
+
+    function renderJsGrid(clients) {
         $("#jsGrid").jsGrid({
             width: "100%",
-            height: "400px",
+            height: "100%",
 
             searching: true,
-            editing: true,
             sorting: true,
+            rowDoubleClick: function (args) {
+                console.log(args['userid']);
+                window.location = "/profile/" + args.userid;
+            },
 
-            controller: users,
+            data: clients,
 
             fields: [
                 { name: "firstname", type: "text", title: "Jméno", width: 60 },
@@ -51,10 +68,8 @@
                 { name: "role", type: "text", title: "Typ", width: 30 },
                 { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
                 { name: "company", type: "text", title: "Firma", width: 50},
-                { type: "control", width: 50 }
             ]
         });
-    });
-
+    }
 </script>
 

@@ -50,7 +50,7 @@
                 </select>
             </div>
             <div class="form-group" id="companySelect">
-                <label for="sex">Pohlaví</label>
+                <label for="sex">Firma</label>
                 <select class="custom-select" id="company">
                     <option value=0>Station 91</option>
                     <option value=1>Crank</option>
@@ -91,6 +91,7 @@
 </html>
 <script>
     $(document).ready(function () {
+        $("#companySelect").hide();
         $("#registrateForm").on('submit', function () {
             if ($("#password").val() !== $("#password2").val()) {
                 alert("Hesla se neshodují.");
@@ -110,6 +111,7 @@
 
     function  send() {
         let username = $('#lastname').val().slice(0,5) + $('#firstname').val().slice(0, 2);
+        username= username.toLowerCase();
         let date = new Date();
         let comeDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
         let url;

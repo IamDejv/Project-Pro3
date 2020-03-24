@@ -1,5 +1,10 @@
 package pro3.attandance.model;
 
+import pro3.attandance.enums.RoleEnum;
+import pro3.attandance.repository.CompanyRepository;
+import pro3.attandance.services.CompanyService;
+import pro3.attandance.services.RoleService;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -35,7 +40,11 @@ public class Person {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "person_roleid")
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "role_roleid", insertable = false, updatable = false)
+    private Role role;
+
+    @Column(name = "role_roleid")
     private int roleid;
 
     @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
@@ -97,12 +106,12 @@ public class Person {
         this.dateofcome = dateofcome;
     }
 
-    public int getRoleid() {
-        return roleid;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleid(int roleid) {
-        this.roleid = roleid;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Address getAddress() {
@@ -127,5 +136,13 @@ public class Person {
 
     public void setContactInfo(ContactInfo contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public int getRoleid() {
+        return roleid;
+    }
+
+    public void setRoleid(int roleid) {
+        this.roleid = roleid;
     }
 }
