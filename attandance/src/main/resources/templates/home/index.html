@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" href="../static/css/home.css" th:href="@{/css/home.css}">
 </head>
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <h1>Login</h1>
+    <div class="center">
+        <h1>Přihlášení</h1>
         <div th:if="${param.error}">
             Invalid username and password.
         </div>
@@ -15,11 +17,23 @@
             You have been logged out.
         </div>
         <form th:action="@{/login}" method="post">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
+
+            <table>
+                <tr>
+                    <td><p>Uživatelské jméno:<p></td>
+                    <td><label><input type="text" name="username"/> </label></td>
+                </tr>
+                <tr>
+                    <td><p>Heslo:</p></td>
+                    <td><label><input type="password" name="password"/> </label></td>
+                </tr>
+
+            </table>
+
             <div><input type="submit" value="Sign In"/></div>
         </form>
-    </form>
+        </form>
+    </div>
 </div>
 </body>
 </html>
