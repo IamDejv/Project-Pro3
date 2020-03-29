@@ -11,6 +11,7 @@
 
     <script type="text/javascript" src="../static/js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
     <script type="text/javascript" src="../static/js/jsgrid.min.js" th:src="@{/js/jsgrid.min.js}"></script>
+    <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </head>
 <body>
 <header>
@@ -20,32 +21,33 @@
         </div>
         <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Main</p>
         <ul class="nav flex-column bg-white mb-0">
-            <li class="nav-item" th:classappend="${#strings.equals(view, '/') ? 'active' : ''}">
+            <li class="nav-item home" th:classappend="${#strings.equals(view, '/') ? 'active' : ''}">
                 <a href="home/index.html" th:href="@{/}" class="nav-link text-dark">
                     Home
                 </a>
             </li>
-            <li class="nav-item" th:classappend="${#strings.equals(view, '/dochazka') ? 'active' : ''}">
+            <li class="nav-item attendance" th:classappend="${#strings.equals(view, '/dochazka') ? 'active' : ''}">
                 <a href="../templates/dochazka" th:href="@{/dochazka}" class="nav-link text-dark">
                     Docházka
                 </a>
             </li>
-            <li class="nav-item" th:classappend="${#strings.equals(view, '/vystoupeni') ? 'active' : ''}">
+            <li class="nav-item exhibition" th:classappend="${#strings.equals(view, '/vystoupeni') ? 'active' : ''}">
                 <a href="../templates/vystoupeni" th:href="@{/vystoupeni}" class="nav-link text-dark">
                     Vystoupení
                 </a>
             </li>
-            <li class="nav-item" th:classappend="${#strings.equals(view, '/registrace') ? 'active' : ''}">
+            <li class="nav-item registration" th:classappend="${#strings.equals(view, '/registrace') ? 'active' : ''}">
                 <a href="../templates/registrace" th:href="@{/registrace}" class="nav-link text-dark">
                     Registrace
                 </a>
             </li>
-            <li class="nav-item" th:classappend="${#strings.equals(view, '/uzivatele') ? 'active' : ''}">
+            <li class="nav-item users" th:classappend="${#strings.equals(view, '/uzivatele') ? 'active' : ''}">
                 <a href="../templates/registrace" th:href="@{/uzivatele}" class="nav-link text-dark">
                     Uživatelé
                 </a>
             </li>
         </ul>
+        <button class="btn btn-warning logout fixed-bottom"><a href="/logout"> Odhlásit se</a></button>
     </div>
 </header>
 <footer>
@@ -55,3 +57,29 @@
 </footer>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        let user = getCookie("user");
+        let role = getCookie("role");
+        if (user === undefined) {
+            $(".logout").hide();
+        } else {
+            $(".logout").show();
+        }
+        if (role === undefined) {
+            $(".users").hide();
+            $(".exhibition").hide();
+            $(".attendance").hide();
+
+        } else {
+            if (role === 0) {
+                $(".users").hide();
+                $(".exhibition").hide();
+            } else if (role === 2) {
+                $(".users").hide();
+            }
+        }
+
+
+    })
+</script>

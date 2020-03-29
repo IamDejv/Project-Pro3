@@ -10,11 +10,11 @@
 <div class="page-content">
     <div class="center">
         <h1>Přihlášení</h1>
-        <div th:if="${param.error}">
-            Invalid username and password.
+        <div th:if="${error}">
+            <p><strong th:text="${error}"></strong></p>
         </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
+        <div th:if="${logout}">
+            <p><strong th:text="${logout}"></strong></p>
         </div>
         <form th:action="@{/login}" method="post">
 
@@ -37,3 +37,10 @@
 </div>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        let cookie = getCookie("user");
+        console.log(cookie);
+    });
+
+</script>

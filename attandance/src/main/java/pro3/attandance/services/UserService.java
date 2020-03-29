@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pro3.attandance.model.User;
 import pro3.attandance.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +41,18 @@ public class UserService implements BaseService<User> {
     @Override
     public User update(int id, User user) {
         return userRepository.save(user);
+    }
+
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public List<String> getAllUsernames() {
+        List<String> usernames = new ArrayList<>();
+        List<User> users = getAll();
+        for (User user: users) {
+            usernames.add(user.getUsername());
+        }
+        return usernames;
     }
 }

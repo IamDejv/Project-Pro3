@@ -40,4 +40,8 @@ public class UserActionService implements BaseService<UserAction> {
     public UserAction update(int id, UserAction userAction) {
         return userActionRepository.save(userAction);
     }
+
+    public List<UserAction> getByActionId(int id) {
+        return userActionRepository.findAllByActionActionsid(id);
+    }
 }

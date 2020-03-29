@@ -14,6 +14,9 @@ public class Action {
     @Column(name = "actionsid")
     private int actionsid;
 
+    @Column(name = "actionName")
+    private String actionName;
+
     @Column(name = "description")
     private String description;
 
@@ -69,5 +72,13 @@ public class Action {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 }

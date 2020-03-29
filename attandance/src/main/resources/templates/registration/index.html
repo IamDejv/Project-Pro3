@@ -92,13 +92,27 @@
 </html>
 <script>
     $(document).ready(function () {
+        const usernames = "[[${usernames}]]";
         $("#companySelect").hide();
         $("#registrateForm").on('submit', function () {
             if ($("#password").val() !== $("#password2").val()) {
                 alert("Hesla se neshodují.");
                 $("#registrateForm").attr('action', "javascript:void(0);");
             } else {
-                send();
+                let uniqueNumber = 1;
+                let username = $('#lastname').val().slice(0,5) + $('#firstname').val().slice(0, 2);
+                username = username.toLowerCase();
+                let uniqueUsername = username + uniqueNumber;
+                let usernameOk = false;
+                while (!usernameOk) {
+                    if(usernames.includes(uniqueUsername)) {
+                        uniqueNumber++;
+                        uniqueUsername = username + uniqueNumber;
+                    } else {
+                        usernameOk = true;
+                    }
+                }
+                send(uniqueUsername);
                 alert("Registrace byla úspešná.");
                 $("#registrateForm").attr('action', "/");
             }
@@ -110,15 +124,13 @@
         $("#role").val() === "0" ? $("#companySelect").hide() : $("#companySelect").show();
     });
 
-    function  send() {
-        let username = $('#lastname').val().slice(0,5) + $('#firstname').val().slice(0, 2);
-        username= username.toLowerCase();
+    function  send(username) {
         let date = new Date();
-        let comeDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
+        let comeDate = date.getFullYear() + "-" + date.getUTCMonth() + "-" + date.getDate();
         let url;
         let personData;
         if($('#role').val() !== "0") {
-            url = "/api/v1/user"
+            url = "/api/v1/user";
             personData = {
                 'username': username,
                 'person':
@@ -145,7 +157,7 @@
 
             };
         } else {
-            url = "/api/v1/attendee"
+            url = "/api/v1/attendee";
             personData = {
                 "sex": $('#sex').val(),
                 "isPaid" : false,
@@ -172,9 +184,6 @@
 
             };
         }
-
-
-        console.log(personData);
         $.ajax({
             url: url,
             method: "POST",

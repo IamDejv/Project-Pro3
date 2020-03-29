@@ -42,6 +42,11 @@ public class UserController {
     public void updateUser(@RequestBody User user) {
         userService.update(user.getUserid(), user);
     }
+
+    @GetMapping("/usernames")
+    public List<String> getUsernames() {
+        return userService.getAllUsernames();
+    }
 }
 
 

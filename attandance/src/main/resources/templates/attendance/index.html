@@ -6,5 +6,58 @@
 </head>
 <body>
 <div th:include="layout.html"></div>
+<div class="page-content">
+    <div id="jsGrid"></div>
+    <div class="loader"></div>
+</div>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        let item = [];
+        $.ajax({
+            url: "api/v1/training",
+            data: "json",
+            contentType: "application/json",
+            method: "GET"
+        }).then(function (items) {
+            for (let i = 0; i < items.length; i++) {
+                console.log(items[i]);
+                let data =
+                    {
+                        "trainingDay": "<a href=/training/" + items[i].trainingid + ">" + items[i].trainingDay + "",
+                        "type": items[i].type === 0 ? "Parkour" : "Other",
+                        "starttime": items[i].starttime,
+                        "endtime": items[i].endtime,
+                        "hall": items[i].hall.name,
+                        "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
+                    };
+                item.push(data);
+            }
+            renderJsGrid(item);
+            $(".loader").hide();
+        });
+
+    });
+
+    function renderJsGrid(data) {
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            height: "100%",
+
+            searching: true,
+            sorting: true,
+
+            data: data,
+
+            fields: [
+                { name: "trainingDay", type: "text", title: "Den", width: 60 },
+                { name: "type", type: "text", title: "Typ", width: 60 },
+                { name: "starttime", type: "text", title: "Začátek", width: 60 },
+                { name: "endtime", type: "text", title: "Konec", width: 30 },
+                { name: "hall", type: "text", title: "Hala", width: 30 },
+                { name: "user", type: "text", title: "Trenér", width: 30 }
+            ]
+        });
+    }
+</script>

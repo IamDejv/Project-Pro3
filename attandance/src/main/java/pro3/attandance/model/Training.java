@@ -22,6 +22,9 @@ public class Training {
     @NotNull
     private String endtime;
 
+    @Column(name = "trainingDay")
+    private String trainingDay;
+
     @Column(name = "starttime")
     @NotNull
     private String starttime;
@@ -82,5 +85,13 @@ public class Training {
 
     public void setHall(Hall hall) {
         this.hall = hall;
+    }
+
+    public String getTrainingDay() {
+        return trainingDay;
+    }
+
+    public void setTrainingDay(String trainingDay) {
+        this.trainingDay = trainingDay;
     }
 }

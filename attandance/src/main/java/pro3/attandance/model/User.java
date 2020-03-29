@@ -1,5 +1,6 @@
 package pro3.attandance.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.factory.annotation.Autowired;
 import pro3.attandance.repository.CompanyRepository;
 import pro3.attandance.services.BaseService;
