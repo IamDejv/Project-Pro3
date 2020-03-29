@@ -28,7 +28,7 @@
                 console.log(items[i]);
                 let client =
                     {
-                        "firstname": "<a href=/profil/" + items[i].userid + ">" + items[i].person.firstname + "</a>",
+                        "firstname": "<a href=/profil/user/" + items[i].userid + ">" + items[i].person.firstname + "",
                         "lastname": items[i].person.lastname,
                         "username": items[i].username,
                         "role": items[i].person.role.name,
@@ -54,10 +54,6 @@
 
             searching: true,
             sorting: true,
-            rowDoubleClick: function (args) {
-                console.log(args['userid']);
-                window.location = "/profile/" + args.userid;
-            },
 
             data: clients,
 
