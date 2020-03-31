@@ -40,4 +40,8 @@ public class PersonService implements BaseService<Person> {
     public Person update(int id, Person person) {
         return personRepository.save(person);
     }
+
+    public List<Person> getByRoleid(int id) {
+        return personRepository.findPersonByRoleid(id);
+    }
 }

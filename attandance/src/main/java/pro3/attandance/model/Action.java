@@ -28,7 +28,11 @@ public class Action {
     @NotNull
     private String type;
 
-    @ManyToOne
+    @Column(name = "userAction")
+    @OneToMany
+    private List<UserAction> userAction;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Address address;
 
     public Action() {

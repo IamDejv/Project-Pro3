@@ -42,6 +42,6 @@ public class ProfileController {
         attendee = attendeeOpt.orElse(null);
         model.addAttribute("personid", id);
         model.addAttribute("attendee", attendee);
-        return "profile/index";
+        return "attendees/detail";
     }
 }

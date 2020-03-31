@@ -7,6 +7,7 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
+    <button type="button1" class="basic-btn" id="addAction"><a href="/vystoupeni/add"> Přidat akci</a></button>
     <div id="jsGrid"></div>
     <div class="loader"></div>
 </div>
@@ -19,23 +20,23 @@
             url: "api/v1/action",
             data: "json",
             contentType: "application/json",
-            method: "GET"
-        }).then(function (items) {
-            for (let i = 0; i < items.length; i++) {
-                console.log(items[i]);
-                let item =
-                    {
-                        "actionName": "<a href=/action/" + items[i].actionsid + ">" + items[i].actionName + "",
-                        "type": items[i].type === 0 ? "Vystoupení" : items[i].type === 1 ? "Workshop" : "Other",
-                        "date": items[i].dateAction,
-                        "city": items[i].address.city
-                    };
-                data.push(item);
+            method: "GET",
+            success: function (items) {
+                for (let i = 0; i < items.length; i++) {
+                    console.log(items[i]);
+                    let item =
+                        {
+                            "actionName": "<a href=/action/" + items[i].actionsid + ">" + items[i].actionName + "",
+                            "type": items[i].type === 0 ? "Vystoupení" : items[i].type === 1 ? "Workshop" : "Other",
+                            "date": items[i].dateAction,
+                            "city": items[i].address.city
+                        };
+                    data.push(item);
+                }
+                renderJsGrid(data);
+                $(".loader").hide();
             }
-            renderJsGrid(data);
-            $(".loader").hide();
         });
-
     });
 
     function renderJsGrid(data) {

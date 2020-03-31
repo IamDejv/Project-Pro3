@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <link rel="stylesheet" href="../static/css/profile.css" th:href="@{/css/profile.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<span> </span>
+
+<div class="page-content">
+    <button type="button1" class="basic-btn">button1</button>
+    <button type="button2" class="basic-btn">button2</button>
+
+    <div class="nadpis">
+    <p>Profil</p>
+    </div>
+
+    <div class="table-content">
+
+        <table>
+            <tr>
+                <th><p>ID uživatele:</p></th>
+                <th><p th:text="${personid}"></p></th>
+            </tr>
+            <tr>
+                <td><p>Jméno:</p></td>
+                <td><p th:text="${attendee.person.firstname}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Příjmení:</p></td>
+                <td><p th:text="${attendee.person.lastname}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Pohlaví:</p></td>
+                <td><p th:text="${attendee.sex}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Zaplaceno:</p></td>
+                <td><p th:text="${attendee.paid}"></p></td>
+            </tr>
+            <tr>
+                <td><p>E-mail:</p></td>
+                <td><p th:text="${attendee.person.contactInfo.email}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Telefon:</p></td>
+                <td><p th:text="${attendee.person.contactInfo.phone}"></p></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

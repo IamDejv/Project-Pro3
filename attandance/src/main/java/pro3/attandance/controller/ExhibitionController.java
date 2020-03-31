@@ -5,10 +5,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import pro3.attandance.model.Action;
+import pro3.attandance.model.User;
 import pro3.attandance.model.UserAction;
 import pro3.attandance.services.ActionService;
 import pro3.attandance.services.UserActionService;
+import pro3.attandance.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +22,12 @@ public class ExhibitionController {
 
     private UserActionService userActionService;
 
-    public ExhibitionController (ActionService actionService, UserActionService userActionService) {
+    private UserService userService;
+
+    public ExhibitionController (ActionService actionService, UserActionService userActionService, UserService userService) {
         this.actionService = actionService;
         this.userActionService = userActionService;
+        this.userService = userService;
     }
 
     @GetMapping("/vystoupeni")
@@ -30,15 +36,24 @@ public class ExhibitionController {
     }
 
     @GetMapping("/action/{id}")
-    public String actionInfo(@PathVariable("id") int id, Model model) {
+    public String actionDetail(@PathVariable("id") int id, Model model) {
 
         Optional<Action> actionOpt = actionService.getById(id);
-        List<UserAction> users = userActionService.getByActionId(id);
+        List<UserAction> userActions = userActionService.getByActionId(id);
+        List<User> users = new ArrayList<>();
+        for (UserAction userAction : userActions) {
+            users.add(userService.getById(userAction.getUserid()).orElse(null));
+        }
         Action action;
         action = actionOpt.orElse(null);
         model.addAttribute("actionid", id);
         model.addAttribute("action", action);
-        model.addAttribute("users", users);
-        return "profile/index";
+        model.addAttribute("users", users.toArray());
+        return "exhibition/detail";
+    }
+
+    @GetMapping("/vystoupeni/add")
+    public String actionForm() {
+        return "exhibition/form";
     }
 }

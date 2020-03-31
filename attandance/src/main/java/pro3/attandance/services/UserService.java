@@ -55,4 +55,8 @@ public class UserService implements BaseService<User> {
         }
         return usernames;
     }
+
+    public User getUserByPersonId(int id) {
+        return userRepository.findUserByPerson_Personid(id);
+    }
 }

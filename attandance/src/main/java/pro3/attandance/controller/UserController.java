@@ -3,8 +3,11 @@ package pro3.attandance.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pro3.attandance.model.User;
+import pro3.attandance.model.UserAction;
+import pro3.attandance.services.UserActionService;
 import pro3.attandance.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,8 +17,11 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private final UserActionService userActionService;
+
+    public UserController(UserService userService, UserActionService userActionService) {
         this.userService = userService;
+        this.userActionService = userActionService;
     }
 
     @GetMapping
@@ -46,6 +52,16 @@ public class UserController {
     @GetMapping("/usernames")
     public List<String> getUsernames() {
         return userService.getAllUsernames();
+    }
+
+    @GetMapping("/action/{id}")
+    public List<User> getUsersInActionId(@PathVariable("id") int id) {
+        List<UserAction> userActions = userActionService.getByActionId(id);
+        List<User> users = new ArrayList<>();
+        for (UserAction userAction : userActions) {
+            users.add(getUserById(userAction.getUserid()).orElse(null));
+        }
+        return users;
     }
 }
 

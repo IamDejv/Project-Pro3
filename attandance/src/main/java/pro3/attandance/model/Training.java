@@ -30,11 +30,19 @@ public class Training {
     private String starttime;
 
     @ManyToOne
-    @NotNull
+    @JoinColumn(name = "user_usersid", insertable = false, updatable = false)
     private User user ;
 
+    @Column(name = "user_usersid")
+    @NotNull
+    private int userid;
+
     @ManyToOne
+    @JoinColumn(name = "hall_hallid", insertable = false, updatable = false)
     private Hall hall;
+
+    @Column(name = "hall_hallid")
+    private int hallid;
 
     public Training() {
     }
@@ -93,5 +101,21 @@ public class Training {
 
     public void setTrainingDay(String trainingDay) {
         this.trainingDay = trainingDay;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public int getHallid() {
+        return hallid;
+    }
+
+    public void setHallid(int hallid) {
+        this.hallid = hallid;
     }
 }

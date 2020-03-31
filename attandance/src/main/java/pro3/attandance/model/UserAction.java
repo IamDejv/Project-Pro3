@@ -13,11 +13,19 @@ public class UserAction {
     private int useractionid;
 
     @ManyToOne
-    @NotNull
+    @JoinColumn(name = "user_usersid", insertable = false, updatable = false)
     private User user;
 
-    @ManyToOne
+    @Column(name = "user_usersid")
     @NotNull
+    private int userid;
+
+    @Column(name = "action_actionsid")
+    @NotNull
+    private int actionid;
+
+    @ManyToOne
+    @JoinColumn(name = "action_actionsid", insertable = false, updatable = false)
     private Action action;
 
     public UserAction() {
@@ -45,5 +53,21 @@ public class UserAction {
 
     public void setAction(Action action) {
         this.action = action;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public int getActionid() {
+        return actionid;
+    }
+
+    public void setActionid(int actionid) {
+        this.actionid = actionid;
     }
 }

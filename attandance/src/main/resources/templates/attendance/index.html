@@ -7,8 +7,10 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <div id="jsGrid"></div>
+    <button type="button" class="btn btn-primary submitForm"><a href="/dochazka/add">Přidat trénink</a></button>
     <div class="loader"></div>
+    <!--TODO-->
+    <div id="jsGrid"></div>
 </div>
 </body>
 </html>
@@ -25,7 +27,7 @@
                 console.log(items[i]);
                 let data =
                     {
-                        "trainingDay": "<a href=/training/" + items[i].trainingid + ">" + items[i].trainingDay + "",
+                        "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
                         "type": items[i].type === 0 ? "Parkour" : "Other",
                         "starttime": items[i].starttime,
                         "endtime": items[i].endtime,

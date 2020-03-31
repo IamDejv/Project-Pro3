@@ -9,18 +9,16 @@
 <div th:include="layout.html"></div>
 <div class="page-content">
     <!--TODO-->
-    <div id="jsGrid"></div>
     <div class="loader"></div>
+    <div id="jsGrid"></div>
 </div>
 </body>
-</html>3
-
-
+</html>
 <script>
     $(document).ready(function () {
         let clients = [];
         $.ajax({
-            url: "api/v1/user",
+            url: "api/v1/attendee",
             data: "json",
             contentType: "application/json",
             method: "GET"
@@ -29,12 +27,11 @@
                 console.log(items[i]);
                 let client =
                     {
-                        "firstname": "<a href=/profil/user/" + items[i].userid + ">" + items[i].person.firstname + "",
+                        "firstname": "<a href=/profil/attendee/" + items[i].attendeeid + ">" + items[i].person.firstname + "",
                         "lastname": items[i].person.lastname,
-                        "username": items[i].username,
-                        "role": items[i].person.role.name,
+                        "sex": items[i].sex === 1 ? "Chlapec" : "Dívka",
                         "active": items[i].person.active,
-                        "company": items[i].company.name
+                        "isPaid": items[i].isPaid
                     };
                 clients.push(client);
             }
@@ -43,10 +40,6 @@
         });
 
     });
-
-    function f(item) {
-
-    }
 
     function renderJsGrid(clients) {
         $("#jsGrid").jsGrid({
@@ -61,10 +54,9 @@
             fields: [
                 { name: "firstname", type: "text", title: "Jméno", width: 60 },
                 { name: "lastname", type: "text", title: "Příjmení", width: 60 },
-                { name: "username", type: "text", title: "Uživatelské jméno", width: 60 },
-                { name: "role", type: "text", title: "Role", width: 30 },
+                { name: "sex", type: "text", title: "Pohlaví", width: 30 },
                 { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
-                { name: "company", type: "text", title: "Firma", width: 50},
+                { name: "isPaid", type: "checkbox", title: "Zaplaceno" , width: 20},
             ]
         });
     }
