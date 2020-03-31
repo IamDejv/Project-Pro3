@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th=" http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Docházka</title>
+    <title>Title</title>
 </head>
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <button type="button" class="btn btn-primary submitForm"><a href="/dochazka/add">Přidat trénink</a></button>
-    <div class="loader"></div>
-    <!--TODO-->
-    <div id="jsGrid"></div>
+    <div class="form-group" id="applicationForm">
+        <h1 class="title">Přihláška</h1>
+        <div class="loader"></div>
+        <div id="jsGrid"></div>
+    </div>
 </div>
 </body>
 </html>
@@ -27,8 +28,8 @@
                 console.log(items[i]);
                 let data =
                     {
-                        "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
-                        "trainingName": items[i].name,
+                        "trainingName": "<a href=/dochazka/simple/" + items[i].trainingid + ">" + items[i].name + "",
+                        "trainingDay": items[i].trainingDay,
                         "type": items[i].type === 0 ? "Parkour" : "Other",
                         "starttime": items[i].starttime,
                         "endtime": items[i].endtime,
@@ -54,8 +55,8 @@
             data: data,
 
             fields: [
-                { name: "trainingDay", type: "text", title: "Den", width: 60 },
                 { name: "trainingName", type: "text", title: "Název", width: 60 },
+                { name: "trainingDay", type: "text", title: "Den", width: 60 },
                 { name: "type", type: "text", title: "Typ", width: 60 },
                 { name: "starttime", type: "text", title: "Začátek", width: 60 },
                 { name: "endtime", type: "text", title: "Konec", width: 30 },

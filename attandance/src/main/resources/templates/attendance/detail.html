@@ -8,6 +8,77 @@
 <div th:include="layout.html"></div>
 <div class="page-content">
 
+    <div class="table-content">
+
+        <table>
+            <tr>
+                <th><p>Den tréninku:</p></th>
+                <th><p th:text="${training.trainingDay}"></p></th>
+            </tr>
+            <tr>
+                <td><p>Typ:</p></td>
+                <td><p th:text="${training.type}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Začátek:</p></td>
+                <td><p th:text="${training.starttime}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Konec:</p></td>
+                <td><p th:text="${training.endtime}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Jméno trenéra:</p></td>
+                <td><p th:text="${training.user.person.firstname} + ' ' + ${training.user.person.lastname}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Hala:</p></td>
+                <td><p th:text="${training.hall.name}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Město:</p></td>
+                <td><p th:text="${training.hall.address.city}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Email:</p></td>
+                <td><p th:text="${training.user.person.contactInfo.email}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Telefonní číslo:</p></td>
+                <td><p th:text="${training.user.person.contactInfo.phone}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Společnost:</p></td>
+                <td><p th:text="${training.user.company.name}"></p></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary assignAttendee">Přihlásit na trénink</button>
+    </div>
+    <div id="attendance">
+       Hello everybody
+        <!--TODO attendees in table whith attendance-->
+    </div>
+
 </div>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        [[${simple}]] ? $("#attendance").hide() : $("#attendance").show();
+    });
+
+    $(".assignAttendee").on("click", function () {
+        $.ajax({
+            method: "POST",
+            url: "/dochazka/assignAttendee",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "attendeeid" : getCookie("attendee"),
+                "trainingid": [[${training.trainingid}]]
+                })
+        })
+    })
+</script>

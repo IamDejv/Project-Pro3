@@ -25,9 +25,21 @@ public class Training {
     @Column(name = "trainingDay")
     private String trainingDay;
 
+    @Column(name = "trainingName")
+    private String name;
+
     @Column(name = "starttime")
     @NotNull
     private String starttime;
+
+    @Column(name = "endDate")
+    @NotNull
+    private String endDate;
+
+    @Column(name = "startDate")
+    @NotNull
+    private String startDate;
+
 
     @ManyToOne
     @JoinColumn(name = "user_usersid", insertable = false, updatable = false)
@@ -117,5 +129,29 @@ public class Training {
 
     public void setHallid(int hallid) {
         this.hallid = hallid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String getEndDate) {
+        this.endDate = getEndDate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String getStartDate) {
+        this.startDate = getStartDate;
     }
 }

@@ -16,17 +16,34 @@ public class Attendance {
     private int presence;
 
     @Column(name = "trainingDate")
+    @NotNull
     private String trainingDate;
 
     @ManyToOne
-    @NotNull
+    @JoinColumn(name = "attendee_attandeesid", insertable = false, updatable = false)
     private Attendee attendee;
 
-    @ManyToOne
+    @Column(name = "attendee_attandeesid")
     @NotNull
+    private int attendeeid;
+
+    @Column(name = "training_trainingsid")
+    @NotNull
+    private int trainingid;
+
+
+    @ManyToOne
+    @JoinColumn(name = "training_trainingsid", insertable = false, updatable = false)
     private Training training;
 
     public Attendance() {
+    }
+
+    public Attendance(@NotNull String trainingDate, @NotNull int attendeeid, @NotNull int trainingid, int presence) {
+        this.trainingDate = trainingDate;
+        this.attendeeid = attendeeid;
+        this.trainingid = trainingid;
+        this.presence = presence;
     }
 
     public int getAttendanceid() {
@@ -59,5 +76,29 @@ public class Attendance {
 
     public void setTraining(Training training) {
         this.training = training;
+    }
+
+    public String getTrainingDate() {
+        return trainingDate;
+    }
+
+    public void setTrainingDate(String trainingDate) {
+        this.trainingDate = trainingDate;
+    }
+
+    public int getAttendeeid() {
+        return attendeeid;
+    }
+
+    public void setAttendeeid(int attendeeid) {
+        this.attendeeid = attendeeid;
+    }
+
+    public int getTrainingid() {
+        return trainingid;
+    }
+
+    public void setTrainingid(int trainingid) {
+        this.trainingid = trainingid;
     }
 }

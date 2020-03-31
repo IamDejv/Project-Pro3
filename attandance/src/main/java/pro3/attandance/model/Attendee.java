@@ -1,6 +1,7 @@
 package pro3.attandance.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import pro3.attandance.enums.SexEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

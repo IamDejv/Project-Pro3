@@ -1,6 +1,5 @@
 package pro3.attandance.controller;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +36,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
-        if(request.getCookies() != null) {
+        if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("user")) {
                     Optional<User> userOpt = userService.getById(Integer.parseInt(cookie.getValue()));

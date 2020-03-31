@@ -10,15 +10,19 @@
     <div class="form">
         <form>
             <div class="form-group">
+                <label for="name">Název</label>
+                <input type="text" class="form-control" id="name" placeholder="A1" required>
+            </div>
+            <div class="form-group">
                 <label for="day">Den konání</label>
                 <select type="text" class="custom-select" id="day" required>
                     <option value=0>Pondělí</option>
-                    <option value=0>Úterý</option>
-                    <option value=0>Středa</option>
-                    <option value=0>Čtrvrtek</option>
-                    <option value=0>Pátek</option>
-                    <option value=0>Sobota</option>
-                    <option value=0>Neděle</option>
+                    <option value=1>Úterý</option>
+                    <option value=2>Středa</option>
+                    <option value=3>Čtrvrtek</option>
+                    <option value=4>Pátek</option>
+                    <option value=5>Sobota</option>
+                    <option value=6>Neděle</option>
                 </select>
             </div>
             <div class="form-group" id="typeSelect">
@@ -93,9 +97,17 @@
                 </select>
             </div>
             <div class="form-group" id="userSelect">
-                <label for="typeSelect">Typ tréninku</label>
+                <label for="typeSelect">Trenér</label>
                 <select class="custom-select" id="user">
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Začátek</label>
+                <input type="date" class="form-control date-picker-popup" id="startDate" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">Konec</label>
+                <input type="date" class="form-control date-picker-popup" id="endDate" required>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary submitForm">Odeslat</button>
@@ -120,6 +132,9 @@
                 "endtime" : $('#endTime option:selected').text(),
                 "userid": $('#user').val(),
                 "hallid": $('#hall').val(),
+                "name": $("#name").val(),
+                "startDate": $("#startDate").val(),
+                "endDate": $("#endDate").val()
             };
             console.log(data);
             send(data);

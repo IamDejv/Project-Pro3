@@ -9,7 +9,28 @@
 <div class="page-content">
     <div>
         <!--TODO Action info-->
-        <div id="jsGrid"></div>
+        <table>
+            <tr>
+                <th><p>Název:</p></th>
+                <th><p th:text="${action.actionName}"></p></th>
+            </tr>
+            <tr>
+                <td><p>Datum akce:</p></td>
+                <td><p th:text="${action.dateAction}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Typ akce:</p></td>
+                <td><p th:text="${action.type}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Město:</p></td>
+                <td><p th:text="${action.address.city}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Ulice:</p></td>
+                <td><p th:text="${action.address.street}"></p></td>
+            </tr>
+        </table>
     </div>
     <div>
         <!--TODO Chooser-->
@@ -20,6 +41,8 @@
                 <select class="custom-select" id="user">
                 </select>
             </div>
+            <div class="loader"></div>
+            <div id="jsGrid"></div>
         </div>
     </div>
 </div>
@@ -57,10 +80,9 @@
                     data.push(item);
                 }
                 renderJsGrid(data);
+                $(".loader").hide();
             }
         });
-
-
 
 
         $("#showUsers").on("click", function () {
