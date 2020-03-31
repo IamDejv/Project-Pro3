@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pro3.attandance.model.Person;
 import pro3.attandance.repository.PersonRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,17 @@ public class PersonService implements BaseService<Person> {
 
     public List<Person> getByRoleid(int id) {
         return personRepository.findPersonByRoleid(id);
+    }
+
+    public Person getPersonByEmail(String email) {
+        return personRepository.findPersonByContactInfo_Email(email);
+    }
+
+    public List<String> getAllEmails() {
+        List<String> emails = new ArrayList<>();
+        for (Person person : getAll()) {
+            emails.add(person.getContactInfo().getEmail());
+        }
+        return emails;
     }
 }

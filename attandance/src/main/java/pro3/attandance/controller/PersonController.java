@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import pro3.attandance.model.Person;
 import pro3.attandance.services.PersonService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,4 +42,5 @@ public class PersonController {
     public void updateUser(@RequestBody Person person) {
         personService.update(person.getPersonid(), person);
     }
+
 }

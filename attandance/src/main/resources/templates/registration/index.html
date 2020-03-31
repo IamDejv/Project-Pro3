@@ -94,27 +94,31 @@
     $(document).ready(function () {
         const usernames = "[[${usernames}]]";
         $("#companySelect").hide();
+        const emails = "[[${emails}]]";
         $("#registrateForm").on('submit', function () {
-            if ($("#password").val() !== $("#password2").val()) {
-                alert("Hesla se neshodují.");
+            if(emails.includes($('#email').val())) {
+                alert("Email už byl použit")
                 $("#registrateForm").attr('action', "javascript:void(0);");
             } else {
-                let uniqueNumber = 1;
-                let username = $('#lastname').val().slice(0,5) + $('#firstname').val().slice(0, 2);
-                username = username.toLowerCase();
-                let uniqueUsername = username + uniqueNumber;
-                let usernameOk = false;
-                while (!usernameOk) {
-                    if(usernames.includes(uniqueUsername)) {
-                        uniqueNumber++;
-                        uniqueUsername = username + uniqueNumber;
-                    } else {
-                        usernameOk = true;
+                if ($("#password").val() !== $("#password2").val()) {
+                    alert("Hesla se neshodují.");
+                    $("#registrateForm").attr('action', "javascript:void(0);");
+                } else {
+                    let uniqueNumber = 1;
+                    let username = $('#lastname').val().slice(0,5) + $('#firstname').val().slice(0, 2);
+                    username = username.toLowerCase();
+                    let uniqueUsername = username + uniqueNumber;
+                    let usernameOk = false;
+                    while (!usernameOk) {
+                        if(usernames.includes(uniqueUsername)) {
+                            uniqueNumber++;
+                            uniqueUsername = username + uniqueNumber;
+                        } else {
+                            usernameOk = true;
+                        }
                     }
+                    send(uniqueUsername);
                 }
-                send(uniqueUsername);
-                alert("Registrace byla úspešná.");
-                $("#registrateForm").attr('action', "/");
             }
         });
     });
@@ -189,7 +193,22 @@
             method: "POST",
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify(personData)
+            data: JSON.stringify(personData),
+            success: function () {
+                alert("Registrace byla úspešná.");
+                $("#registrateForm").attr('action', "/");
+            }
+        })
+    }
+
+    function getEmails() {
+        $.ajax({
+            method: "GET",
+            url: "/api/v1/person/emails",
+            success: function (emails) {
+                console.log(emails);
+                return emails;
+            }
         })
     }
 

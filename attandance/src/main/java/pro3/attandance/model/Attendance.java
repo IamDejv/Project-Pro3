@@ -15,6 +15,9 @@ public class Attendance {
     @Column(name = "presence")
     private int presence;
 
+    @Column(name = "trainingDate")
+    private String trainingDate;
+
     @ManyToOne
     @NotNull
     private Attendee attendee;

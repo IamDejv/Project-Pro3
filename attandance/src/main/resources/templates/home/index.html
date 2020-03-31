@@ -20,12 +20,16 @@
 
             <table>
                 <tr>
-                    <td><p>Uživatelské jméno:<p></td>
+                    <td><p id="username-label">Uživatelské jméno:<p></td>
                     <td><label><input type="text" name="username"/> </label></td>
                 </tr>
                 <tr>
                     <td><p>Heslo:</p></td>
                     <td><label><input type="password" name="password"/> </label></td>
+                </tr>
+                <tr>
+                    <td><p>Docházející:</p></td>
+                    <td><label><input type="checkbox" name="role" id="checkAttendee"/> </label></td>
                 </tr>
 
             </table>
@@ -39,8 +43,13 @@
 </html>
 <script>
     $(document).ready(function () {
-        let cookie = getCookie("user");
-        console.log(cookie);
+        $("#checkAttendee").on("change", function () {
+            if ($("#checkAttendee").is(":checked")) {
+                $("#username-label").text = "Email";
+            } else {
+                $("#username-label").text = "Uživatelské jméno";
+            }
+        })
     });
 
 </script>

@@ -4,6 +4,7 @@ public class LoginData {
 
     private String username;
     private String password;
+    private boolean role;
 
     public String getUsername() {
         return username;
@@ -19,5 +20,13 @@ public class LoginData {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean getRole() {
+        return role;
+    }
+
+    public void setRole(boolean role) {
+        this.role = role;
     }
 }

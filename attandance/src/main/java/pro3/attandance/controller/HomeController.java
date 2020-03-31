@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 import pro3.attandance.model.Attendee;
 import pro3.attandance.model.LoginData;
+import pro3.attandance.model.Person;
 import pro3.attandance.model.User;
 import pro3.attandance.services.AttendeeService;
+import pro3.attandance.services.PersonService;
 import pro3.attandance.services.UserService;
 
 import javax.servlet.http.Cookie;
@@ -25,9 +27,12 @@ public class HomeController {
 
     private AttendeeService attendeeService;
 
-    public HomeController(UserService userService, AttendeeService attendeeService) {
+    private PersonService personService;
+
+    public HomeController(UserService userService, AttendeeService attendeeService, PersonService personService) {
         this.userService = userService;
         this.attendeeService = attendeeService;
+        this.personService = personService;
     }
 
     @GetMapping("/")
@@ -51,7 +56,7 @@ public class HomeController {
                     }
                     model.addAttribute("personid", attendee.getPerson().getPersonid());
                     model.addAttribute("attendee", attendee);
-                    return "profile/index";
+                    return "attendees/detail";
                 }
             }
         }
@@ -60,22 +65,49 @@ public class HomeController {
 
     @PostMapping("/login")
     public String login(LoginData data, Model model, HttpServletResponse response) {
-        User user = userService.getByUsername(data.getUsername());
-        if (user == null) {
-            model.addAttribute("error", "Špatné uživatelské jméno");
-            return "home/index";
-        } else {
-            if (user.getPerson().getPassword().equals(data.getPassword())) {
-                System.out.println("Oh yeah");
-                response.addCookie(new Cookie("user", "" + user.getUserid()));
-                response.addCookie(new Cookie("role", "" + user.getPerson().getRoleid()));
-                model.addAttribute("personid", user.getPerson().getPersonid());
-                model.addAttribute("user", user);
-                return "profile/index";
+        System.out.println(data.getRole());
+        if (!data.getRole()) {
+            User user = userService.getByUsername(data.getUsername());
+            if (user == null) {
+                model.addAttribute("error", "Špatné uživatelské jméno");
+                return "home/index";
             } else {
-                model.addAttribute("error", "Špatné heslo");
+                if (user.getPerson().getPassword().equals(data.getPassword())) {
+                    System.out.println("Oh yeah");
+                    response.addCookie(new Cookie("user", "" + user.getUserid()));
+                    response.addCookie(new Cookie("role", "" + user.getPerson().getRoleid()));
+                    model.addAttribute("personid", user.getPerson().getPersonid());
+                    model.addAttribute("user", user);
+                    return "profile/index";
+                } else {
+                    model.addAttribute("error", "Špatné heslo");
+                }
+            }
+        } else {
+            Person person = personService.getPersonByEmail(data.getUsername());
+            if (person == null) {
+                model.addAttribute("error", "Špatný email");
+                return "home/index";
+            } else {
+                Attendee attendee = attendeeService.getByPersonId(person.getPersonid());
+                if (attendee == null) {
+                    model.addAttribute("error", "Špatný email");
+                    return "home/index";
+                } else {
+                    if (person.getPassword().equals(data.getPassword())) {
+                        System.out.println("Oh yeah");
+                        response.addCookie(new Cookie("attendee", "" + attendee.getAttendeeid()));
+                        response.addCookie(new Cookie("role", "" + person.getRoleid()));
+                        model.addAttribute("personid", person.getPersonid());
+                        model.addAttribute("attendee", attendee);
+                        return "attendees/detail";
+                    } else {
+                        model.addAttribute("error", "Špatné heslo");
+                    }
+                }
             }
         }
+
         return "home/index";
     }
 
@@ -83,10 +115,13 @@ public class HomeController {
     public RedirectView logout(Model model, HttpServletResponse response) {
         Cookie cookieUser = new Cookie("user", null);
         Cookie cookieRole = new Cookie("role", null);
+        Cookie cookieAttendee = new Cookie("attendee", null);
         cookieUser.setMaxAge(0);
         cookieRole.setMaxAge(0);
+        cookieAttendee.setMaxAge(0);
         response.addCookie(cookieUser);
         response.addCookie(cookieRole);
+        response.addCookie(cookieAttendee);
         System.out.println("logout");
         model.addAttribute("logout", "Odhlášení proběhlo úspěšně");
         return new RedirectView("/");

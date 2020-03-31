@@ -40,4 +40,8 @@ public class AttendeeService implements BaseService<Attendee> {
     public Attendee update(int id, Attendee attendee) {
         return attendeeRepository.save(attendee);
     }
+
+    public Attendee getByPersonId(int id) {
+        return attendeeRepository.findAttendeeByPerson_Personid(id);
+    }
 }

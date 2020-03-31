@@ -8,4 +8,5 @@ import pro3.attandance.model.Attendee;
 @Repository
 public interface AttendeeRepository extends CrudRepository<Attendee, Integer> {
 
+    Attendee findAttendeeByPerson_Personid(int id);
 }

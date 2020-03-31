@@ -79,9 +79,12 @@
                 data: JSON.stringify({
                     "userid": $("#user").val(),
                     "actionid": "[[${actionid}]]"
-                })
+                }),
+                success: function () {
+                    location.reload();
+                }
             })
-        })
+        });
 
     function renderJsGrid(data) {
         $("#jsGrid").jsGrid({

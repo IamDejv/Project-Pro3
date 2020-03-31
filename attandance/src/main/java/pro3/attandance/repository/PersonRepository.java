@@ -11,4 +11,6 @@ import java.util.List;
 public interface PersonRepository extends CrudRepository<Person, Integer> {
 
     List<Person> findPersonByRoleid(int id);
+
+    Person findPersonByContactInfo_Email(String email);
 }
