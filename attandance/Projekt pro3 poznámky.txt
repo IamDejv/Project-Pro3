@@ -1,0 +1,20 @@
+HOME 	Attendee - Druhy tlacitko, css tláčitek, vylepšit profil
+	User - obe tlacitka, ccs tlacitek, vylepsit profil
+DOCHAZKA -Index - CSS, sorting
+	 -Detail - CSS (Bloky, tabulka, hover), scrollbar pro tabulku 	
+	 -Form - Přidat nadpis, popisky atd (CSS) 
+VYSTOUPENI -Index - CSS, tlacitko
+	   -Detail - CSS(Tlacitko, info), Vylepšit
+	   -Form - Přidat nadpis, popisky atd (CSS)
+REGISTRACE -Index - Přidat popisky atd (CSS)
+UZIVATELE - Index - CSS, vylepšit odkaz na detail
+UCASTNICI - Index - CSS, Nadpis, tlačitka, vylepšit odkaz na detail
+
+Frontend : Upravit textace, schovat záložky
+
+Backend : Vyřešit práva pro přistupy, zobrazování a přistup na endpointy, vyřešit omlouvání uživatelů,
+ 	editace uživatele, akce a docházky(Jen určité změny), vyřešit co může vidět attendee,
+	opravit překlepy a přejmenovat některé třídy a přesunout .html file
+	 
+
+	
