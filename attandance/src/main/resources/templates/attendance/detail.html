@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Trénink Detail</title>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
 </head>
 <body>
 <div th:include="layout.html"></div>
@@ -10,7 +11,7 @@
 
     <div class="table-content">
 
-        <table>
+        <table class="horniTabulka">
             <tr>
                 <th><p>Den tréninku:</p></th>
                 <th><p th:text="${training.trainingDay}"></p></th>

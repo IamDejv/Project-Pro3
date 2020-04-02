@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Vystoupení Detail</title>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
 </head>
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
     <div>
         <!--TODO Action info-->
-        <table>
+        <table class="horniTabulka">
             <tr>
                 <th><p>Název:</p></th>
                 <th><p th:text="${action.actionName}"></p></th>
@@ -119,9 +120,9 @@
             data: data,
 
             fields: [
-                { name: "firstname", type: "text", title: "Jméno", width: 60 },
-                { name: "lastname", type: "text", title: "Příjmení", width: 60 },
-                { name: "username", type: "text", title: "Uživatelské jméno", width: 60 },
+                { name: "firstname", type: "text", title: "Jméno", width: 30 },
+                { name: "lastname", type: "text", title: "Příjmení", width: 30 },
+                { name: "username", type: "text", title: "Uživatelské jméno", width: 30 },
                 { name: "role", type: "text", title: "Typ", width: 30 }
             ]
         });

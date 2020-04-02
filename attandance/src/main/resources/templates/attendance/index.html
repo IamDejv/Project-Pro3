@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Docházka</title>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
 </head>
 <body>
 <div th:include="layout.html"></div>
@@ -54,13 +55,13 @@
             data: data,
 
             fields: [
-                { name: "trainingDay", type: "text", title: "Den", width: 60 },
-                { name: "trainingName", type: "text", title: "Název", width: 60 },
-                { name: "type", type: "text", title: "Typ", width: 60 },
-                { name: "starttime", type: "text", title: "Začátek", width: 60 },
+                { name: "trainingDay", type: "text", title: "Den", width: 30 },
+                { name: "trainingName", type: "text", title: "Název", width: 30 },
+                { name: "type", type: "text", title: "Typ", width: 30 },
+                { name: "starttime", type: "text", title: "Začátek", width: 30 },
                 { name: "endtime", type: "text", title: "Konec", width: 30 },
-                { name: "hall", type: "text", title: "Hala", width: 30 },
-                { name: "user", type: "text", title: "Trenér", width: 30 }
+                { name: "hall", type: "text", title: "Hala", width: 40 },
+                { name: "user", type: "text", title: "Trenér", width: 40 }
             ]
         });
     }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Vystoupení</title>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
 </head>
 <body>
 <div th:include="layout.html"></div>
@@ -50,9 +51,9 @@
             data: data,
 
             fields: [
-                { name: "actionName", type: "text", title: "Jméno", width: 60 },
-                { name: "type", type: "text", title: "Typ", width: 60 },
-                { name: "date", type: "text", title: "Datum", width: 60 },
+                { name: "actionName", type: "text", title: "Jméno", width: 30 },
+                { name: "type", type: "text", title: "Typ", width: 30 },
+                { name: "date", type: "text", title: "Datum", width: 30 },
                 { name: "city", type: "text", title: "Město", width: 30 }
             ]
         });
