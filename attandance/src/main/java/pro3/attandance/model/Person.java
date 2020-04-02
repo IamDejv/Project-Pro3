@@ -4,6 +4,7 @@ import pro3.attandance.enums.RoleEnum;
 import pro3.attandance.repository.CompanyRepository;
 import pro3.attandance.services.CompanyService;
 import pro3.attandance.services.RoleService;
+import pro3.attandance.utils.DayGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -91,7 +92,7 @@ public class Person {
     }
 
     public String getDateOfBirth() {
-        return dateOfBirth;
+        return DayGenerator.webalizeDate(dateOfBirth);
     }
 
     public void setDateOfBirth(String dateOfBirth) {
@@ -99,7 +100,7 @@ public class Person {
     }
 
     public String getDateofcome() {
-        return dateofcome;
+        return DayGenerator.webalizeDate(dateofcome);
     }
 
     public void setDateofcome(String dateofcome) {

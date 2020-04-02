@@ -42,5 +42,9 @@ public class AttendanceService implements BaseService<Attendance> {
         return attendanceRepository.save(attendance);
     }
 
+    public List<Attendance> getAllByTrainingId(int id) {
+        return attendanceRepository.getAllByTraining_Trainingid(id);
+    }
+
 
 }

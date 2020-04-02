@@ -58,6 +58,7 @@ public class AttendenceController {
         Training training = trainingOpt.orElse(null);
         model.addAttribute("simple", false);
         model.addAttribute("training", training);
+        model.addAttribute("trainingDates", DayGenerator.generateDates(training.getStartDate(), training.getEndDate()));
         return "attendance/detail";
     }
     @GetMapping("/simple/{id}")

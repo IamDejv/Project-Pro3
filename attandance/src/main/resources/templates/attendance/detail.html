@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Trénink Detail</title>
-    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
+    <link rel="stylesheet" href="../static/css/attendance.css" th:href="@{/css/attendance.css}">
 </head>
 <body>
 <div th:include="layout.html"></div>
@@ -54,12 +54,16 @@
             </tr>
         </table>
     </div>
-    <div>
+    <div id="assignToTraining">
         <button type="button" class="btn btn-primary assignAttendee">Přihlásit na trénink</button>
     </div>
     <div id="attendance">
-       Hello everybody
         <!--TODO attendees in table whith attendance-->
+        <table id="attend" onmousedown="whichElement(event)">
+            <tr id="tableHeader">
+                <th style="width: 180px">Jméno</th>
+            </tr>
+        </table>
     </div>
 
 </div>
@@ -67,8 +71,87 @@
 </html>
 <script>
     $(document).ready(function () {
-        [[${simple}]] ? $("#attendance").hide() : $("#attendance").show();
+        if([[${simple}]]) {
+            $("#attendance").hide()
+            $("#assignToTraining").show()
+        } else {
+            $("#attendance").show();
+            $("#assignToTraining").hide();
+            initTable();
+        }
     });
+
+    function initTable () {
+        let dates = "[[${trainingDates}]]";
+        let validDates = processDates(dates);
+        validDates.forEach(function (date) {
+            date = date.trim();
+            let datePart = date.split("-");
+            $("#tableHeader").append("<th class='dateCell'>" + datePart[2] + "/" + datePart[1] + "</th>");
+        });
+        $.ajax({
+            method: "GET",
+            url: "/api/v1/attendance/training/" + [[${training.trainingid}]],
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                addToTable(result)
+            }
+        })
+    }
+
+    function addToTable (atts) {
+        let attendees = [];
+        let keys = [];
+        atts.forEach(function (att) {
+            if(attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] === undefined) {
+                attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] = [];
+                keys.push(att.attendee.person.firstname + "_" + att.attendee.person.lastname);
+            }
+            let attObject = [];
+            attObject.push(att.presence);
+            attObject.push(att.attendanceid);
+            attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname].push(attObject);
+        });
+        keys.forEach(function (key) {
+            console.log(key);
+            let name = key.replace("_", " ");
+            let row = "<tr>" +
+                        "<td style='width: 180px'>" + name + "</td>";
+            attendees[key].forEach(function (presence) {
+                row = row + "<td class='presenceCell' name='" + presence[1] + "' " +
+                "value='" + presence[0] + "' " + " style='background-color:" + (presence[0] === 0 ? '#D30E09': presence[0] === 1 ? '#FFD600' : '#25D500') + "'></td>";
+            });
+            row = row + "</tr>";
+            $("#attend").append(row);
+        })
+    }
+
+    function processDates(dates) {
+        dates = dates.replace("[", "");
+        dates = dates.replace("]", "");
+        return dates.split(",");
+    }
+
+    function whichElement(e) {
+        let value = e.target.getAttribute("value");
+        if (value != 1) {
+            if(e.target.getAttribute("class") === "presenceCell"){
+                value = value == 0 ? 2 : 0;
+                e.target.style.backgroundColor = value == 0 ? '#D30E09': value == 1 ? '#FFD600' : '#25D500';
+                e.target.setAttribute("value", value);
+                $.ajax({
+                    method: "PUT",
+                    url: "/api/v1/attendance/" + e.target.getAttribute("name"),
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(value),
+                    success: function () {
+                    }
+                })
+            }
+        }
+    }
 
     $(".assignAttendee").on("click", function () {
         $.ajax({

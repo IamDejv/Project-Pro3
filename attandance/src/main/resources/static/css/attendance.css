@@ -1,0 +1,12 @@
+.dateCell {
+    width: 52px;
+}
+.presenceCell {
+    width: 52px;
+    height: 52px;
+    text-align: center;
+}
+
+.presenceCell:hover {
+    background-color: blue;
+}

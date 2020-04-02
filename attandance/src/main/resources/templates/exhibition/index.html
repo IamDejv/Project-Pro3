@@ -28,7 +28,7 @@
                     let item =
                         {
                             "actionName": "<a href=/action/" + items[i].actionsid + ">" + items[i].actionName + "",
-                            "type": items[i].type === 0 ? "Vystoupení" : items[i].type === 1 ? "Workshop" : "Other",
+                            "type": items[i].type,
                             "date": items[i].dateAction,
                             "city": items[i].address.city
                         };

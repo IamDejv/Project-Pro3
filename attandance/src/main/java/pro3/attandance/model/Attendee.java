@@ -47,8 +47,8 @@ public class Attendee {
         isPaid = paid;
     }
 
-    public int getSex() {
-        return sex;
+    public String getSex() {
+        return SexEnum.webalizeSex(sex);
     }
 
     public void setSex(int sex) {

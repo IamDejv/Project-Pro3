@@ -1,4 +1,4 @@
-package pro3.attandance.controller;
+package pro3.attandance.apiController;
 
 import org.springframework.web.bind.annotation.*;
 import pro3.attandance.model.Training;

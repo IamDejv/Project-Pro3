@@ -10,7 +10,7 @@
 <span> </span>
 
 <div class="page-content">
-    <button type="button1" class="basic-btn"><a href="/prihlaska"> Přihláška</a></button>
+    <button type="button1" class="basic-btn assignUser"><a href="/prihlaska"> Přihláška</a></button>
     <button type="button2" class="basic-btn">button2</button>
 
     <div class="nadpis">
@@ -38,7 +38,7 @@
             </tr>
             <tr>
                 <td><p>Zaplaceno:</p></td>
-                <td><p th:text="${attendee.paid}"></p></td>
+                <td><p th:text="${attendee.paid} ? 'Ano' : 'NE'"></p></td>
             </tr>
             <tr>
                 <td><p>E-mail:</p></td>
@@ -54,3 +54,10 @@
 </div>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        if(getCookie("attendee") != [[${attendee.attendeeid}]]) {
+            $(".assignUser").hide();
+        }
+    });
+</script>

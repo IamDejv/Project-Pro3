@@ -1,5 +1,7 @@
 package pro3.attandance.model;
 
+import pro3.attandance.enums.TrainingTypeEnum;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -67,8 +69,8 @@ public class Training {
         this.trainingid = trainingid;
     }
 
-    public int getType() {
-        return type;
+    public String getType() {
+        return TrainingTypeEnum.webalizeEnum(type);
     }
 
     public void setType(int type) {

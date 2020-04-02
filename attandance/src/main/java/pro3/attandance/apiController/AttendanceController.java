@@ -1,4 +1,4 @@
-package pro3.attandance.controller;
+package pro3.attandance.apiController;
 
 import org.springframework.web.bind.annotation.*;
 import pro3.attandance.model.Attendance;
@@ -37,8 +37,17 @@ public class AttendanceController {
         attendanceService.deleteById(id);
     }
 
-    @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Attendance attendance) {
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable("id") int id, @RequestBody String presence) {
+        System.out.println(id);
+        System.out.println(presence);
+        Attendance attendance = attendanceService.getById(id).orElse(null);
+        attendance.setPresence(Integer.parseInt(presence));
         attendanceService.update(attendance.getAttendanceid(), attendance);
+    }
+
+    @GetMapping("/training/{id}")
+    public List<Attendance> getAllByTrainingId (@PathVariable("id") int id) {
+        return attendanceService.getAllByTrainingId(id);
     }
 }

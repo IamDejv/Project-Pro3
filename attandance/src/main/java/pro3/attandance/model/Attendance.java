@@ -1,5 +1,7 @@
 package pro3.attandance.model;
 
+import pro3.attandance.utils.DayGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -79,7 +81,7 @@ public class Attendance {
     }
 
     public String getTrainingDate() {
-        return trainingDate;
+        return DayGenerator.webalizeDate(trainingDate);
     }
 
     public void setTrainingDate(String trainingDate) {

@@ -14,4 +14,8 @@ public enum SexEnum {
     public static SexEnum getEnum(int code) {
         return code == 1 ? SexEnum.FEMALE : SexEnum.MALE;
     }
+
+    public static String webalizeSex(int code) {
+        return code == 0 ? "Žena" : "Muž";
+    }
 }

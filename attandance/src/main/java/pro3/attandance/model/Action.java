@@ -1,5 +1,9 @@
 package pro3.attandance.model;
 
+import pro3.attandance.enums.TrainingTypeEnum;
+import pro3.attandance.enums.TypeEnum;
+import pro3.attandance.utils.DayGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -55,7 +59,7 @@ public class Action {
     }
 
     public String getDateAction() {
-        return dateAction;
+        return DayGenerator.webalizeDate(dateAction);
     }
 
     public void setDateAction(String dateAction) {
@@ -63,7 +67,7 @@ public class Action {
     }
 
     public String getType() {
-        return type;
+        return TypeEnum.webalizeEnum(Integer.parseInt(type));
     }
 
     public void setType(String type) {

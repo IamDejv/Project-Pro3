@@ -23,4 +23,9 @@ public class DayGenerator {
         String[] dates = date.split("-");
         return LocalDate.of(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
     }
+
+    public static String webalizeDate(String date) {
+        String[] dates = date.split("-");
+        return String.format("%s.%s.%s", dates[2],dates[1], dates[0]);
+    }
 }

@@ -13,4 +13,8 @@ public enum RoleEnum {
     RoleEnum(int code) {
         this.code = code;
     }
+
+    public static String webalizeRole(int code) {
+        return code == 0 ? "Docházející" : code == 1 ? "Trenér" : code == 2 ? "Návštěvník" : code == 3 ? "Manažer" : "Admin";
+    }
 }
