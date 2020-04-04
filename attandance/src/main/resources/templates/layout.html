@@ -69,7 +69,9 @@
         let attendee = getCookie("attendee");
         if (user === undefined && attendee === undefined) {
             $(".logout").hide();
+            $(".registration").show();
         } else {
+            $(".registration").hide();
             $(".logout").show();
         }
         if (role === undefined) {
@@ -78,13 +80,17 @@
             $(".attendance").hide();
             $(".attendees").hide();
 
-        } else {
-            if (role === 0) {
-                $(".users").hide();
-                $(".exhibition").hide();
-            } else if (role === 2) {
-                $(".users").hide();
-            }
+        }
+        if (role == 0) {
+            $(".users").hide();
+            $(".attendees").hide();
+            $(".exhibition").hide();
+        }
+        if (role == 1) {
+            $(".attendees").hide();
+        }
+        if (role == 4) {
+            $(".registration").show();
         }
 
 

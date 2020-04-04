@@ -58,7 +58,6 @@
         <button type="button" class="btn btn-primary assignAttendee">Přihlásit na trénink</button>
     </div>
     <div id="attendance">
-        <!--TODO attendees in table whith attendance-->
         <table id="attend" onmousedown="whichElement(event)">
             <tr id="tableHeader">
                 <th style="width: 180px">Jméno</th>
@@ -71,9 +70,16 @@
 </html>
 <script>
     $(document).ready(function () {
+        $("#assignToTraining").hide();
         if([[${simple}]]) {
-            $("#attendance").hide()
-            $("#assignToTraining").show()
+            $("#attendance").hide();
+            let assignedOn = [[${assignedOn}]];
+            if(!assignedOn) {
+                $("#assignToTraining").show()
+            } else {
+                $("#attendance").show();
+                initTable();
+            }
         } else {
             $("#attendance").show();
             $("#assignToTraining").hide();
@@ -104,14 +110,16 @@
         let attendees = [];
         let keys = [];
         atts.forEach(function (att) {
-            if(attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] === undefined) {
-                attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] = [];
-                keys.push(att.attendee.person.firstname + "_" + att.attendee.person.lastname);
+            if (att.attendee.attendeeid == getCookie("attendee") || getCookie("user") !== undefined){
+                if(attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] === undefined) {
+                    attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] = [];
+                    keys.push(att.attendee.person.firstname + "_" + att.attendee.person.lastname);
+                }
+                let attObject = [];
+                attObject.push(att.presence);
+                attObject.push(att.attendanceid);
+                attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname].push(attObject);
             }
-            let attObject = [];
-            attObject.push(att.presence);
-            attObject.push(att.attendanceid);
-            attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname].push(attObject);
         });
         keys.forEach(function (key) {
             console.log(key);
@@ -134,21 +142,23 @@
     }
 
     function whichElement(e) {
-        let value = e.target.getAttribute("value");
-        if (value != 1) {
-            if(e.target.getAttribute("class") === "presenceCell"){
-                value = value == 0 ? 2 : 0;
-                e.target.style.backgroundColor = value == 0 ? '#D30E09': value == 1 ? '#FFD600' : '#25D500';
-                e.target.setAttribute("value", value);
-                $.ajax({
-                    method: "PUT",
-                    url: "/api/v1/attendance/" + e.target.getAttribute("name"),
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify(value),
-                    success: function () {
-                    }
-                })
+        if(getCookie("attendee") === undefined) {
+            let value = e.target.getAttribute("value");
+            if (value != 1) {
+                if(e.target.getAttribute("class") === "presenceCell"){
+                    value = value == 0 ? 2 : 0;
+                    e.target.style.backgroundColor = value == 0 ? '#D30E09': value == 1 ? '#FFD600' : '#25D500';
+                    e.target.setAttribute("value", value);
+                    $.ajax({
+                        method: "PUT",
+                        url: "/api/v1/attendance/" + e.target.getAttribute("name"),
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: JSON.stringify(value),
+                        success: function () {
+                        }
+                    })
+                }
             }
         }
     }

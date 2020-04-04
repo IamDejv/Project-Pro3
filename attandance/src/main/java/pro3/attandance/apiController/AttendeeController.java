@@ -37,8 +37,15 @@ public class AttendeeController {
         attendeeService.deleteById(id);
     }
 
-    @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Attendee attendee) {
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable("id") int id, @RequestBody Attendee attendee) {
         attendeeService.update(attendee.getAttendeeid(), attendee);
+    }
+
+    @PutMapping("/pay/{id}")
+    public void pay(@PathVariable("id") int id, @RequestBody int paid) {
+        Attendee attendee = attendeeService.getById(id).orElse(null);
+        attendee.setPaid(paid == 0);
+        attendeeService.update(id, attendee);
     }
 }

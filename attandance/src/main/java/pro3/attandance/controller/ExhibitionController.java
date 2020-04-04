@@ -4,13 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.view.RedirectView;
 import pro3.attandance.model.Action;
 import pro3.attandance.model.User;
 import pro3.attandance.model.UserAction;
 import pro3.attandance.services.ActionService;
 import pro3.attandance.services.UserActionService;
 import pro3.attandance.services.UserService;
+import pro3.attandance.utils.PermissionUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,29 +34,52 @@ public class ExhibitionController {
     }
 
     @GetMapping("/vystoupeni")
-    public String exhibition(){
+    public RedirectView exhibition(HttpServletRequest request){
+        if (PermissionUtils.isAllowed(request, "action", "user")) {
+            return new RedirectView("/actions");
+        }
+        return new RedirectView("/");
+    }
+
+    @GetMapping("/actions")
+    private String actionList() {
         return "exhibition/index";
     }
 
-    @GetMapping("/action/{id}")
-    public String actionDetail(@PathVariable("id") int id, Model model) {
-
-        Optional<Action> actionOpt = actionService.getById(id);
-        List<UserAction> userActions = userActionService.getByActionId(id);
-        List<User> users = new ArrayList<>();
-        for (UserAction userAction : userActions) {
-            users.add(userService.getById(userAction.getUserid()).orElse(null));
-        }
-        Action action;
-        action = actionOpt.orElse(null);
-        model.addAttribute("actionid", id);
-        model.addAttribute("action", action);
-        model.addAttribute("users", users.toArray());
+    @GetMapping("/action")
+    private String action() {
         return "exhibition/detail";
     }
 
+    @GetMapping("/simpleAction")
+    private String simpleAction() {
+        return "exhibition/simpleDetail";
+    }
+
+    @GetMapping("/action/{id}")
+    public String actionDetail(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+        if (PermissionUtils.isAllowed(request, "action", "user")) {
+            Optional<Action> actionOpt = actionService.getById(id);
+            List<UserAction> userActions = userActionService.getByActionId(id);
+            List<User> users = new ArrayList<>();
+            for (UserAction userAction : userActions) {
+                users.add(userService.getById(userAction.getUserid()).orElse(null));
+            }
+            Action action;
+            action = actionOpt.orElse(null);
+            model.addAttribute("actionid", id);
+            model.addAttribute("action", action);
+            model.addAttribute("users", users.toArray());
+            return "exhibition/detail";
+        }
+        return "exhibitio/index";
+    }
+
     @GetMapping("/vystoupeni/add")
-    public String actionForm() {
-        return "exhibition/form";
+    public String actionForm(HttpServletRequest request) {
+        if(PermissionUtils.isAllowed(request, "addAction", "user")) {
+            return "exhibition/form";
+        }
+        return "home/index";
     }
 }

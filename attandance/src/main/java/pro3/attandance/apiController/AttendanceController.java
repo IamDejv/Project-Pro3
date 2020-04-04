@@ -50,4 +50,14 @@ public class AttendanceController {
     public List<Attendance> getAllByTrainingId (@PathVariable("id") int id) {
         return attendanceService.getAllByTrainingId(id);
     }
+
+    @GetMapping("/{id}/attendee")
+    public List<Attendance> getAllByAttendeeId(@PathVariable("id")int id){
+        return attendanceService.getAllByAttendeeId(id);
+    }
+
+    @GetMapping("/training/{attendeeId}/{trainingId}")
+    public List<Attendance> getAllByAttendeeAndTraining(@PathVariable("attendeeId") int attendeeId, @PathVariable("trainingId") int trainingid) {
+        return attendanceService.getAllByAttendeeAndTraining(attendeeId, trainingid);
+    }
 }

@@ -2,8 +2,10 @@ package pro3.attandance.services;
 
 import org.springframework.stereotype.Service;
 import pro3.attandance.model.Training;
+import pro3.attandance.model.UserAction;
 import pro3.attandance.repository.TrainingRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +41,14 @@ public class TrainingService implements BaseService<Training> {
     @Override
     public Training update(int id, Training training) {
         return trainingRepository.save(training);
+    }
+
+    public List<Integer> getUsersTraining(int id) {
+        List<Integer> trainingIds = new ArrayList<>();
+        List<Training> trainings = trainingRepository.getAllByUser_Userid(id);
+        for (Training training: trainings) {
+            trainingIds.add(training.getTrainingid());
+        }
+        return trainingIds;
     }
 }

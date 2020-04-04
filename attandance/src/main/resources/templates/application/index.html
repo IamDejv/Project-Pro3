@@ -18,19 +18,24 @@
 <script>
     $(document).ready(function () {
         let item = [];
+        let url;
+        if (getCookie("attendee") === undefined) {
+            url = "/api/v1/training";
+        } else {
+            url = "/api/v1/training/";
+        }
         $.ajax({
-            url: "api/v1/training",
+            url: "/api/v1/training",
             data: "json",
             contentType: "application/json",
             method: "GET"
         }).then(function (items) {
             for (let i = 0; i < items.length; i++) {
-                console.log(items[i]);
                 let data =
                     {
-                        "trainingName": "<a href=/dochazka/simple/" + items[i].trainingid + ">" + items[i].name + "",
+                        "trainingName": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].name + "",
                         "trainingDay": items[i].trainingDay,
-                        "type": items[i].type === 0 ? "Parkour" : "Other",
+                        "type": items[i].type,
                         "starttime": items[i].starttime,
                         "endtime": items[i].endtime,
                         "hall": items[i].hall.name,

@@ -12,6 +12,7 @@ import pro3.attandance.model.User;
 import pro3.attandance.services.AttendeeService;
 import pro3.attandance.services.PersonService;
 import pro3.attandance.services.UserService;
+import pro3.attandance.utils.PermissionUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -35,36 +36,29 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model) {
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals("user")) {
-                    Optional<User> userOpt = userService.getById(Integer.parseInt(cookie.getValue()));
-                    User user = userOpt.orElse(null);
-                    if (user == null) {
-                        break;
-                    }
-                    model.addAttribute("personid", user.getPerson().getPersonid());
-                    model.addAttribute("user", user);
-                    return "profile/index";
-                } else if (cookie.getName().equals("attendee")) {
-                    Optional<Attendee> attendeeOpt = attendeeService.getById(Integer.parseInt(cookie.getValue()));
-                    Attendee attendee = attendeeOpt.orElse(null);
-                    if (attendee == null) {
-                        break;
-                    }
-                    model.addAttribute("personid", attendee.getPerson().getPersonid());
-                    model.addAttribute("attendee", attendee);
-                    return "attendees/detail";
-                }
+    public RedirectView index(HttpServletRequest request, Model model) {
+        if(PermissionUtils.isPerson(request, "user")){
+            Optional<User> userOpt = userService.getById(Integer.parseInt(PermissionUtils.id));
+            User user = userOpt.orElse(null);
+            if (user != null) {
+                model.addAttribute("personid", user.getPerson().getPersonid());
+                model.addAttribute("user", user);
+                return new RedirectView("/profil/user/" + user.getUserid());
+            }
+        } else if (PermissionUtils.isPerson(request, "attendee")) {
+            Optional<Attendee> attendeeOpt = attendeeService.getById(Integer.parseInt(PermissionUtils.id));
+            Attendee attendee = attendeeOpt.orElse(null);
+            if (attendee != null) {
+                model.addAttribute("personid", attendee.getPerson().getPersonid());
+                model.addAttribute("attendee", attendee);
+                return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
             }
         }
-        return "home/index";
+        return new RedirectView("/");
     }
 
     @PostMapping("/login")
     public String login(LoginData data, Model model, HttpServletResponse response) {
-        System.out.println(data.getRole());
         if (!data.getRole()) {
             User user = userService.getByUsername(data.getUsername());
             if (user == null) {
@@ -77,7 +71,7 @@ public class HomeController {
                     response.addCookie(new Cookie("role", "" + user.getPerson().getRoleid()));
                     model.addAttribute("personid", user.getPerson().getPersonid());
                     model.addAttribute("user", user);
-                    return "profile/index";
+                    return "users/detail";
                 } else {
                     model.addAttribute("error", "Špatné heslo");
                 }

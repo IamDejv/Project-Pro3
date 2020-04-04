@@ -11,4 +11,9 @@ import java.util.List;
 public interface AttendanceRepository extends CrudRepository<Attendance, Integer> {
 
     List<Attendance> getAllByTraining_Trainingid(int id);
+
+    List<Attendance> getAllByAttendee_Attendeeid(int id);
+
+    List<Attendance> getAllByAttendee_AttendeeidAndTraining_Trainingid(int attendeeId, int trainingId);
+
 }

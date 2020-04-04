@@ -11,7 +11,8 @@
 
 <div class="page-content">
     <button type="button1" class="basic-btn assignUser"><a href="/prihlaska"> Přihláška</a></button>
-    <button type="button2" class="basic-btn">button2</button>
+    <button type="button2" class="basic-btn excuseUser"><a href="/dochazka/excuse">Omluvit</a></button>
+    <button type="button3" class="basic-btn pay">Zaplatit</button>
 
     <div class="nadpis">
     <p>Profil</p>
@@ -51,6 +52,12 @@
         </table>
     </div>
 
+    <div>
+        <!--TODO-->
+        <div class="loader"></div>
+        <div id="jsGrid"></div>
+    </div>
+
 </div>
 </body>
 </html>
@@ -58,6 +65,70 @@
     $(document).ready(function () {
         if(getCookie("attendee") != [[${attendee.attendeeid}]]) {
             $(".assignUser").hide();
+            $(".excuseUser").hide();
+            $(".pay").hide();
         }
+
+        $.ajax({
+            url: "/api/v1/training",
+            data: "json",
+            contentType: "application/json",
+            method: "GET",
+            success: function (items) {
+                let item = [];
+                for (let i = 0; i < items.length; i++) {
+                    if([[${attendeeTrainings}]].includes(items[i].trainingid)){
+                        let data =
+                            {
+                                "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
+                                "trainingName": items[i].name,
+                                "type": items[i].type,
+                                "starttime": items[i].starttime,
+                                "endtime": items[i].endtime,
+                                "hall": items[i].hall.name,
+                                "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
+                            };
+                        item.push(data);
+                    }
+                }
+                renderJsGrid(item);
+                $(".loader").hide();
+            }
+        })
     });
+
+
+    function renderJsGrid(data) {
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            height: "100%",
+
+            searching: true,
+            sorting: true,
+
+            data: data,
+
+            fields: [
+                { name: "trainingDay", type: "text", title: "Den", width: 30 },
+                { name: "trainingName", type: "text", title: "Název", width: 30 },
+                { name: "type", type: "text", title: "Typ", width: 30 },
+                { name: "starttime", type: "text", title: "Začátek", width: 30 },
+                { name: "endtime", type: "text", title: "Konec", width: 30 },
+                { name: "hall", type: "text", title: "Hala", width: 40 },
+                { name: "user", type: "text", title: "Trenér", width: 40 }
+            ]
+        });
+    }
+
+    $(".pay").on("click", function () {
+        $.ajax({
+            method: "PUT",
+            url: "/api/v1/attendee/pay/" + [[${attendee.attendeeid}]],
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(0)
+        })
+    })
+
+
 </script>

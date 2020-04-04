@@ -12,4 +12,6 @@ import java.util.List;
 public interface UserActionRepository extends CrudRepository<UserAction, Integer> {
 
     List<UserAction> findAllByActionActionsid(int id);
+
+    List<UserAction> getUserActionsByUser_Userid(int id);
 }

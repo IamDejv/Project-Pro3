@@ -36,12 +36,12 @@
     <div>
         <!--TODO Chooser-->
         <div>
-            <button type="button2" class="basic-btn" id="showUsers">button2</button>
             <div class="form-group" id="userSelect">
                 <label for="user">Uživatel:</label>
                 <select class="custom-select" id="user">
                 </select>
             </div>
+            <button type="button2" class="basic-btn" id="sendUser">button2</button>
             <div class="loader"></div>
             <div id="jsGrid"></div>
         </div>
@@ -51,26 +51,12 @@
 </html>
 <script>
     $(document).ready(function () {
-        $("#userSelect").hide();
-        let hide = true;
-        $.ajax({
-            method: "GET",
-            url: "/api/v1/user",
-            success: function (items) {
-                console.log(items);
-                items.forEach(function (user) {
-                    $('#user').append(new Option(user.person.firstname + " " + user.person.lastname, user.userid))
-                })
-            }
-        });
-
         let data = [];
         $.ajax({
             url: "/api/v1/user/action/" + "[[${actionid}]]",
             method: "GET",
             success: function (items) {
                 for (let i = 0; i < items.length; i++) {
-                    console.log(items[i]);
                     let item =
                         {
                             "firstname": "<a href=/profil/user/" + items[i].userid + ">" + items[i].person.firstname + "",
@@ -81,19 +67,19 @@
                     data.push(item);
                 }
                 renderJsGrid(data);
+                fillSelect();
                 $(".loader").hide();
             }
         });
 
 
-        $("#showUsers").on("click", function () {
-            hide ? $("#userSelect").show() : $("#userSelect").hide();
-            hide = !hide;
+        $("#sendUser").on("click", function () {
+
         });
     });
 
 
-    $("#user").on('change', function () {
+    $("#sendUser").on('click', function () {
             $.ajax({
                 method: "POST",
                 url: "/api/v1/useraction",
@@ -104,6 +90,7 @@
                     "actionid": "[[${actionid}]]"
                 }),
                 success: function () {
+                    $("#jsGrid").jsGrid().reload();
                     location.reload();
                 }
             })
@@ -126,6 +113,31 @@
                 { name: "role", type: "text", title: "Typ", width: 30 }
             ]
         });
+    }
+
+    function fillSelect(){
+        let data = $("#jsGrid").jsGrid("option", "data");
+        let usernames = prepareIds(data);
+        $.ajax({
+            method: "GET",
+            url: "/api/v1/user",
+            success: function (items) {
+                items.forEach(function (user) {
+                    if (!usernames.includes(user.username)){
+                        $('#user').append(new Option(user.person.firstname + " " + user.person.lastname + " (" + user.person.role.name + ")", user.userid))
+                    }
+                })
+            }
+        });
+    }
+
+    function prepareIds(data){
+        let usernames = [];
+        console.log(data);
+        data.forEach(function (user) {
+            usernames.push(user.username);
+        });
+        return usernames;
     }
 
 </script>

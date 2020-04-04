@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pro3.attandance.model.UserAction;
 import pro3.attandance.repository.UserActionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,14 @@ public class UserActionService implements BaseService<UserAction> {
 
     public List<UserAction> getByActionId(int id) {
         return userActionRepository.findAllByActionActionsid(id);
+    }
+
+    public List<Integer> getUsersAction(int id) {
+        List<Integer> actionsId = new ArrayList<>();
+        List<UserAction> userActions = userActionRepository.getUserActionsByUser_Userid(id);
+        for (UserAction userAction: userActions) {
+            actionsId.add(userAction.getActionid());
+        }
+        return actionsId;
     }
 }

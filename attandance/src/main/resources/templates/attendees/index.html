@@ -18,20 +18,19 @@
     $(document).ready(function () {
         let clients = [];
         $.ajax({
-            url: "api/v1/attendee",
+            url: "/api/v1/attendee",
             data: "json",
             contentType: "application/json",
             method: "GET"
         }).then(function (items) {
             for (let i = 0; i < items.length; i++) {
-                console.log(items[i]);
                 let client =
                     {
                         "firstname": "<a href=/profil/attendee/" + items[i].attendeeid + ">" + items[i].person.firstname + "",
                         "lastname": items[i].person.lastname,
                         "sex": items[i].sex,
                         "active": items[i].person.active,
-                        "isPaid": items[i].isPaid
+                        "isPaid": items[i].paid
                     };
                 clients.push(client);
             }

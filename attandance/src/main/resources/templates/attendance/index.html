@@ -18,6 +18,7 @@
 <script>
     $(document).ready(function () {
         let item = [];
+        let availableTrainings = [[${availableTrainings}]]
         $.ajax({
             url: "api/v1/training",
             data: "json",
@@ -25,18 +26,35 @@
             method: "GET"
         }).then(function (items) {
             for (let i = 0; i < items.length; i++) {
-                console.log(items[i]);
-                let data =
-                    {
-                        "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
-                        "trainingName": items[i].name,
-                        "type": items[i].type,
-                        "starttime": items[i].starttime,
-                        "endtime": items[i].endtime,
-                        "hall": items[i].hall.name,
-                        "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
-                    };
-                item.push(data);
+                if(getCookie("attendee") === undefined) {
+                    console.log(items[i]);
+                    let data =
+                        {
+                            "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
+                            "trainingName": items[i].name,
+                            "type": items[i].type,
+                            "starttime": items[i].starttime,
+                            "endtime": items[i].endtime,
+                            "hall": items[i].hall.name,
+                            "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
+                        };
+                    item.push(data);
+                } else {
+                    if(availableTrainings.includes(items[i].trainingid)){
+                        console.log(items[i]);
+                        let data =
+                            {
+                                "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
+                                "trainingName": items[i].name,
+                                "type": items[i].type,
+                                "starttime": items[i].starttime,
+                                "endtime": items[i].endtime,
+                                "hall": items[i].hall.name,
+                                "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
+                            };
+                        item.push(data);
+                    }
+                }
             }
             renderJsGrid(item);
             $(".loader").hide();

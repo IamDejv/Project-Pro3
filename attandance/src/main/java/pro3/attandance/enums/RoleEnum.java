@@ -2,8 +2,8 @@ package pro3.attandance.enums;
 
 public enum RoleEnum {
     ATTENDEE(0),
-    TRAINER(1),
-    EXTERN(2),
+    EXTERN(1),
+    TRAINER(2),
     MANAGER(3),
     ADMIN (4)
     ;
@@ -15,6 +15,6 @@ public enum RoleEnum {
     }
 
     public static String webalizeRole(int code) {
-        return code == 0 ? "Docházející" : code == 1 ? "Trenér" : code == 2 ? "Návštěvník" : code == 3 ? "Manažer" : "Admin";
+        return code == 0 ? "Docházející" : code == 1 ? "Návštěvník" : code == 2 ? "Trenér" : code == 3 ? "Manažer" : "Admin";
     }
 }
