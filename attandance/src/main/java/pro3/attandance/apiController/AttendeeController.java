@@ -1,6 +1,7 @@
 package pro3.attandance.apiController;
 
 import org.springframework.web.bind.annotation.*;
+import pro3.attandance.model.Attendance;
 import pro3.attandance.model.Attendee;
 import pro3.attandance.services.AttendeeService;
 
@@ -39,7 +40,10 @@ public class AttendeeController {
 
     @PutMapping("/{id}")
     public void updateUser(@PathVariable("id") int id, @RequestBody Attendee attendee) {
-        attendeeService.update(attendee.getAttendeeid(), attendee);
+        Attendee oldAttendee = getUserById(id).orElse(null);
+        oldAttendee.setPaid(attendee.isPaid());
+        oldAttendee.setPerson(attendee.getPerson());
+        attendeeService.update(attendee.getAttendeeid(), oldAttendee);
     }
 
     @PutMapping("/pay/{id}")

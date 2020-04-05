@@ -8,6 +8,7 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
+    <button type="button1" class="basic-btn editButton"><a id="editLink">Editace</a></button>
     <div>
         <!--TODO Action info-->
         <table class="horniTabulka">
@@ -51,6 +52,7 @@
 </html>
 <script>
     $(document).ready(function () {
+        $("#editLink").attr("href", "/edit/" + [[${action.actionsid}]]);
         let data = [];
         $.ajax({
             url: "/api/v1/user/action/" + "[[${actionid}]]",

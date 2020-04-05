@@ -41,6 +41,8 @@ public class AttendenceController {
     public String attendance(HttpServletRequest request, Model model){
         if(PermissionUtils.isPerson(request, "attendee")){
             model.addAttribute("availableTrainings", attendanceService.getTrainingIDs(Integer.parseInt(PermissionUtils.id)));
+        } else if (PermissionUtils.getRole(request).equals("1")) {
+            model.addAttribute("availableTrainings", trainingService.getUsersTraining(Integer.parseInt(PermissionUtils.id)));
         }
         return "attendance/index";
     }

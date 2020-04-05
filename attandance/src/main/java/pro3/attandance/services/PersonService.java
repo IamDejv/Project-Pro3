@@ -1,5 +1,6 @@
 package pro3.attandance.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro3.attandance.model.Person;
 import pro3.attandance.repository.PersonRepository;
@@ -10,6 +11,12 @@ import java.util.Optional;
 
 @Service
 public class PersonService implements BaseService<Person> {
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private ContactInfoService contactInfoService;
 
     private final PersonRepository personRepository;
 
@@ -39,6 +46,9 @@ public class PersonService implements BaseService<Person> {
 
     @Override
     public Person update(int id, Person person) {
+        person.setPersonid(id);
+        person.setAddress(addressService.update(person.getAddress().getAddresid(), person.getAddress()));
+        person.setContactInfo(contactInfoService.update(person.getContactInfo().getContactinfoid(), person.getContactInfo()));
         return personRepository.save(person);
     }
 

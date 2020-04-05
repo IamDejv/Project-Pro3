@@ -39,8 +39,6 @@ public class AttendanceController {
 
     @PutMapping("/{id}")
     public void updateUser(@PathVariable("id") int id, @RequestBody String presence) {
-        System.out.println(id);
-        System.out.println(presence);
         Attendance attendance = attendanceService.getById(id).orElse(null);
         attendance.setPresence(Integer.parseInt(presence));
         attendanceService.update(attendance.getAttendanceid(), attendance);

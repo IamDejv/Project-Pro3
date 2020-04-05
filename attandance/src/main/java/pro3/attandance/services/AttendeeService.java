@@ -1,5 +1,6 @@
 package pro3.attandance.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro3.attandance.model.Attendee;
 import pro3.attandance.repository.AttendeeRepository;
@@ -9,6 +10,9 @@ import java.util.Optional;
 
 @Service
 public class AttendeeService implements BaseService<Attendee> {
+
+    @Autowired
+    private PersonService personService;
 
     private final AttendeeRepository attendeeRepository;
 
@@ -38,6 +42,8 @@ public class AttendeeService implements BaseService<Attendee> {
 
     @Override
     public Attendee update(int id, Attendee attendee) {
+        attendee.setAttendeeid(id);
+        attendee.setPerson(personService.update(attendee.getPerson().getPersonid(), attendee.getPerson()));
         return attendeeRepository.save(attendee);
     }
 

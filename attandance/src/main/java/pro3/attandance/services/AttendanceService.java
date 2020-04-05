@@ -40,6 +40,7 @@ public class AttendanceService implements BaseService<Attendance> {
 
     @Override
     public Attendance update(int id, Attendance attendance) {
+        attendance.setAttendanceid(id);
         return attendanceRepository.save(attendance);
     }
 

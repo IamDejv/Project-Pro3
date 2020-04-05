@@ -39,6 +39,7 @@ public class AddressService implements BaseService<Address> {
 
     @Override
     public Address update(int id, Address address) {
+        address.setAddresid(id);
         return addressRepository.save(address);
     }
 }

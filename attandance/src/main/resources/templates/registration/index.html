@@ -38,9 +38,8 @@
                 <label for="role">Typ</label>
                 <select class="custom-select roleSelect" id="role" required>
                     <option value=0>Dítě</option>
-                    <option value=1>Trenér</option>
-                    <option value=2>Návštěník</option>
-                    <option value=3>Manažer</option>
+                    <option value=1>Návštěník</option>
+                    <option value=2>Trenér</option>
                 </select>
             </div>
             <div class="form-group" id="sexSelect">
@@ -51,7 +50,7 @@
                 </select>
             </div>
             <div class="form-group" id="companySelect">
-                <label for="sex">Firma</label>
+                <label for="company">Firma</label>
                 <select class="custom-select" id="company">
                     <option value=0>Station 91</option>
                     <option value=1>Crank</option>
@@ -164,7 +163,7 @@
             url = "/api/v1/attendee";
             personData = {
                 "sex": $('#sex').val(),
-                "isPaid" : false,
+                "paid" : false,
                 'person':
                     {
                         "firstname": $('#firstname').val(),

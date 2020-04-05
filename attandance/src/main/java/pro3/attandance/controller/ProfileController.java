@@ -8,7 +8,9 @@ import pro3.attandance.model.Attendee;
 import pro3.attandance.model.User;
 import pro3.attandance.model.UserAction;
 import pro3.attandance.services.*;
+import pro3.attandance.utils.PermissionUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
@@ -52,5 +54,19 @@ public class ProfileController {
         model.addAttribute("attendee", attendee);
         model.addAttribute("attendeeTrainings", attendanceService.getTrainingIDs(id));
         return "attendees/detail";
+    }
+
+    @GetMapping("/edit")
+    public String editForm(HttpServletRequest request, Model model){
+        if(PermissionUtils.isPerson(request, "attendee")){
+            Attendee attendee = attendeeService.getById(Integer.parseInt(PermissionUtils.id)).orElse(null);
+            model.addAttribute("attendee", attendee);
+            return "attendees/edit";
+        } else if (PermissionUtils.isPerson(request, "user")){
+            User user = userService.getById(Integer.parseInt(PermissionUtils.id)).orElse(null);
+            model.addAttribute("user", user);
+            return "users/edit";
+        }
+        return "home/index";
     }
 }

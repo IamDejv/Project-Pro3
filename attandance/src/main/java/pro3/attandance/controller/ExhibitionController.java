@@ -72,7 +72,7 @@ public class ExhibitionController {
             model.addAttribute("users", users.toArray());
             return "exhibition/detail";
         }
-        return "exhibitio/index";
+        return "exhibition/index";
     }
 
     @GetMapping("/vystoupeni/add")
@@ -81,5 +81,20 @@ public class ExhibitionController {
             return "exhibition/form";
         }
         return "home/index";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable("id") int id, HttpServletRequest request, Model model){
+        Action action = actionService.getById(id).orElse(null);
+        if(PermissionUtils.isAllowed(request, "editAction", "user")){
+            model.addAttribute("action", action);
+            return "exhibition/edit";
+        } else if (PermissionUtils.isPerson(request, "user")) {
+            if (userActionService.getUsersAction(Integer.parseInt(PermissionUtils.id)).contains(id)){
+                model.addAttribute("action", action);
+                return "exhibition/edit";
+            }
+        }
+        return "exhibition/index";
     }
 }

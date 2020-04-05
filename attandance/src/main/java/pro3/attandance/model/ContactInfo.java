@@ -23,12 +23,12 @@ public class ContactInfo {
     public ContactInfo() {
     }
 
-    public int getCompanyid() {
+    public int getContactinfoid() {
         return contactinfoid;
     }
 
-    public void setCompanyid(int companyid) {
-        this.contactinfoid = companyid;
+    public void setContactinfoid(int contactinfoid) {
+        this.contactinfoid = contactinfoid;
     }
 
     public String getEmail() {

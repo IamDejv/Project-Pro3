@@ -13,6 +13,7 @@
     <button type="button1" class="basic-btn assignUser"><a href="/prihlaska"> Přihláška</a></button>
     <button type="button2" class="basic-btn excuseUser"><a href="/dochazka/excuse">Omluvit</a></button>
     <button type="button3" class="basic-btn pay">Zaplatit</button>
+    <button type="button4" class="basic-btn editButton"><a href="/edit">Editace</a></button>
 
     <div class="nadpis">
     <p>Profil</p>
@@ -67,6 +68,7 @@
             $(".assignUser").hide();
             $(".excuseUser").hide();
             $(".pay").hide();
+            $(".editButton").hide();
         }
 
         $.ajax({

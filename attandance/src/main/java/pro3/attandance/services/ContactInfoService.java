@@ -38,6 +38,7 @@ public class ContactInfoService implements BaseService<ContactInfo> {
 
     @Override
     public ContactInfo update(int id, ContactInfo contactInfo) {
+        contactInfo.setContactinfoid(id);
         return contactInfoRepository.save(contactInfo);
     }
 }

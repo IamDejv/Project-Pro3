@@ -26,7 +26,7 @@
             method: "GET"
         }).then(function (items) {
             for (let i = 0; i < items.length; i++) {
-                if(getCookie("attendee") === undefined) {
+                if(getCookie("role") > 1) {
                     console.log(items[i]);
                     let data =
                         {

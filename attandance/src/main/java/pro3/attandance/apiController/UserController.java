@@ -44,9 +44,9 @@ public class UserController {
         userService.deleteById(id);
     }
 
-    @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody User user) {
-        userService.update(user.getUserid(), user);
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable("id") int id, @RequestBody User user) {
+        userService.update(id, user);
     }
 
     @GetMapping("/usernames")

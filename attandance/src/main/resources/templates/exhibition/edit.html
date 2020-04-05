@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vystoupení Formulář</title>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<div class="page-content">
+    <div class="form">
+        <form>
+            <div class="form-group">
+                <label for="name">Název</label>
+                <input type="text" class="form-control" id="name" placeholder="Jméno" required th:value="${action.actionName}" disabled>
+            </div>
+            <div class="form-group" id="typeSelect">
+                <label for="typeSelect">Typ akce</label>
+                <select class="custom-select" id="type">
+                    <option value=0>Vystoupení</option>
+                    <option value=1>Workhop</option>
+                    <option value=2>Other</option>
+                </select>
+            </div>
+            <!--TODO-->
+            <div class="form-group">
+                <label for="actionDate">Datum akce</label>
+                <input type="date" class="form-control date-picker-popup" id="actionDate" th:value="${action.dateAction}">
+            </div>
+            <div class="form-group">
+                <label for="description">Popis</label>
+                <input type="text" class="form-control" id="description" placeholder="605123456" required th:value="${action.description}">
+            </div>
+            <div class="form-group">
+                <label for="state">Stát</label>
+                <input type="text" class="form-control" id="state" placeholder="Stát" required th:value="${action.address.state}">
+            </div>
+            <div class="form-group">
+                <label for="city">Město</label>
+                <input type="text" class="form-control" id="city" placeholder="Město" required th:value="${action.address.city}">
+            </div>
+            <div class="form-group">
+                <label for="street">Ulice</label>
+                <input type="text" class="form-control" id="street" placeholder="Ulice" required th:value="${action.address.street}">
+            </div>
+            <div class="form-group">
+                <label for="zip">Poštovní číslo</label>
+                <input type="text" class="form-control" id="zip" placeholder="50003" required th:value="${action.address.zip}">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submitForm">Odeslat</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $(".submitForm").on("click", function () {
+            console.log($('#actionDate').val());
+            let data = {
+                "actionsid" : [[${action.actionsid}]],
+                "actionName": "[[${action.actionName}]]",
+                "description" : $('#description').val(),
+                "type" : $('#type').val(),
+                "dateAction" : $('#actionDate').val() === "" ? prepareDate("[[${action.dateAction}]]") : $('#actionDate').val(),
+                "address": {
+                    "addresid": [[${action.address.addresid}]],
+                    "city": $('#city').val(),
+                    "state": $('#state').val(),
+                    "street": $('#street').val(),
+                    "zip": $('#zip').val()
+                },
+            };
+            send(data);
+        })
+    });
+
+    function send(data) {
+        $.ajax({
+            url: "/api/v1/action",
+            method: "PUT",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(data)
+        })
+    }
+    function prepareDate(date) {
+        let dateParts = date.split(".");
+        return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+    }
+</script>
