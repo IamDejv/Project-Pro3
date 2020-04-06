@@ -4,7 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.view.RedirectView;
 import pro3.attandance.model.Attendee;
+import pro3.attandance.model.Person;
 import pro3.attandance.model.User;
 import pro3.attandance.model.UserAction;
 import pro3.attandance.services.*;
@@ -24,14 +26,17 @@ public class ProfileController {
 
     private TrainingService trainingService;
 
+    private PersonService personService;
+
     private AttendanceService attendanceService;
 
-    public ProfileController(UserService userService, AttendeeService attendeeService, UserActionService userActionService, TrainingService trainingService, AttendanceService attendanceService) {
+    public ProfileController(UserService userService, AttendeeService attendeeService, UserActionService userActionService, TrainingService trainingService, AttendanceService attendanceService, PersonService personService) {
         this.userService = userService;
         this.attendeeService = attendeeService;
         this.userActionService = userActionService;
         this.trainingService = trainingService;
         this.attendanceService = attendanceService;
+        this.personService = personService;
     }
 
     @GetMapping("/profil/user/{id}")
@@ -68,5 +73,47 @@ public class ProfileController {
             return "users/edit";
         }
         return "home/index";
+    }
+
+    @GetMapping("/activate/{id}")
+    public RedirectView activateUser(@PathVariable("id") int id, HttpServletRequest request) {
+        if(PermissionUtils.isAllowed(request, "activate", "user")) {
+            Person person = personService.getById(id).orElse(null);
+            person.setActive(true);
+            personService.update(id, person);
+        }
+        User user = userService.getUserByPersonId(id);
+        if(user != null) {
+            return new RedirectView("/profil/user/" + user.getUserid());
+        } else {
+            Attendee attendee = attendeeService.getByPersonId(id);
+            return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
+        }
+    }
+
+    @GetMapping("/deactivate/{id}")
+    public RedirectView deactivateUser(@PathVariable("id") int id, HttpServletRequest request) {
+        if(PermissionUtils.isAllowed(request, "deactivate", "user")) {
+            Person person = personService.getById(id).orElse(null);
+            person.setActive(false);
+            personService.update(id, person);
+        }
+        User user = userService.getUserByPersonId(id);
+        if(user != null) {
+            return new RedirectView("/profil/user/" + user.getUserid());
+        } else {
+            Attendee attendee = attendeeService.getByPersonId(id);
+            return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
+        }
+    }
+
+    @GetMapping("/promote/{id}")
+    public RedirectView promoteUser(@PathVariable("id") int id, HttpServletRequest request) {
+        if(PermissionUtils.isAllowed(request, "promote", "user")) {
+            User user = userService.getById(id).orElse(null);
+            user.getPerson().setRoleid(3);
+            userService.update(id, user);
+        }
+        return new RedirectView("/profil/user/" + id);
     }
 }

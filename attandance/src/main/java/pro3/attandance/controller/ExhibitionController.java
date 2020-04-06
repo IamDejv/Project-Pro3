@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 import pro3.attandance.model.Action;
 import pro3.attandance.model.User;
@@ -81,6 +82,25 @@ public class ExhibitionController {
             return "exhibition/form";
         }
         return "home/index";
+    }
+
+    @GetMapping("/action/delete/{id}")
+    public RedirectView deleteAction(@PathVariable("id") int actionId, HttpServletRequest request) {
+        if(PermissionUtils.isAllowed(request, "manageAction", "user")) {
+            userActionService.deleteAllByActionId(actionId);
+            actionService.deleteById(actionId);
+        }
+        return new RedirectView("/vystoupeni");
+
+    }
+
+    @GetMapping("/exhibition/deleteUser/{userid}/{actionid}")
+    public RedirectView deleleteUserAction(@PathVariable("userid") int userId, @PathVariable("actionid") int actionId, HttpServletRequest request) {
+        if (PermissionUtils.isAllowed(request, "manageAction", "user")) {
+            userActionService.deleteByUserIdAndActionId(userId, actionId);
+            return new RedirectView("/action/" + actionId);
+        }
+        return new RedirectView("/vystoupeni");
     }
 
     @GetMapping("/edit/{id}")

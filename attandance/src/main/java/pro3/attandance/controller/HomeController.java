@@ -71,7 +71,6 @@ public class HomeController {
                 return new RedirectView("/");
             } else {
                 if (user.getPerson().getPassword().equals(data.getPassword())) {
-                    System.out.println("Oh yeah");
                     response.addCookie(new Cookie("user", "" + user.getUserid()));
                     response.addCookie(new Cookie("role", "" + user.getPerson().getRoleid()));
                     model.addAttribute("personid", user.getPerson().getPersonid());
@@ -93,7 +92,6 @@ public class HomeController {
                     return new RedirectView("/");
                 } else {
                     if (person.getPassword().equals(data.getPassword())) {
-                        System.out.println("Oh yeah");
                         response.addCookie(new Cookie("attendee", "" + attendee.getAttendeeid()));
                         response.addCookie(new Cookie("role", "" + person.getRoleid()));
                         model.addAttribute("personid", person.getPersonid());
@@ -119,7 +117,6 @@ public class HomeController {
         response.addCookie(cookieUser);
         response.addCookie(cookieRole);
         response.addCookie(cookieAttendee);
-        System.out.println("logout");
         model.addAttribute("logout", "Odhlášení proběhlo úspěšně");
         return new RedirectView("/");
     }

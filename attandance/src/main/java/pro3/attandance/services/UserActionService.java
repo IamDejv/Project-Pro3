@@ -1,6 +1,7 @@
 package pro3.attandance.services;
 
 import org.springframework.stereotype.Service;
+import pro3.attandance.model.User;
 import pro3.attandance.model.UserAction;
 import pro3.attandance.repository.UserActionRepository;
 
@@ -54,4 +55,20 @@ public class UserActionService implements BaseService<UserAction> {
         }
         return actionsId;
     }
+
+    public void deleteByUserIdAndActionId(int userId, int actionId) {
+        deleteById(userActionRepository.getByUseridAndActionid(userId, actionId).getUseractionid());
+    }
+
+    public List<UserAction> getAllByActionId(int id) {
+        return userActionRepository.getAllByAction_Actionsid(id);
+    }
+
+    public void deleteAllByActionId(int id) {
+        List<UserAction> userActions = getAllByActionId(id);
+        for (UserAction userAction : userActions) {
+            deleteById(userAction.getUseractionid());
+        }
+    }
+
 }

@@ -116,7 +116,7 @@
                             usernameOk = true;
                         }
                     }
-                    send(uniqueUsername);
+                    send(prepareUsername(uniqueUsername));
                 }
             }
         });
@@ -199,16 +199,4 @@
             }
         })
     }
-
-    function getEmails() {
-        $.ajax({
-            method: "GET",
-            url: "/api/v1/person/emails",
-            success: function (emails) {
-                console.log(emails);
-                return emails;
-            }
-        })
-    }
-
 </script>

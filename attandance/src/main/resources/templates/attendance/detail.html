@@ -56,9 +56,9 @@
         </table>
     </div>
     <div id="assignToTraining">
-        <button type="button" class="btn btn-primary assignAttendee">Přihlásit na trénink</button>
+        <button type="button" class="btn btn-primary assignAttendee" style="display: none">Přihlásit na trénink</button>
     </div>
-    <div id="attendance">
+    <div id="attendance" style="display: none">
         <table id="attend" onmousedown="whichElement(event)">
             <tr id="tableHeader">
                 <th style="width: 180px">Jméno</th>
@@ -71,19 +71,16 @@
 </html>
 <script>
     $(document).ready(function () {
-        $("#assignToTraining").hide();
         if([[${simple}]]) {
-            $("#attendance").hide();
             let assignedOn = [[${assignedOn}]];
             if(!assignedOn) {
-                $("#assignToTraining").show()
+                $(".assignAttendee").show()
             } else {
                 $("#attendance").show();
                 initTable();
             }
         } else {
             $("#attendance").show();
-            $("#assignToTraining").hide();
             initTable();
         }
     });
@@ -111,19 +108,20 @@
         let attendees = [];
         let keys = [];
         atts.forEach(function (att) {
-            if (att.attendee.attendeeid == getCookie("attendee") || getCookie("user") !== undefined){
-                if(attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] === undefined) {
-                    attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] = [];
-                    keys.push(att.attendee.person.firstname + "_" + att.attendee.person.lastname);
+            if(att.attendee.person.active || getCookie("role") > 2) {
+                if (att.attendee.attendeeid == getCookie("attendee") || getCookie("user") !== undefined){
+                    if(attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] === undefined) {
+                        attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname] = [];
+                        keys.push(att.attendee.person.firstname + "_" + att.attendee.person.lastname);
+                    }
+                    let attObject = [];
+                    attObject.push(att.presence);
+                    attObject.push(att.attendanceid);
+                    attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname].push(attObject);
                 }
-                let attObject = [];
-                attObject.push(att.presence);
-                attObject.push(att.attendanceid);
-                attendees[att.attendee.person.firstname + "_" + att.attendee.person.lastname].push(attObject);
             }
         });
         keys.forEach(function (key) {
-            console.log(key);
             let name = key.replace("_", " ");
             let row = "<tr>" +
                         "<td style='width: 180px'>" + name + "</td>";
