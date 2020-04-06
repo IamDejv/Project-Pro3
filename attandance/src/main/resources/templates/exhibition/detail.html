@@ -8,7 +8,7 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <button type="button1" class="basic-btn editButton"><a id="editLink">Editace</a></button>
+    <button type="button1" class="btn btn-primary submitForm"><a id="editLink">Editace</a></button>
     <div>
         <!--TODO Action info-->
         <table class="horniTabulka">
@@ -37,13 +37,17 @@
     <div>
         <!--TODO Chooser-->
         <div>
-            <div class="form-group" id="userSelect">
-                <label for="user">Uživatel:</label>
-                <select class="custom-select" id="user">
-                </select>
+            <div class="vyhledavani">
+                <div class="form-group" id="userSelect">
+                    <label for="user">Uživatel:</label>
+                    <select class="custom-select" id="user">
+                    </select>
+                </div>
+                <div class="btnLayout">
+                    <button type="button2" class="btn btn-primary submitForm" id="sendUser">Vyhledat</button>
+                </div>
+                <div class="loader"></div>
             </div>
-            <button type="button2" class="basic-btn" id="sendUser">button2</button>
-            <div class="loader"></div>
             <div id="jsGrid"></div>
         </div>
     </div>
@@ -82,21 +86,21 @@
 
 
     $("#sendUser").on('click', function () {
-            $.ajax({
-                method: "POST",
-                url: "/api/v1/useraction",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    "userid": $("#user").val(),
-                    "actionid": "[[${actionid}]]"
-                }),
-                success: function () {
-                    $("#jsGrid").jsGrid().reload();
-                    location.reload();
-                }
-            })
-        });
+        $.ajax({
+            method: "POST",
+            url: "/api/v1/useraction",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "userid": $("#user").val(),
+                "actionid": "[[${actionid}]]"
+            }),
+            success: function () {
+                $("#jsGrid").jsGrid().reload();
+                location.reload();
+            }
+        })
+    });
 
     function renderJsGrid(data) {
         $("#jsGrid").jsGrid({
@@ -109,15 +113,15 @@
             data: data,
 
             fields: [
-                { name: "firstname", type: "text", title: "Jméno", width: 30 },
-                { name: "lastname", type: "text", title: "Příjmení", width: 30 },
-                { name: "username", type: "text", title: "Uživatelské jméno", width: 30 },
-                { name: "role", type: "text", title: "Typ", width: 30 }
+                {name: "firstname", type: "text", title: "Jméno", width: 30},
+                {name: "lastname", type: "text", title: "Příjmení", width: 30},
+                {name: "username", type: "text", title: "Uživatelské jméno", width: 30},
+                {name: "role", type: "text", title: "Typ", width: 30}
             ]
         });
     }
 
-    function fillSelect(){
+    function fillSelect() {
         let data = $("#jsGrid").jsGrid("option", "data");
         let usernames = prepareIds(data);
         $.ajax({
@@ -125,7 +129,7 @@
             url: "/api/v1/user",
             success: function (items) {
                 items.forEach(function (user) {
-                    if (!usernames.includes(user.username)){
+                    if (!usernames.includes(user.username)) {
                         $('#user').append(new Option(user.person.firstname + " " + user.person.lastname + " (" + user.person.role.name + ")", user.userid))
                     }
                 })
@@ -133,7 +137,7 @@
         });
     }
 
-    function prepareIds(data){
+    function prepareIds(data) {
         let usernames = [];
         console.log(data);
         data.forEach(function (user) {

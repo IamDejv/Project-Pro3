@@ -8,7 +8,10 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <button type="button" class="btn btn-primary submitForm"><a href="/dochazka/add">Přidat trénink</a></button>
+    <div class="btnLayout">
+        <button type="btn" class="btn btn-primary submitForm"><a href="/dochazka/add">Přidat trénink</a></button>
+    </div>
+
     <div class="loader"></div>
     <!--TODO-->
     <div id="jsGrid"></div>
@@ -26,7 +29,7 @@
             method: "GET"
         }).then(function (items) {
             for (let i = 0; i < items.length; i++) {
-                if(getCookie("role") > 1) {
+                if (getCookie("role") > 1) {
                     console.log(items[i]);
                     let data =
                         {
@@ -40,7 +43,7 @@
                         };
                     item.push(data);
                 } else {
-                    if(availableTrainings.includes(items[i].trainingid)){
+                    if (availableTrainings.includes(items[i].trainingid)) {
                         console.log(items[i]);
                         let data =
                             {
@@ -73,13 +76,13 @@
             data: data,
 
             fields: [
-                { name: "trainingDay", type: "text", title: "Den", width: 30 },
-                { name: "trainingName", type: "text", title: "Název", width: 30 },
-                { name: "type", type: "text", title: "Typ", width: 30 },
-                { name: "starttime", type: "text", title: "Začátek", width: 30 },
-                { name: "endtime", type: "text", title: "Konec", width: 30 },
-                { name: "hall", type: "text", title: "Hala", width: 40 },
-                { name: "user", type: "text", title: "Trenér", width: 40 }
+                {name: "trainingDay", type: "text", title: "Den", width: 30},
+                {name: "trainingName", type: "text", title: "Název", width: 30},
+                {name: "type", type: "text", title: "Typ", width: 30},
+                {name: "starttime", type: "text", title: "Začátek", width: 30},
+                {name: "endtime", type: "text", title: "Konec", width: 30},
+                {name: "hall", type: "text", title: "Hala", width: 40},
+                {name: "user", type: "text", title: "Trenér", width: 40}
             ]
         });
     }

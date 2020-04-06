@@ -10,12 +10,13 @@
     font-size: 2.2em;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     color: whitesmoke;
+    padding-bottom: 0.5em;
 }
 
 td,th {
     font-weight: normal;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 4em;
+    padding-right: 4em;
     padding-top: 0.6em;
     vertical-align: middle;
 }
@@ -31,11 +32,27 @@ td {
     margin-top: 1em;
     margin-bottom: 1em;
     border-radius: 20px;
-
 }
 
-button{
-    margin-bottom: 1em;
+.loader{
+    margin-left: 40%;
+    margin-top: 15%;
+}
+
+.btnLayout{
+    margin: 1em 0em 1em 0em;
+}
+
+button:hover{
+    color: cornflowerblue;
+}
+
+.vyhledavani{
+    margin: 2em 0 2em 0;
+    background-color: whitesmoke;
+    border: solid 1px gray;
+    border-radius: 20px;
+    padding: 0.5em 1.5em 0.5em 1.5em;
 }
 
 

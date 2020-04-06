@@ -10,3 +10,25 @@
 .presenceCell:hover {
     background-color: blue;
 }
+
+
+
+td,th {
+    font-weight: normal;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.4em;
+    vertical-align: middle;
+}
+
+td {
+    border-top: 2px solid gray;
+}
+
+table {
+    background-color: whitesmoke;
+    border-collapse:separate;
+    border-radius:10px;
+    margin-bottom: 1em;
+}
+

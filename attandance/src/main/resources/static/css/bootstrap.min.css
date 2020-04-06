@@ -153,6 +153,15 @@ a:hover {
     text-decoration: underline
 }
 
+button a:hover{
+    color: white;
+    text-decoration: none
+}
+
+button a{
+    color: white;
+}
+
 a:not([href]) {
     color: inherit;
     text-decoration: none

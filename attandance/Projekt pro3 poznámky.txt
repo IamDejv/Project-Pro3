@@ -17,4 +17,9 @@ Backend : Vyřešit práva pro přistupy, zobrazování a přistup na endpointy,
 	opravit překlepy a přejmenovat některé třídy a přesunout .html file
 	 
 
-	
+Ondra: příhlášení: login nebo email
+       profil: tabulka???
+       home input přihlásit
+       tlačítko odhlásit šířka
+       main vlevo
+       levý sloupec hover zustatek barva
