@@ -106,4 +106,14 @@ public class ProfileController {
             return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
         }
     }
+
+    @GetMapping("/promote/{id}")
+    public RedirectView promoteUser(@PathVariable("id") int id, HttpServletRequest request) {
+        if(PermissionUtils.isAllowed(request, "promote", "user")) {
+            User user = userService.getById(id).orElse(null);
+            user.getPerson().setRoleid(3);
+            userService.update(id, user);
+        }
+        return new RedirectView("/profil/user/" + id);
+    }
 }

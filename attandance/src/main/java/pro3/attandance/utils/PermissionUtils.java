@@ -52,7 +52,7 @@ public class PermissionUtils {
                 return cookie.getValue();
             }
         }
-        return null;
+        return "";
     }
 
     public static boolean inArray(String action, String[] permissions) {

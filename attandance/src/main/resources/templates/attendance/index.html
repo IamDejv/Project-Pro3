@@ -8,7 +8,7 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <button type="button" class="btn btn-primary submitForm"><a href="/dochazka/add">Přidat trénink</a></button>
+    <button type="button" class="btn btn-primary addTraining" style="display: none;"><a href="/dochazka/add">Přidat trénink</a></button>
     <div class="loader"></div>
     <!--TODO-->
     <div id="jsGrid"></div>
@@ -17,6 +17,9 @@
 </html>
 <script>
     $(document).ready(function () {
+        if(getCookie("role") > 2){
+            $(".addTraining").show();
+        }
         let data = [];
         //Středník chybí schválně
         let availableTrainings = [[${availableTrainings}]]
@@ -24,24 +27,24 @@
             url: "api/v1/training",
             data: "json",
             contentType: "application/json",
-            method: "GET"
-        }).then(function (items) {
-            for (let i = 0; i < items.length; i++) {
-                if(getCookie("role") > 1) {
-                    let item = fillData(items[i]);
-                    data.push(item);
-                } else {
-                    if(availableTrainings.includes(items[i].trainingid)){
+            method: "GET",
+            success: function (items) {
+                for (let i = 0; i < items.length; i++) {
+                    if(getCookie("role") > 1) {
                         let item = fillData(items[i]);
                         data.push(item);
+                    } else {
+                        if(availableTrainings.includes(items[i].trainingid)){
+                            let item = fillData(items[i]);
+                            data.push(item);
+                        }
                     }
                 }
+                let jsGrid = $("#jsGrid");
+                renderJsGrid(data, fields, jsGrid);
+                $(".loader").hide();
             }
-            let jsGrid = $("#jsGrid");
-            renderJsGrid(data, fields, jsGrid);
-            $(".loader").hide();
         });
-
     });
 
     function fillData(item) {
@@ -84,17 +87,17 @@
                 b && this.data.sort(function (c, d) {
                     let dbname;
                     let cbname;
-                    if(d[b.name].includes("</a>")){
+                    if (d[b.name].includes("</a>")) {
                         dbname = d[b.name].split(">")[1].split("<")[0];
                     } else {
                         dbname = d[b.name];
                     }
-                    if(c[b.name].includes("</a>")){
+                    if (c[b.name].includes("</a>")) {
                         cbname = c[b.name].split(">")[1].split("<")[0];
                     } else {
                         cbname = c[b.name];
                     }
-                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    let temp = a * b.sortingFunc(cbname, dbname);
                     return temp;
                 })
             },

@@ -26,33 +26,33 @@
                     Home
                 </a>
             </li>
-            <li class="nav-item attendance" th:classappend="${#strings.equals(view, '/dochazka') ? 'active' : ''}">
+            <li class="nav-item attendance" style="display: none" th:classappend="${#strings.equals(view, '/dochazka') ? 'active' : ''}">
                 <a href="../templates/dochazka" th:href="@{/dochazka}" class="nav-link text-dark">
                     Docházka
                 </a>
             </li>
-            <li class="nav-item exhibition" th:classappend="${#strings.equals(view, '/vystoupeni') ? 'active' : ''}">
+            <li class="nav-item exhibition" style="display: none" th:classappend="${#strings.equals(view, '/vystoupeni') ? 'active' : ''}">
                 <a href="../templates/vystoupeni" th:href="@{/vystoupeni}" class="nav-link text-dark">
                     Vystoupení
                 </a>
             </li>
-            <li class="nav-item registration" th:classappend="${#strings.equals(view, '/registrace') ? 'active' : ''}">
+            <li class="nav-item registration" style="display: none" th:classappend="${#strings.equals(view, '/registrace') ? 'active' : ''}">
                 <a href="../templates/registrace" th:href="@{/registrace}" class="nav-link text-dark">
                     Registrace
                 </a>
             </li>
-            <li class="nav-item users" th:classappend="${#strings.equals(view, '/uzivatele') ? 'active' : ''}">
+            <li class="nav-item users" style="display: none" th:classappend="${#strings.equals(view, '/uzivatele') ? 'active' : ''}">
                 <a href="../templates/uzivatele" th:href="@{/uzivatele}" class="nav-link text-dark">
                     Uživatelé
                 </a>
             </li>
-            <li class="nav-item attendees" th:classappend="${#strings.equals(view, '/ucastnici') ? 'active' : ''}">
+            <li class="nav-item attendees" style="display: none" th:classappend="${#strings.equals(view, '/ucastnici') ? 'active' : ''}">
                 <a href="../templates/ucastnici" th:href="@{/ucastnici}" class="nav-link text-dark">
                     Účástníci
                 </a>
             </li>
         </ul>
-        <button class="btn btn-warning logout fixed-bottom"><a href="/logout"> Odhlásit se</a></button>
+        <button class="btn btn-warning logout fixed-bottom" style="display: none"><a href="/logout"> Odhlásit se</a></button>
     </div>
 </header>
 <footer>
@@ -74,25 +74,16 @@
             $(".registration").hide();
             $(".logout").show();
         }
-        if (role === undefined) {
-            $(".users").hide();
-            $(".exhibition").hide();
-            $(".attendance").hide();
-            $(".attendees").hide();
-
+        if (role > 0) {
+            $(".users").show();
+            $(".attendance").show();
         }
-        if (role == 0) {
-            $(".users").hide();
-            $(".attendees").hide();
-            $(".exhibition").hide();
-        }
-        if (role == 1) {
-            $(".attendees").hide();
+        if (role > 1) {
+            $(".attendees").show();
+            $(".exhibition").show();
         }
         if (role == 4) {
             $(".registration").show();
         }
-
-
     })
 </script>

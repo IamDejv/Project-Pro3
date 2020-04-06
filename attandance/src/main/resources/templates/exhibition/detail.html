@@ -9,7 +9,7 @@
 <div th:include="layout.html"></div>
 <div class="page-content">
     <button type="button1" class="basic-btn editButton"><a id="editLink">Editace</a></button>
-    <button type="button1" class="basic-btn deleteButton"><a id="deleteActionLink">Smazat</a></button>
+    <button type="button1" class="basic-btn deleteButton" style="display: none"><a id="deleteActionLink">Smazat</a></button>
     <div>
         <!--TODO Action info-->
         <table class="horniTabulka">
@@ -53,6 +53,9 @@
 </html>
 <script>
     $(document).ready(function () {
+        if(getCookie("role") > 2) {
+            $(".deleteButton").show();
+        }
         $("#editLink").attr("href", "/edit/" + [[${action.actionsid}]]);
         $("#addUser").attr("href", "/action/" + [[${action.actionsid}]]);
         $("#deleteActionLink").attr("href", "/action/delete/" + [[${action.actionsid}]]);
@@ -110,7 +113,7 @@
 
     function fillSelect(){
         let data = $("#jsGrid").jsGrid("option", "data");
-        let usernames = prepareIds(data);
+        let usernames = prepareUsernames(data);
         $.ajax({
             method: "GET",
             url: "/api/v1/user",
@@ -124,7 +127,7 @@
         });
     }
 
-    function prepareIds(data){
+    function prepareUsernames(data){
         let usernames = [];
         data.forEach(function (user) {
             usernames.push(user.username);

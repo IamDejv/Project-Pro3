@@ -55,9 +55,9 @@
         </table>
     </div>
     <div id="assignToTraining">
-        <button type="button" class="btn btn-primary assignAttendee">Přihlásit na trénink</button>
+        <button type="button" class="btn btn-primary assignAttendee" style="display: none">Přihlásit na trénink</button>
     </div>
-    <div id="attendance">
+    <div id="attendance" style="display: none">
         <table id="attend" onmousedown="whichElement(event)">
             <tr id="tableHeader">
                 <th style="width: 180px">Jméno</th>
@@ -70,19 +70,16 @@
 </html>
 <script>
     $(document).ready(function () {
-        $("#assignToTraining").hide();
         if([[${simple}]]) {
-            $("#attendance").hide();
             let assignedOn = [[${assignedOn}]];
             if(!assignedOn) {
-                $("#assignToTraining").show()
+                $(".assignAttendee").show()
             } else {
                 $("#attendance").show();
                 initTable();
             }
         } else {
             $("#attendance").show();
-            $("#assignToTraining").hide();
             initTable();
         }
     });

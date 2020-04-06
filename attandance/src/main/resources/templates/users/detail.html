@@ -10,9 +10,10 @@
 <span> </span>
 
 <div class="page-content">
-    <button type="button" class="basic-btn editButton"><a href="/edit">Editace</a></button>
-    <button type="button" class="basic-btn deactivateButton"><a class="deactivateLink">Deaktivace</a></button>
-    <button type="button" class="basic-btn activateButton"><a class="activateLink">Aktivace</a></button>
+    <button type="button" class="basic-btn editButton" style="display: none"><a href="/edit">Editace</a></button>
+    <button type="button" class="basic-btn deactivateButton" style="display: none"><a class="deactivateLink">Deaktivace</a></button>
+    <button type="button" class="basic-btn activateButton" style="display: none"><a class="activateLink">Aktivace</a></button>
+    <button type="button" class="basic-btn promoteButton" style="display: none"><a class="promoteLink">Udělat managerem</a></button>
 
     <div class="nadpis">
     <p>Profil</p>
@@ -68,9 +69,14 @@
 </html>
 <script>
     $(document).ready(function () {
-        if(getCookie("role") > 2) {
+        var peronRole = getCookie("role");
+        if(getCookie("user") == [[${user.userid}]]) {
+            $(".editButton").show();
+        }
+        if(peronRole > 2) {
             $(".deactivateLink").attr("href", "/deactivate/" + [[${user.person.personid}]]);
             $(".activateLink").attr("href", "/activate/" + [[${user.person.personid}]]);
+            $(".editButton").show();
             if([[${user.person.active}]]) {
                 $(".deactivateButton").show();
                 $(".activateButton").hide();
@@ -78,20 +84,25 @@
                 $(".deactivateButton").hide();
                 $(".activateButton").show();
             }
+            if(peronRole === "4") {
+                $(".promoteLink").attr("href", "/promote/" + [[${user.userid}]]);
+                $(".promoteButton").show();
+            }
         }
-        let data = [];
         $.ajax({
             url: "/api/v1/action",
             data: "json",
             contentType: "application/json",
             method: "GET",
             success: function (items) {
+                let data = [];
                 let userActions = [[${userActions}]];
                 for (let i = 0; i < items.length; i++) {
                     if(userActions.includes(items[i].actionsid)){
+                        let actionName = peronRole > 1 ? "<a href=/action/" + items[i].actionsid + ">" + items[i].actionName + "</a>" : items[i].actionName;
                         let item =
                             {
-                                "actionName": "<a href=/action/" + items[i].actionsid + ">" + items[i].actionName + "",
+                                "actionName": actionName,
                                 "type": items[i].type,
                                 "date": items[i].dateAction,
                                 "city": items[i].address.city
@@ -121,10 +132,11 @@
                 let item = [];
                 for (let i = 0; i < items.length; i++) {
                     if([[${user.userid}]] == items[i].user.userid){
+                        let trainingName = peronRole > 1 ? "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].name + "</a>" : items[i].name;
                         let data =
                             {
-                                "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
-                                "trainingName": items[i].name,
+                                "trainingName": trainingName,
+                                "trainingDay": items[i].trainingDay,
                                 "type": items[i].type,
                                 "starttime": items[i].starttime,
                                 "endtime": items[i].endtime,
@@ -135,8 +147,9 @@
                     }
                 }
                 if (item.length !== 0){
-                    let fields = [{ name: "trainingDay", type: "text", title: "Den", width: 30 },
+                    let fields = [
                         { name: "trainingName", type: "text", title: "Název", width: 30 },
+                        {name: "trainingDay", type: "text", title: "Den", width: 30 },
                         { name: "type", type: "text", title: "Typ", width: 30 },
                         { name: "starttime", type: "text", title: "Začátek", width: 30 },
                         { name: "endtime", type: "text", title: "Konec", width: 30 },

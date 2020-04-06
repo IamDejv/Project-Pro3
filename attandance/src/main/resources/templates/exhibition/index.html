@@ -8,7 +8,7 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <button type="button1" class="basic-btn" id="addAction"><a href="/vystoupeni/add"> Přidat akci</a></button>
+    <button type="button1" class="basic-btn" id="addAction" style="display: none"><a href="/vystoupeni/add"> Přidat akci</a></button>
     <div id="jsGrid"></div>
     <div class="loader"></div>
 </div>
@@ -16,6 +16,9 @@
 </html>
 <script>
     $(document).ready(function () {
+        if(getCookie("role") > 2) {
+            $("#addAction").show();
+        }
         let data = [];
         $.ajax({
             url: "api/v1/action",
