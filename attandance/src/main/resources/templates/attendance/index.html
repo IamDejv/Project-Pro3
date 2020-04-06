@@ -17,7 +17,8 @@
 </html>
 <script>
     $(document).ready(function () {
-        let item = [];
+        let data = [];
+        //Středník chybí schválně
         let availableTrainings = [[${availableTrainings}]]
         $.ajax({
             url: "api/v1/training",
@@ -27,60 +28,76 @@
         }).then(function (items) {
             for (let i = 0; i < items.length; i++) {
                 if(getCookie("role") > 1) {
-                    console.log(items[i]);
-                    let data =
-                        {
-                            "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
-                            "trainingName": items[i].name,
-                            "type": items[i].type,
-                            "starttime": items[i].starttime,
-                            "endtime": items[i].endtime,
-                            "hall": items[i].hall.name,
-                            "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
-                        };
-                    item.push(data);
+                    let item = fillData(items[i]);
+                    data.push(item);
                 } else {
                     if(availableTrainings.includes(items[i].trainingid)){
-                        console.log(items[i]);
-                        let data =
-                            {
-                                "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
-                                "trainingName": items[i].name,
-                                "type": items[i].type,
-                                "starttime": items[i].starttime,
-                                "endtime": items[i].endtime,
-                                "hall": items[i].hall.name,
-                                "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
-                            };
-                        item.push(data);
+                        let item = fillData(items[i]);
+                        data.push(item);
                     }
                 }
             }
-            renderJsGrid(item);
+            let jsGrid = $("#jsGrid");
+            renderJsGrid(data, fields, jsGrid);
             $(".loader").hide();
         });
 
     });
 
-    function renderJsGrid(data) {
-        $("#jsGrid").jsGrid({
+    function fillData(item) {
+        return {
+            "trainingName": "<a href=/dochazka/" + item.trainingid + ">" + item.name + "</a>",
+            "trainingDay": item.trainingDay,
+            "type": item.type,
+            "starttime": item.starttime,
+            "endtime": item.endtime,
+            "hall": item.hall.name,
+            "user": item.user.person.lastname + " " + item.user.person.firstname,
+            "year" : item.startDate.split("-")[0]
+        };
+    }
+
+    var fields = [
+        { name: "trainingName", type: "text", title: "Název", width: 30 },
+        { name: "trainingDay", type: "text", title: "Den", width: 30 },
+        { name: "year", type: "number", title: "Rok", width: 30 },
+        { name: "type", type: "text", title: "Typ", width: 30 },
+        { name: "starttime", type: "text", title: "Začátek", width: 30 },
+        { name: "endtime", type: "text", title: "Konec", width: 30 },
+        { name: "hall", type: "text", title: "Hala", width: 40 },
+        { name: "user", type: "text", title: "Trenér", width: 40 }
+    ];
+
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
             width: "100%",
             height: "100%",
 
             searching: true,
             sorting: true,
 
-            data: data,
+            data: items,
 
-            fields: [
-                { name: "trainingDay", type: "text", title: "Den", width: 30 },
-                { name: "trainingName", type: "text", title: "Název", width: 30 },
-                { name: "type", type: "text", title: "Typ", width: 30 },
-                { name: "starttime", type: "text", title: "Začátek", width: 30 },
-                { name: "endtime", type: "text", title: "Konec", width: 30 },
-                { name: "hall", type: "text", title: "Hala", width: 40 },
-                { name: "user", type: "text", title: "Trenér", width: 40 }
-            ]
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
         });
     }
 </script>

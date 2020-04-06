@@ -14,4 +14,8 @@ public interface UserActionRepository extends CrudRepository<UserAction, Integer
     List<UserAction> findAllByActionActionsid(int id);
 
     List<UserAction> getUserActionsByUser_Userid(int id);
+
+    UserAction getByUseridAndActionid(int userId, int actionId);
+
+    List<UserAction> getAllByAction_Actionsid(int id);
 }

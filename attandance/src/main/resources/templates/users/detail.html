@@ -10,8 +10,9 @@
 <span> </span>
 
 <div class="page-content">
-    <button type="button1" class="basic-btn editButton"><a href="/edit">Editace</a></button>
-    <button type="button2" class="basic-btn">button2</button>
+    <button type="button" class="basic-btn editButton"><a href="/edit">Editace</a></button>
+    <button type="button" class="basic-btn deactivateButton"><a class="deactivateLink">Deaktivace</a></button>
+    <button type="button" class="basic-btn activateButton"><a class="activateLink">Aktivace</a></button>
 
     <div class="nadpis">
     <p>Profil</p>
@@ -67,6 +68,17 @@
 </html>
 <script>
     $(document).ready(function () {
+        if(getCookie("role") > 2) {
+            $(".deactivateLink").attr("href", "/deactivate/" + [[${user.person.personid}]]);
+            $(".activateLink").attr("href", "/activate/" + [[${user.person.personid}]]);
+            if([[${user.person.active}]]) {
+                $(".deactivateButton").show();
+                $(".activateButton").hide();
+            } else {
+                $(".deactivateButton").hide();
+                $(".activateButton").show();
+            }
+        }
         let data = [];
         $.ajax({
             url: "/api/v1/action",
@@ -136,20 +148,38 @@
                 $(".loader").hide();
             }
         })
-
     });
 
-    function renderJsGrid(data, fields, jsGrid) {
-        jsGrid.jsGrid({
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
             width: "100%",
             height: "100%",
 
             searching: true,
             sorting: true,
 
-            data: data,
+            data: items,
 
-            fields: fields
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
         });
     }
 </script>

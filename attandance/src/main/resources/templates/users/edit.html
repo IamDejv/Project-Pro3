@@ -78,7 +78,6 @@
             if($("#password").val() !== "") {
                 if($("#password").val() === $("#password2").val()) {
                     password = $("#password").val();
-                    console.log($("#password").val());
                     send();
                 } else {
                     alert("Hesla se neshodují.");
@@ -135,11 +134,4 @@
             }
         })
     }
-
-    function prepareDate(date) {
-        let dateParts = date.split(".");
-        return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
-    }
-
-
 </script>

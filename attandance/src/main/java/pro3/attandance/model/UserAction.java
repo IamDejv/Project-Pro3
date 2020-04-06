@@ -24,7 +24,7 @@ public class UserAction {
     @NotNull
     private int actionid;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "action_actionsid", insertable = false, updatable = false)
     private Action action;
 

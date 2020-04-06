@@ -23,49 +23,69 @@
             url: "/api/v1/user",
             data: "json",
             contentType: "application/json",
-            method: "GET"
-        }).then(function (items) {
-            for (let i = 0; i < items.length; i++) {
-                console.log(items[i]);
-                let client =
-                    {
-                        "firstname": "<a href=/profil/user/" + items[i].userid + ">" + items[i].person.firstname + "",
-                        "lastname": items[i].person.lastname,
-                        "username": items[i].username,
-                        "role": items[i].person.role.name,
-                        "active": items[i].person.active,
-                        "company": items[i].company.name
-                    };
-                clients.push(client);
+            method: "GET",
+            success: function (items) {
+                for (let i = 0; i < items.length; i++) {
+                    if(items[i].person.active || getCookie("role") > 2){
+                        let client =
+                            {
+                                "firstname": "<a href=/profil/user/" + items[i].userid + ">" + items[i].person.firstname + "",
+                                "lastname": "<a href=/profil/user/" + items[i].userid + ">" + items[i].person.lastname + "",
+                                "username": items[i].username,
+                                "role": items[i].person.role.name,
+                                "active": items[i].person.active,
+                                "company": items[i].company.name
+                            };
+                        clients.push(client);
+                    }
+                }
+                let jsGrid = $("#jsGrid");
+                renderJsGrid(clients, fields, jsGrid);
+                $(".loader").hide();
             }
-            renderJsGrid(clients);
-            $(".loader").hide();
         });
-
     });
 
-    function f(item) {
+    var fields = [
+        { name: "firstname", type: "text", title: "Jméno", width: 60 },
+        { name: "lastname", type: "text", title: "Příjmení", width: 60 },
+        { name: "username", type: "text", title: "Uživatelské jméno", width: 60 },
+        { name: "role", type: "text", title: "Role", width: 30 },
+        { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
+        { name: "company", type: "text", title: "Firma", width: 50},
+    ];
 
-    }
-
-    function renderJsGrid(clients) {
-        $("#jsGrid").jsGrid({
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
             width: "100%",
             height: "100%",
 
             searching: true,
             sorting: true,
 
-            data: clients,
+            data: items,
 
-            fields: [
-                { name: "firstname", type: "text", title: "Jméno", width: 60 },
-                { name: "lastname", type: "text", title: "Příjmení", width: 60 },
-                { name: "username", type: "text", title: "Uživatelské jméno", width: 60 },
-                { name: "role", type: "text", title: "Role", width: 30 },
-                { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
-                { name: "company", type: "text", title: "Firma", width: 50},
-            ]
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
+
         });
     }
 </script>

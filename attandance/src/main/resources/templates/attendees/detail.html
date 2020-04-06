@@ -14,6 +14,8 @@
     <button type="button2" class="basic-btn excuseUser"><a href="/dochazka/excuse">Omluvit</a></button>
     <button type="button3" class="basic-btn pay">Zaplatit</button>
     <button type="button4" class="basic-btn editButton"><a href="/edit">Editace</a></button>
+    <button type="button" class="basic-btn deactivateButton"><a class="deactivateLink">Deaktivace</a></button>
+    <button type="button" class="basic-btn activateButton"><a class="activateLink">Aktivace</a></button>
 
     <div class="nadpis">
     <p>Profil</p>
@@ -64,7 +66,18 @@
 </html>
 <script>
     $(document).ready(function () {
-        if(getCookie("attendee") != [[${attendee.attendeeid}]]) {
+        if(getCookie("role") > 2) {
+            $(".deactivateLink").attr("href", "/deactivate/" + [[${attendee.person.personid}]]);
+            $(".activateLink").attr("href", "/activate/" + [[${attendee.person.personid}]]);
+            if([[${attendee.person.active}]]) {
+                $(".deactivateButton").show();
+                $(".activateButton").hide();
+            } else {
+                $(".deactivateButton").hide();
+                $(".activateButton").show();
+            }
+        }
+        if(getCookie("attendee") != [[${attendee.attendeeid}]] || ![[${attendee.person.active}]]) {
             $(".assignUser").hide();
             $(".excuseUser").hide();
             $(".pay").hide();
@@ -77,10 +90,10 @@
             contentType: "application/json",
             method: "GET",
             success: function (items) {
-                let item = [];
+                let data = [];
                 for (let i = 0; i < items.length; i++) {
                     if([[${attendeeTrainings}]].includes(items[i].trainingid)){
-                        let data =
+                        let item =
                             {
                                 "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
                                 "trainingName": items[i].name,
@@ -90,37 +103,26 @@
                                 "hall": items[i].hall.name,
                                 "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
                             };
-                        item.push(data);
+                        data.push(item);
                     }
                 }
-                renderJsGrid(item);
+                let jsGrid = $("#jsGrid");
+                renderJsGrid(data, fields, jsGrid);
                 $(".loader").hide();
             }
         })
     });
 
 
-    function renderJsGrid(data) {
-        $("#jsGrid").jsGrid({
-            width: "100%",
-            height: "100%",
-
-            searching: true,
-            sorting: true,
-
-            data: data,
-
-            fields: [
-                { name: "trainingDay", type: "text", title: "Den", width: 30 },
-                { name: "trainingName", type: "text", title: "Název", width: 30 },
-                { name: "type", type: "text", title: "Typ", width: 30 },
-                { name: "starttime", type: "text", title: "Začátek", width: 30 },
-                { name: "endtime", type: "text", title: "Konec", width: 30 },
-                { name: "hall", type: "text", title: "Hala", width: 40 },
-                { name: "user", type: "text", title: "Trenér", width: 40 }
-            ]
-        });
-    }
+    var fields = [
+        { name: "trainingDay", type: "text", title: "Den", width: 30 },
+        { name: "trainingName", type: "text", title: "Název", width: 30 },
+        { name: "type", type: "text", title: "Typ", width: 30 },
+        { name: "starttime", type: "text", title: "Začátek", width: 30 },
+        { name: "endtime", type: "text", title: "Konec", width: 30 },
+        { name: "hall", type: "text", title: "Hala", width: 40 },
+        { name: "user", type: "text", title: "Trenér", width: 40 }
+        ];
 
     $(".pay").on("click", function () {
         $.ajax({
@@ -130,7 +132,41 @@
             dataType: "json",
             data: JSON.stringify(0)
         })
-    })
+    });
+
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
+            width: "100%",
+            height: "100%",
+
+            searching: true,
+            sorting: true,
+
+            data: items,
+
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
+
+        });
+    }
 
 
 </script>

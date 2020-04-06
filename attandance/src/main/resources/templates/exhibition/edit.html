@@ -58,7 +58,6 @@
 <script>
     $(document).ready(function () {
         $(".submitForm").on("click", function () {
-            console.log($('#actionDate').val());
             let data = {
                 "actionsid" : [[${action.actionsid}]],
                 "actionName": "[[${action.actionName}]]",
@@ -85,9 +84,5 @@
             dataType: "json",
             data: JSON.stringify(data)
         })
-    }
-    function prepareDate(date) {
-        let dateParts = date.split(".");
-        return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
     }
 </script>
