@@ -47,19 +47,24 @@ td {
     overflow-x: auto;
     padding-left: 0;
     border-radius:0;
+
 }
 
 #attend td, #attend th {
     border: 3px solid gray;
-    border-radius: 60px;
-    padding-left: 1em;
-    padding-right: 1em;
+    /*border-radius: 60px;*/
+    padding-left: 0.1em;
+    padding-right: 0.1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
 }
 
 #attend td:hover{
-    border: 3px double yellow;
+    opacity: 0.8;
+}
+
+#attendance {
+    width: fit-content;
 }
 
 

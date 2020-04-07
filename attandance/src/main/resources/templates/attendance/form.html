@@ -112,7 +112,7 @@
                 <input type="date" class="form-control date-picker-popup" id="endDate" required>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary submitForm">Odeslat</button>
+                <button type="submit" class="btn btn-primary submitForm"><a href="/dochazka">Odeslat</a></button>
             </div>
         </form>
     </div>
@@ -127,6 +127,7 @@
         });
 
         $(".submitForm").on("click", function () {
+            window.location.replace("/vystoupeni");
             let data = {
                 "trainingDay": $('#day option:selected').text(),
                 "type" : $('#type').val(),
@@ -161,7 +162,10 @@
             method: "POST",
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            success: function () {
+
+            }
         })
     }
 </script>
