@@ -53,11 +53,13 @@
         </table>
     </div>
 
+    <h2>Akce uživatele</h2>
     <div>
         <div class="loader"></div>
         <div id="jsGrid1"></div>
     </div>
 
+    <h2>Tréninky uživatele</h2>
     <div>
         <!--TODO-->
         <div id="jsGrid2"></div>
@@ -153,7 +155,7 @@
                         { name: "starttime", type: "text", title: "Začátek", width: 30 },
                         { name: "endtime", type: "text", title: "Konec", width: 30 },
                         { name: "hall", type: "text", title: "Hala", width: 40 },
-                        { name: "user", type: "text", title: "Trenér", width: 40 }];
+                    ];
                     let jsGrid = $("#jsGrid2");
                     renderJsGrid(item, fields, jsGrid);
                 }
