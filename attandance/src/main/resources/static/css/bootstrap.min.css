@@ -2617,6 +2617,7 @@ textarea.form-control {
     font-size: 1rem;
     line-height: 1.5;
     border-radius: .25rem;
+    margin-right: 1em;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
@@ -2680,9 +2681,15 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
 .btn-secondary {
-    color: #fff;
-    background-color: #6c757d;
-    border-color: #6c757d
+    color: red;
+    background-color: darkred;
+    border-color: darkred;
+}
+
+.btn-terciary {
+    color: darkgoldenrod;
+    background-color: darkgoldenrod;
+    border-color: darkgoldenrod
 }
 
 .btn-secondary:hover {

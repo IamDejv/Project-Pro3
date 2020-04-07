@@ -10,12 +10,12 @@
 <span> </span>
 
 <div class="page-content">
-    <button type="button1" class="basic-btn assignUser" style="display: none"><a href="/prihlaska">Přihláška</a></button>
-    <button type="button2" class="basic-btn excuseUser" style="display: none"><a href="/dochazka/excuse">Omluvit</a></button>
-    <button type="button3" class="basic-btn pay" style="display: none">Zaplatit</button>
-    <button type="button4" class="basic-btn editButton" style="display: none"><a href="/edit">Editace</a></button>
-    <button type="button" class="basic-btn deactivateButton" style="display: none"><a class="deactivateLink">Deaktivace</a></button>
-    <button type="button" class="basic-btn activateButton" style="display: none"><a class="activateLink">Aktivace</a></button>
+    <button type="button1" class="btn btn-primary assignUser" style="display: none"><a href="/prihlaska">Přihláška</a></button>
+    <button type="button2" class="btn btn-primary excuseUser" style="display: none"><a href="/dochazka/excuse">Omluvit</a></button>
+    <button type="button3" class="btn btn-primary pay" style="display: none">Zaplatit</button>
+    <button type="button4" class="btn btn-primary editButton" style="display: none"><a href="/edit">Editace</a></button>
+    <button type="button" class="btn btn-secondary deactivateButton" style="display: none"><a class="deactivateLink">Deaktivace</a></button>
+    <button type="button" class="btn btn-terciary activateButton" style="display: none"><a class="activateLink">Aktivace</a></button>
 
     <div class="nadpis">
     <p>Profil</p>
@@ -25,8 +25,8 @@
 
         <table>
             <tr>
-                <th><p>ID uživatele:</p></th>
-                <th><p th:text="${personid}"></p></th>
+                <th><p>Uživatelské jméno:</p></th>
+                <th><p th:text="${user.username}"></p></th>
             </tr>
             <tr>
                 <td><p>Jméno:</p></td>
