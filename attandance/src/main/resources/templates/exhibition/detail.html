@@ -45,7 +45,7 @@
                     </select>
                 </div>
                 <div class="btnLayout">
-                    <button type="button2" class="btn btn-primary submitForm" id="sendUser">Vyhledat</button>
+                    <button type="button2" class="btn btn-primary submitForm" id="sendUser"><a id="addUser">Vyhledat</a></button>
                 </div>
                 <div class="loader"></div>
             </div>
@@ -89,22 +89,25 @@
             }
         });
     });
-
+    var click = 0;
     $("#sendUser").on('click', function () {
-        $.ajax({
-            method: "POST",
-            url: "/api/v1/useraction",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                "userid": $("#user").val(),
-                "actionid": "[[${actionid}]]"
-            }),
-            success: function () {
-                $("#jsGrid").jsGrid().reload();
-                location.reload();
-            }
-        })
+        if (click === 0) {
+            click = 1;
+            $.ajax({
+                method: "POST",
+                url: "/api/v1/useraction",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "userid": $("#user").val(),
+                    "actionid": "[[${actionid}]]"
+                }),
+                success: function () {
+                    $("#jsGrid").jsGrid().reload();
+                    location.reload();
+                }
+            })
+        }
     });
 
     var fields = [
