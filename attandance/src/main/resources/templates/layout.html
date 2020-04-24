@@ -50,8 +50,10 @@
                 <a href="../templates/ucastnici" th:href="@{/ucastnici}" class="nav-link text-dark">
                     Účástníci
                 </a>
-                <button class="btn btn-warning logout fixed-bottom" style="display: none"><a href="/logout"> Odhlásit se</a></button>
             </li>
+            <div style="display: none" id="logoutBtn">
+                <button class="btn btn-warning fixed-bottom logout"><a href="/logout"> Odhlásit se</a></button>
+            </div>
 
         </ul>
 
@@ -66,15 +68,13 @@
 </html>
 <script>
     $(document).ready(function () {
-        let user = getCookie("user");
         let role = getCookie("role");
-        let attendee = getCookie("attendee");
-        if (user === undefined && attendee === undefined) {
-            $(".logout").hide();
+        console.log(role)
+        if (role === undefined) {
             $(".registration").show();
         } else {
+            $("#logoutBtn").show();
             $(".registration").hide();
-            $(".logout").show();
         }
         if (role > 0) {
             $(".users").show();

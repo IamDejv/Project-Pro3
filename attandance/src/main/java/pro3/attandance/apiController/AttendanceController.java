@@ -1,9 +1,15 @@
 package pro3.attandance.apiController;
 
 import org.springframework.web.bind.annotation.*;
+import pro3.attandance.model.AssignData;
 import pro3.attandance.model.Attendance;
+import pro3.attandance.model.Training;
 import pro3.attandance.services.AttendanceService;
+import pro3.attandance.services.TrainingService;
+import pro3.attandance.utils.DayGenerator;
+import pro3.attandance.utils.PermissionUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +19,11 @@ public class AttendanceController {
 
     private final AttendanceService attendanceService;
 
-    public AttendanceController(AttendanceService attendanceService) {
+    private final TrainingService trainingService;
+
+    public AttendanceController(AttendanceService attendanceService, TrainingService trainingService) {
         this.attendanceService = attendanceService;
+        this.trainingService = trainingService;
     }
 
     @GetMapping
@@ -26,6 +35,16 @@ public class AttendanceController {
     public Optional<Attendance> getUserById(@PathVariable("id") Integer id) {
         return attendanceService.getById(id);
     }
+
+    @PostMapping("/assignAttendee")
+    public void assignAttendee(@RequestBody Attendance attendance) {
+        Training training = trainingService.getById(attendance.getTrainingid()).orElse(null);
+        List<String> dates = DayGenerator.generateDates(training.getStartDate(), training.getEndDate());
+        for (String date : dates) {
+            attendanceService.add(new Attendance(date, attendance.getAttendeeid(), attendance.getTrainingid(),0));
+        }
+    }
+
 
     @PostMapping(produces = "application/json")
     public void addUser(@RequestBody Attendance attendance) {
