@@ -55,15 +55,14 @@
 
 
     <div>
-        <div class="nadpis"><p>Akce uživatele</p></div>
+        <div class="nadpis" id="actionHeader"><p>Akce uživatele</p></div>
         <div class="loader"></div>
         <div id="jsGrid1"></div>
     </div>
 
 
     <div>
-        <!--TODO-->
-        <div class="nadpis"><p>Tréninky uživatele</p></div>
+        <div class="nadpis" id="trainingHeader"><p>Tréninky uživatele</p></div>
         <div id="jsGrid2"></div>
     </div>
 
@@ -122,6 +121,8 @@
                     ];
                     let jsGrid = $("#jsGrid1");
                     renderJsGrid(data, fields, jsGrid);
+                } else {
+                    $('#actionHeader').hide();
                 }
             }
         });
@@ -160,6 +161,8 @@
                     ];
                     let jsGrid = $("#jsGrid2");
                     renderJsGrid(item, fields, jsGrid);
+                } else {
+                    $('#trainingHeader').hide();
                 }
                 $(".loader").hide();
             }

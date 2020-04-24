@@ -53,7 +53,7 @@
 
     <div>
         <!--TODO-->
-        <h2>Tréninky účastníka</h2>
+        <h2 class="nadpis" id="trainingHeaderAtt">Tréninky účastníka</h2>
         <div class="loader"></div>
         <div id="jsGrid"></div>
     </div>
@@ -76,7 +76,7 @@
                 $(".activateButton").show();
             }
         }
-        if((getCookie("attendee") == [[${attendee.attendeeid}]] && [[${attendee.person.active}]]) && personRole == 4) {
+        if((getCookie("attendee") == [[${attendee.attendeeid}]] && [[${attendee.person.active}]]) || personRole == 4) {
             $(".assignUser").show();
             $(".excuseUser").show();
             $(".pay").show();
@@ -107,8 +107,12 @@
                         data.push(item);
                     }
                 }
-                let jsGrid = $("#jsGrid");
-                renderJsGrid(data, fields, jsGrid);
+                if(data.length !== 0) {
+                    let jsGrid = $("#jsGrid");
+                    renderJsGrid(data, fields, jsGrid);
+                } else {
+                    $('#trainingHeaderAtt').hide();
+                }
                 $(".loader").hide();
             }
         })
