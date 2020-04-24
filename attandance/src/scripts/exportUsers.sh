@@ -4,8 +4,6 @@ usersList="files/MOCK_DATA.csv"
 attendeeList="files/MOCK_DATA(1).csv"
 exportFile="files/exportFile"
 
-printf "[\n" > ${exportFile}
-
 while IFS= read -r line
 do
     IFS=',' read -r -a items <<< ${line}
@@ -33,10 +31,9 @@ do
               },
               \"companyid\": ${items[12]}
           }"
-      echo ${output}, >> ${exportFile}
+      echo ${output} >> ${exportFile}
 
 done <<< $(cat ${usersList})
-printf "\n]" >> ${exportFile}
 
 
 
