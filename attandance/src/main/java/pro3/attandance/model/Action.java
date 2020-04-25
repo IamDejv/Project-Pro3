@@ -1,12 +1,10 @@
 package pro3.attandance.model;
 
-import pro3.attandance.enums.TrainingTypeEnum;
 import pro3.attandance.enums.TypeEnum;
 import pro3.attandance.utils.DayGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 import java.util.List;
 
 @Entity

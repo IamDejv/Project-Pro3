@@ -1,14 +1,9 @@
 package pro3.attandance.model;
 
-import pro3.attandance.enums.RoleEnum;
-import pro3.attandance.repository.CompanyRepository;
-import pro3.attandance.services.CompanyService;
-import pro3.attandance.services.RoleService;
 import pro3.attandance.utils.DayGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 @Table(name = "persons")
@@ -41,18 +36,18 @@ public class Person {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_roleid", insertable = false, updatable = false)
     private Role role;
 
     @Column(name = "role_roleid")
     private int roleid;
 
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @NotNull
     private Address address;
 
-    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @NotNull
     private ContactInfo contactInfo;
 
