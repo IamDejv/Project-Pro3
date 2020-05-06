@@ -10,15 +10,17 @@
 <span> </span>
 
 <div class="page-content">
+    <div th:if="${message}">
+        <p><strong th:text="${message}"></strong></p>
+    </div>
     <button type="button1" class="btn btn-primary assignUser" style="display: none"><a href="/prihlaska">Přihláška</a></button>
     <button type="button2" class="btn btn-primary excuseUser" style="display: none"><a href="/dochazka/excuse">Omluvit</a></button>
     <button type="button3" class="btn btn-primary pay" style="display: none">Zaplatit</button>
     <button type="button4" class="btn btn-primary editButton" style="display: none"><a href="/edit">Editace</a></button>
     <button type="button" class="btn btn-secondary deactivateButton" style="display: none"><a class="deactivateLink">Deaktivace</a></button>
     <button type="button" class="btn btn-terciary activateButton" style="display: none"><a class="activateLink">Aktivace</a></button>
-
     <div class="nadpis">
-    <p>Profil</p>
+        <p>Profil</p>
     </div>
 
     <div class="table-content">
@@ -52,7 +54,6 @@
     </div>
 
     <div>
-        <!--TODO-->
         <h2 class="nadpis" id="trainingHeaderAtt">Tréninky účastníka</h2>
         <div class="loader"></div>
         <div id="jsGrid"></div>
@@ -132,10 +133,17 @@
     $(".pay").on("click", function () {
         $.ajax({
             method: "PUT",
+            async: false,
             url: "/api/v1/attendee/pay/" + [[${attendee.attendeeid}]],
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify(0)
+            data: JSON.stringify(0),
+            success: function () {
+                alert ("Úspěšně zaplaceno");
+            },
+            error: function (response) {
+                alert (response.responseJSON.message);
+            }
         })
     });
 

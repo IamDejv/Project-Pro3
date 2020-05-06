@@ -28,6 +28,8 @@ public class ExhibitionController {
 
     private UserService userService;
 
+    private String message;
+
     public ExhibitionController (ActionService actionService, UserActionService userActionService, UserService userService) {
         this.actionService = actionService;
         this.userActionService = userActionService;
@@ -43,18 +45,11 @@ public class ExhibitionController {
     }
 
     @GetMapping("/actions")
-    private String actionList() {
+    private String actionList(Model model) {
+        if(message != null) {
+            model.addAttribute("message", message);
+        }
         return "exhibition/index";
-    }
-
-    @GetMapping("/action")
-    private String action() {
-        return "exhibition/detail";
-    }
-
-    @GetMapping("/simpleAction")
-    private String simpleAction() {
-        return "exhibition/simpleDetail";
     }
 
     @GetMapping("/action/{id}")
@@ -71,6 +66,9 @@ public class ExhibitionController {
             model.addAttribute("actionid", id);
             model.addAttribute("action", action);
             model.addAttribute("users", users.toArray());
+            if(message != null) {
+                model.addAttribute("message", message);
+            }
             return "exhibition/detail";
         }
         return "exhibition/index";
@@ -89,6 +87,7 @@ public class ExhibitionController {
         if(PermissionUtils.isAllowed(request, "manageAction", "user")) {
             userActionService.deleteAllByActionId(actionId);
             actionService.deleteById(actionId);
+            message = "Akce byla úspešně smazána";
         }
         return new RedirectView("/vystoupeni");
 
@@ -98,6 +97,7 @@ public class ExhibitionController {
     public RedirectView deleleteUserAction(@PathVariable("userid") int userId, @PathVariable("actionid") int actionId, HttpServletRequest request) {
         if (PermissionUtils.isAllowed(request, "manageAction", "user")) {
             userActionService.deleteByUserIdAndActionId(userId, actionId);
+            message = "Uživatel byl úspešně odebrán z akce";
             return new RedirectView("/action/" + actionId);
         }
         return new RedirectView("/vystoupeni");

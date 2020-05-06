@@ -12,7 +12,6 @@
     <button type="button" class="btn btn-primary addTraining" style="display: none;"><a href="/dochazka/add">Přidat trénink</a></button>
     </div>
     <div class="loader"></div>
-    <!--TODO-->
     <div id="jsGrid"></div>
 </div>
 </body>
@@ -103,6 +102,9 @@
                     return temp;
                 })
             },
+            onDataLoaded: function () {
+                $("#jsGrid").jsGrid("sort", "trainingName");
+            }
         });
     }
 </script>

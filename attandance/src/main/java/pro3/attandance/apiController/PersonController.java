@@ -19,28 +19,25 @@ public class PersonController {
     }
 
     @GetMapping
-    public List<Person> getUser() {
+    public List<Person> get() {
         return personService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Person> getUserById(@PathVariable("id") Integer id) {
+    public Optional<Person> getById(@PathVariable("id") Integer id) {
         return personService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
-    public void addUser(@RequestBody Person person) {
+    public Person add(@RequestBody Person person) {
         personService.add(person);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
-        personService.deleteById(id);
+        return person;
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Person person) {
+    public Person update(@RequestBody Person person) {
         personService.update(person.getPersonid(), person);
+        return person;
     }
 
 }

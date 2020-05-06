@@ -13,7 +13,7 @@
 
     <div class="form-group" id="registrationForm">
         <h1 class="title">Editace</h1>
-        <form id="registrateForm">
+        <form id="editForm">
             <div class="form-group">
                 <label for="firstname">Jméno</label>
                 <input type="text" class="form-control" id="firstname" placeholder="Jméno" required th:value=${attendee.person.firstname}>
@@ -65,30 +65,23 @@
 <script>
     $(document).ready(function () {
         var password = [[${attendee.person.password}]];
-        // const emails = "[[${emails}]]";
-        const emails = [];
-        $("#registrateForm").on('submit', function () {
-            if(emails.includes($('#email').val())) {
-                alert("Email už byl použit");
-                $("#registrateForm").attr('action', "javascript:void(0);");
-            } else {
-                if($("#password").val() === ""){
-                    if ($("#password").val() !== $("#password2").val()) {
-                        alert("Hesla se neshodují.");
-                        $("#registrateForm").attr('action', "javascript:void(0);");
-                    } else {
-                        password = $("#password").val();
-                        send();
-                    }
+        $("#editForm").on('submit', function () {
+            if($("#password").val() === ""){
+                if ($("#password").val() !== $("#password2").val()) {
+                    alert("Hesla se neshodují.");
+                    $("#editForm").attr('action', "javascript:void(0);");
                 } else {
+                    password = $("#password").val();
                     send();
                 }
+            } else {
+                send();
             }
         });
     });
 
     function  send() {
-        const url = "/api/v1/attendee";
+        const url = "/api/v1/attendee/" + [[${attendee.attendeeid}]];
         const personData = {
             "attendeeid": [[${attendee.attendeeid}]],
             "sex": "[[${attendee.sex}]]" === "Muž" ? 1 : 0,
@@ -120,13 +113,17 @@
         };
         $.ajax({
             url: url,
-            method: "POST",
+            method: "PUT",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(personData),
             success: function () {
                 alert("Editace byla úspešná.");
-                $("#registrateForm").attr('action', "/");
+                $("#editForm").attr('action', "/");
+            },
+            error: function (response) {
+                $("#editForm").attr('action', "javascript:void(0)");
+                alert(response.responseJSON.message);
             }
         });
     }

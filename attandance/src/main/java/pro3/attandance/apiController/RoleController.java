@@ -18,29 +18,12 @@ public class RoleController {
     }
 
     @GetMapping
-    public List<Role> getUser() {
+    public List<Role> get() {
         return roleService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Role> getUserById(@PathVariable("id") Integer id) {
+    public Optional<Role> getById(@PathVariable("id") Integer id) {
         return roleService.getById(id);
     }
-
-    @PostMapping(produces = "application/json")
-    public void addUser(@RequestBody Role role) {
-        roleService.add(role);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
-        roleService.deleteById(id);
-    }
-
-    @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Role role) {
-        roleService.update(role.getRoleid(), role);
-    }
-
-
 }

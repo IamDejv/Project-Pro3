@@ -166,12 +166,19 @@
         $.ajax({
             method: "POST",
             url: "/dochazka/assignAttendee",
+            async: false,
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
                 "attendeeid" : getCookie("attendee"),
                 "trainingid": [[${training.trainingid}]]
-                })
+                }),
+            success: function () {
+                alert("Byl jste úspěšně přidán na trénik")
+            },
+            error: function (response) {
+                alert(response.responseJSON.message)
+            }
         })
     })
 </script>

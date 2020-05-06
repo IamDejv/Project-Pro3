@@ -44,8 +44,8 @@
     });
 
     var fields = [
-        { name: "firstname", type: "text", title: "Jméno", width: 60 },
         { name: "lastname", type: "text", title: "Příjmení", width: 60 },
+        { name: "firstname", type: "text", title: "Jméno", width: 60 },
         { name: "sex", type: "text", title: "Pohlaví", width: 30 },
         { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
         { name: "isPaid", type: "checkbox", title: "Zaplaceno" , width: 20},
@@ -81,6 +81,9 @@
                     return temp;
                 })
             },
+            onDataLoaded: function () {
+                $("#jsGrid").jsGrid("sort", "lastname");
+            }
         });
     }
 

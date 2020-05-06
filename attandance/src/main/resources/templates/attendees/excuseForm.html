@@ -35,7 +35,9 @@
             url: "/api/v1/attendance/" + attendeeid + "/attendee",
             success: function (items) {
                 items.forEach(function (item) {
-                    $('#date').append(new Option(item.training.name + " " + item.trainingDate, item.attendanceid))
+                    if(item.presence < 1) {
+                        $('#date').append(new Option(item.training.name + " " + item.trainingDate, item.attendanceid))
+                    }
                 })
             }
         })
@@ -49,6 +51,12 @@
             contentType: "application/json",
             data: JSON.stringify(1),
             success: function () {
+                alert("Byl jste úspěšně omluven")
+                location.reload();
+            },
+            error: function (response) {
+                alert(response.responseJSON.message);
+                location.reload();
             }
         })
     })

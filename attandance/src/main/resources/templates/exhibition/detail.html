@@ -8,10 +8,12 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
+    <div th:if="${message}">
+        <p><strong th:text="${message}"></strong></p>
+    </div>
     <button type="button1" class="btn btn-primary editButton"><a id="editLink">Editovat</a></button>
     <button type="button1" class="btn btn-primary deleteButton" style="display: none"><a id="deleteActionLink">Smazat</a></button>
     <div>
-        <!--TODO Action info-->
         <table class="horniTabulka">
             <tr>
                 <th><p>Název:</p></th>
@@ -33,10 +35,13 @@
                 <td><p>Ulice:</p></td>
                 <td><p th:text="${action.address.street}"></p></td>
             </tr>
+            <tr>
+                <td><p>Popis:</p></td>
+                <td><p th:text="${action.description}"></p></td>
+            </tr>
         </table>
     </div>
     <div>
-        <!--TODO Chooser-->
         <div>
             <div class="vyhledavani">
                 <div class="form-group" id="userSelect">
@@ -95,6 +100,7 @@
             click = 1;
             $.ajax({
                 method: "POST",
+                async: false,
                 url: "/api/v1/useraction",
                 dataType: "json",
                 contentType: "application/json",
@@ -103,9 +109,13 @@
                     "actionid": "[[${actionid}]]"
                 }),
                 success: function () {
-                    $("#jsGrid").jsGrid().reload();
                     location.reload();
+                    alert("Uživatel byl úspěšně přidán")
+                },
+                error: function (response) {
+                    alert(response.reponseJSON.message);
                 }
+
             })
         }
     });

@@ -9,7 +9,7 @@
 <div th:include="layout.html"></div>
 <div class="page-content">
     <div class="form">
-        <form>
+        <form id="attendanceForm">
             <div class="form-group">
                 <h1>Přidat trénink</h1>
                 <label for="name">Název</label>
@@ -95,7 +95,8 @@
             <div class="form-group" id="hallSelect">
                 <label for="typeSelect">Typ tréninku</label>
                 <select class="custom-select" id="hall">
-                    <option value=43>Station Hall</option>
+                    <option value=1>Station Hall</option>
+                    <option value=2>Crank Hall</option>
                 </select>
             </div>
             <div class="form-group" id="userSelect">
@@ -159,12 +160,18 @@
     function send(data) {
         $.ajax({
             url: "/api/v1/training",
+            async: false,
             method: "POST",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(data),
             success: function () {
-
+                $("#attendanceForm").attr('action', "/");
+                alert("Trénink byl úspešně založen")
+            },
+            error: function (response) {
+                $("#attendanceForm").attr('action', "javascript:void(0)");
+                alert(response.responseJSON.message);
             }
         })
     }

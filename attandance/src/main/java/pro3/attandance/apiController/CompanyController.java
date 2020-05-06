@@ -20,27 +20,27 @@ public class CompanyController {
     }
 
     @GetMapping
-    public List<Company> getUser() {
+    public List<Company> get() {
         return companyService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Company> getUserById(@PathVariable("id") Integer id) {
+    public Optional<Company> getById(@PathVariable("id") Integer id) {
         return companyService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
-    public void addUser(@RequestBody Company company) {
+    public void add(@RequestBody Company company) {
         companyService.add(company);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
+    public void delete(@PathVariable("id") Integer id) {
         companyService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Company company) {
+    public void update(@RequestBody Company company) {
         companyService.update(company.getCompanyid(), company);
     }
 

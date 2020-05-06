@@ -57,6 +57,10 @@
                     <option value=2>Hybatelna</option>
                 </select>
             </div>
+            <div class="form-group" id="usernameDiv">
+                <label for="username">Uživatelské jméno</label>
+                <input type="text" class="form-control" id="username" placeholder="Username" required>
+            </div>
             <div class="form-group">
                 <label for="state">Stát</label>
                 <input type="text" class="form-control" id="state" placeholder="Stát" required>
@@ -91,33 +95,14 @@
 </html>
 <script>
     $(document).ready(function () {
-        const usernames = "[[${usernames}]]";
         $("#companySelect").hide();
-        const emails = "[[${emails}]]";
+        $("#usernameDiv").hide();
         $("#registrateForm").on('submit', function () {
-            if(emails.includes($('#email').val())) {
-                alert("Email už byl použit")
+            if ($("#password").val() !== $("#password2").val()) {
+                alert("Hesla se neshodují.");
                 $("#registrateForm").attr('action', "javascript:void(0);");
             } else {
-                if ($("#password").val() !== $("#password2").val()) {
-                    alert("Hesla se neshodují.");
-                    $("#registrateForm").attr('action', "javascript:void(0);");
-                } else {
-                    let uniqueNumber = 1;
-                    let username = $('#lastname').val().slice(0,5) + $('#firstname').val().slice(0, 2);
-                    username = username.toLowerCase();
-                    let uniqueUsername = username + uniqueNumber;
-                    let usernameOk = false;
-                    while (!usernameOk) {
-                        if(usernames.includes(uniqueUsername)) {
-                            uniqueNumber++;
-                            uniqueUsername = username + uniqueNumber;
-                        } else {
-                            usernameOk = true;
-                        }
-                    }
-                    send(prepareUsername(uniqueUsername));
-                }
+                send();
             }
         });
     });
@@ -125,17 +110,18 @@
     $("#role").on('change', function () {
         $("#role").val() === "0" ? $("#sexSelect").show() : $("#sexSelect").hide();
         $("#role").val() === "0" ? $("#companySelect").hide() : $("#companySelect").show();
+        $("#role").val() === "0" ? $("#usernameDiv").hide() : $("#usernameDiv").show();
     });
 
-    function  send(username) {
+    function  send() {
         let date = new Date();
-        let comeDate = date.getFullYear() + "-" + date.getUTCMonth() + "-" + date.getDate();
+        let comeDate = date.getFullYear() + "-" + (date.getUTCMonth() > 9 ? "0" : "") + date.getUTCMonth() + "-" + (date.getDate() > 9 ? "0" : "") + date.getDate();
         let url;
         let personData;
         if($('#role').val() !== "0") {
             url = "/api/v1/user";
             personData = {
-                'username': username,
+                'username': $('#username').val(),
                 'person':
                     {
                         "firstname": $('#firstname').val(),
@@ -190,13 +176,20 @@
         $.ajax({
             url: url,
             method: "POST",
+            async: false,
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(personData),
             success: function () {
                 alert("Registrace byla úspešná.");
                 $("#registrateForm").attr('action', "/");
+                $(location).attr("href", "/")
+            },
+            error: function (response) {
+                $("#registrateForm").attr('action', "javascript:void(0);");
+                let result = response.responseJSON.message;
+                alert(result);
             }
-        })
+        }).done
     }
 </script>

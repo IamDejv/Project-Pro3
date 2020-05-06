@@ -18,30 +18,27 @@ public class AttendanceController {
     }
 
     @GetMapping
-    public List<Attendance> getUser() {
+    public List<Attendance> get() {
         return attendanceService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Attendance> getUserById(@PathVariable("id") Integer id) {
+    public Optional<Attendance> getById(@PathVariable("id") Integer id) {
         return attendanceService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
-    public void addUser(@RequestBody Attendance attendance) {
+    public Attendance add(@RequestBody Attendance attendance) {
         attendanceService.add(attendance);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
-        attendanceService.deleteById(id);
+        return attendance;
     }
 
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable("id") int id, @RequestBody String presence) {
+    public Attendance update(@PathVariable("id") int id, @RequestBody String presence) {
         Attendance attendance = attendanceService.getById(id).orElse(null);
         attendance.setPresence(Integer.parseInt(presence));
         attendanceService.update(attendance.getAttendanceid(), attendance);
+        return attendance;
     }
 
     @GetMapping("/training/{id}")

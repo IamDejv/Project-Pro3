@@ -10,13 +10,15 @@
 <span> </span>
 
 <div class="page-content">
+    <div th:if="${message}">
+        <p><strong th:text="${message}"></strong></p>
+    </div>
     <button type="button" class="btn btn-primary  editButton" style="display: none"><a href="/edit">Editace</a></button>
     <button type="button" class="btn btn-secondary deactivateButton" style="display: none"><a class="deactivateLink">Deaktivace</a></button>
     <button type="button" class="btn btn-primary  activateButton" style="display: none"><a class="activateLink">Aktivace</a></button>
     <button type="button" class="btn btn-terciary promoteButton" style="display: none"><a class="promoteLink">Udělat managerem</a></button>
-
     <div class="nadpis">
-    <p>Profil</p>
+        <p>Profil</p>
     </div>
 
     <div class="table-content">
@@ -72,7 +74,8 @@
 <script>
     $(document).ready(function () {
         var peronRole = getCookie("role");
-        if(getCookie("user") == [[${user.userid}]]) {
+        var userId = getCookie("user");
+        if(userId == [[${user.userid}]]) {
             $(".editButton").show();
         }
         if(peronRole > 2) {
@@ -86,7 +89,7 @@
                 $(".deactivateButton").hide();
                 $(".activateButton").show();
             }
-            if(peronRole === "4") {
+            if(peronRole === "4" && userId < 3) {
                 $(".promoteLink").attr("href", "/promote/" + [[${user.userid}]]);
                 $(".promoteButton").show();
             }

@@ -21,27 +21,29 @@ public class ActionController {
     }
 
     @GetMapping
-    public List<Action> getUser() {
+    public List<Action> get() {
         return actionService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Action> getUserById(@PathVariable("id") Integer id) {
+    public Optional<Action> getById(@PathVariable("id") Integer id) {
         return actionService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
-    public void addUser(@RequestBody Action action) {
+    public Action add(@RequestBody Action action) {
         actionService.add(action);
+        return action;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
+    public void delete(@PathVariable("id") Integer id) {
         actionService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Action action) {
+    public Action update(@RequestBody Action action) {
         actionService.update(action.getActionsid(), action);
+        return action;
     }
 }

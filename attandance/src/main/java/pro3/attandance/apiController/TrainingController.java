@@ -18,27 +18,29 @@ public class TrainingController {
     }
 
     @GetMapping
-    public List<Training> getUser() {
+    public List<Training> get() {
         return trainingService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Training> getUserById(@PathVariable("id") Integer id) {
+    public Optional<Training> getById(@PathVariable("id") Integer id) {
         return trainingService.getById(id);
     }
 
     @PostMapping(produces = "application/json")
-    public void addUser(@RequestBody Training training) {
+    public Training add(@RequestBody Training training) {
         trainingService.add(training);
+        return training;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
+    public void delete(@PathVariable("id") Integer id) {
         trainingService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody Training training) {
+    public Training update(@RequestBody Training training) {
         trainingService.update(training.getTrainingid(), training);
+        return training;
     }
 }

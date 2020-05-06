@@ -9,7 +9,7 @@
 <div th:include="layout.html"></div>
 <div class="page-content">
     <div class="form">
-        <form>
+        <form id="editUserForm">
             <div class="form-group">
                 <label for="name">Název</label>
                 <input type="text" class="form-control" id="name" placeholder="Jméno" required th:value="${action.actionName}" disabled>
@@ -22,7 +22,6 @@
                     <option value=2>Other</option>
                 </select>
             </div>
-            <!--TODO-->
             <div class="form-group">
                 <label for="actionDate">Datum akce</label>
                 <input type="date" class="form-control date-picker-popup" id="actionDate" th:value="${action.dateAction}">
@@ -80,9 +79,19 @@
         $.ajax({
             url: "/api/v1/action",
             method: "PUT",
+            async: false,
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            success: function () {
+                alert("Akce byla úspešně editována");
+                // $(location).attr("href", "/action/" + data.actionsid);
+                $("#editUserForm").attr("action", "/action/" + data.actionsid);
+            },
+            error: function (response) {
+                $("#editUserForm").attr("action", "javascript:void(0)");
+                alert(response.responseJSON.message)
+            }
         })
     }
 </script>

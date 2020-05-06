@@ -18,27 +18,29 @@ public class UserActionController {
     }
 
     @GetMapping
-    public List<UserAction> getUser() {
+    public List<UserAction> get() {
         return userActionService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<UserAction> getUserById(@PathVariable("id") Integer id) {
+    public Optional<UserAction> getById(@PathVariable("id") Integer id) {
         return userActionService.getById(id);
     }
 
     @PostMapping
-    public void addUser(@RequestBody UserAction userAction) {
+    public UserAction add(@RequestBody UserAction userAction) {
         userActionService.add(userAction);
+        return userAction;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
+    public void delete(@PathVariable("id") Integer id) {
         userActionService.deleteById(id);
     }
 
     @PutMapping(produces = "application/json")
-    public void updateUser(@RequestBody UserAction userAction) {
+    public UserAction update(@RequestBody UserAction userAction) {
         userActionService.update(userAction.getUseractionid(), userAction);
+        return userAction;
     }
 }

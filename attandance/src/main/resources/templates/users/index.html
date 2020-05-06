@@ -8,7 +8,6 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <!--TODO-->
     <div class="nadpis">Uživatelé</div>
     <div id="jsGrid"></div>
     <div class="loader"></div>
@@ -48,8 +47,8 @@
     });
 
     var fields = [
-        { name: "firstname", type: "text", title: "Jméno", width: 60 },
         { name: "lastname", type: "text", title: "Příjmení", width: 60 },
+        { name: "firstname", type: "text", title: "Jméno", width: 60 },
         { name: "username", type: "text", title: "Uživatelské jméno", width: 60 },
         { name: "role", type: "text", title: "Role", width: 30 },
         { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
@@ -86,6 +85,9 @@
                     return temp;
                 })
             },
+            onDataLoaded: function () {
+                grid.jsGrid("sort", "lastname");
+            }
 
         });
     }

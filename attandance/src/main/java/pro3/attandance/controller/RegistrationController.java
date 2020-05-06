@@ -24,9 +24,7 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String registration(Model model) {
-        model.addAttribute("usernames", userService.getAllUsernames());
-        model.addAttribute("emails", personService.getAllEmails());
+    public String registration() {
         return "registration/index";
     }
 

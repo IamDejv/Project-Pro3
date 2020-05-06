@@ -30,6 +30,8 @@ public class ProfileController {
 
     private AttendanceService attendanceService;
 
+    private String message;
+
     public ProfileController(UserService userService, AttendeeService attendeeService, UserActionService userActionService, TrainingService trainingService, AttendanceService attendanceService, PersonService personService) {
         this.userService = userService;
         this.attendeeService = attendeeService;
@@ -47,6 +49,10 @@ public class ProfileController {
         model.addAttribute("personid", id);
         model.addAttribute("user", user);
         model.addAttribute("userActions", userActionService.getUsersAction(id));
+        if(message != null && !message.equals("")) {
+            model.addAttribute("message", message);
+            message = null;
+        }
         return "users/detail";
     }
 
@@ -58,6 +64,10 @@ public class ProfileController {
         model.addAttribute("personid", id);
         model.addAttribute("attendee", attendee);
         model.addAttribute("attendeeTrainings", attendanceService.getTrainingIDs(id));
+        if(message != null && !message.equals("")) {
+            model.addAttribute("message", message);
+            message = null;
+        }
         return "attendees/detail";
     }
 
@@ -77,42 +87,58 @@ public class ProfileController {
 
     @GetMapping("/activate/{id}")
     public RedirectView activateUser(@PathVariable("id") int id, HttpServletRequest request) {
-        if(PermissionUtils.isAllowed(request, "activate", "user")) {
-            Person person = personService.getById(id).orElse(null);
-            person.setActive(true);
-            personService.update(id, person);
-        }
-        User user = userService.getUserByPersonId(id);
-        if(user != null) {
-            return new RedirectView("/profil/user/" + user.getUserid());
-        } else {
-            Attendee attendee = attendeeService.getByPersonId(id);
-            return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
+        try {
+            if(PermissionUtils.isAllowed(request, "activate", "user")) {
+                Person person = personService.getById(id).orElse(null);
+                person.setActive(true);
+                personService.update(id, person);
+            }
+            User user = userService.getUserByPersonId(id);
+            message = "Uživatel byl aktivován";
+            if(user != null) {
+                return new RedirectView("/profil/user/" + user.getUserid());
+            } else {
+                Attendee attendee = attendeeService.getByPersonId(id);
+                return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
+            }
+        } catch (Exception e) {
+            message = e.getMessage();
+            return new RedirectView("/");
         }
     }
 
     @GetMapping("/deactivate/{id}")
     public RedirectView deactivateUser(@PathVariable("id") int id, HttpServletRequest request) {
-        if(PermissionUtils.isAllowed(request, "deactivate", "user")) {
-            Person person = personService.getById(id).orElse(null);
-            person.setActive(false);
-            personService.update(id, person);
-        }
-        User user = userService.getUserByPersonId(id);
-        if(user != null) {
-            return new RedirectView("/profil/user/" + user.getUserid());
-        } else {
-            Attendee attendee = attendeeService.getByPersonId(id);
-            return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
+        try {
+            if(PermissionUtils.isAllowed(request, "deactivate", "user")) {
+                Person person = personService.getById(id).orElse(null);
+                person.setActive(false);
+                personService.update(id, person);
+            }
+            User user = userService.getUserByPersonId(id);
+            message = "Uživatel byl deaktivován";
+            if(user != null) {
+                return new RedirectView("/profil/user/" + user.getUserid());
+            } else {
+                Attendee attendee = attendeeService.getByPersonId(id);
+                return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
+            }
+        } catch (Exception e) {
+            message = e.getMessage();
+            return new RedirectView("/");
         }
     }
 
     @GetMapping("/promote/{id}")
     public RedirectView promoteUser(@PathVariable("id") int id, HttpServletRequest request) {
-        if(PermissionUtils.isAllowed(request, "promote", "user")) {
-            User user = userService.getById(id).orElse(null);
-            user.getPerson().setRoleid(3);
-            userService.update(id, user);
+        try {
+            if(PermissionUtils.isAllowed(request, "promote", "user")) {
+                User user = userService.getById(id).orElse(null);
+                user.getPerson().setRoleid(3);
+                userService.update(id, user);
+            }
+        } catch (Exception e){
+            message = e.getMessage();
         }
         return new RedirectView("/profil/user/" + id);
     }

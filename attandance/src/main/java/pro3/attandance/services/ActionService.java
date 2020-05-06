@@ -1,7 +1,6 @@
 package pro3.attandance.services;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro3.attandance.model.Action;
 import pro3.attandance.repository.ActionRepository;
@@ -12,15 +11,14 @@ import java.util.Optional;
 @Service
 public class ActionService implements BaseService<Action> {
 
-    @Autowired
-    private AddressService addressService;
+    private final AddressService addressService;
 
     private final ActionRepository actionRepository;
 
-    public ActionService(ActionRepository actionRepository) {
+    public ActionService(ActionRepository actionRepository, AddressService addressService) {
         this.actionRepository = actionRepository;
+        this.addressService = addressService;
     }
-
 
     @Override
     public List<Action> getAll() {

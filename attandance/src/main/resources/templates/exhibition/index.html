@@ -8,6 +8,9 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
+    <div th:if="${message}">
+        <p><strong th:text="${message}"></strong></p>
+    </div>
     <div class="btnLayout">
     <button type="button1" class="btn btn-primary " id="addAction" style="display: none"><a href="/vystoupeni/add"> Přidat akci</a></button>
     </div>
@@ -82,6 +85,9 @@
                     return temp;
                 })
             },
+            onDataLoaded: function () {
+                $("#jsGrid").jsGrid("sort", "actionName");
+            }
         });
     }
 </script>

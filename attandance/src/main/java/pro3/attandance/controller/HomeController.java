@@ -29,6 +29,10 @@ public class HomeController {
 
     private PersonService personService;
 
+    private String error;
+
+    private boolean logout = false;
+
     public HomeController(UserService userService, AttendeeService attendeeService, PersonService personService) {
         this.userService = userService;
         this.attendeeService = attendeeService;
@@ -36,7 +40,15 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    private String home(){
+    private String home(Model model){
+        if(error != null || error == "") {
+            model.addAttribute("error", error);
+            error = null;
+        }
+        if(logout) {
+            model.addAttribute("logout", "Byl jste úspěšně odhlášen");
+            logout = false;
+        }
         return "home/index";
     }
 
@@ -67,7 +79,7 @@ public class HomeController {
         if (!data.getRole()) {
             User user = userService.getByUsername(data.getUsername());
             if (user == null) {
-                model.addAttribute("error", "Špatné uživatelské jméno");
+                error = "Špatné uživatelské jméno";
                 return new RedirectView("/");
             } else {
                 if (user.getPerson().getPassword().equals(data.getPassword())) {
@@ -77,18 +89,18 @@ public class HomeController {
                     model.addAttribute("user", user);
                     return new RedirectView("/profil/user/" + user.getUserid());
                 } else {
-                    model.addAttribute("error", "Špatné heslo");
+                    error = "Špatné heslo";
                 }
             }
         } else {
             Person person = personService.getPersonByEmail(data.getUsername());
             if (person == null) {
-                model.addAttribute("error", "Špatný email");
+                error = "Špatný email";
                 return new RedirectView("/");
             } else {
                 Attendee attendee = attendeeService.getByPersonId(person.getPersonid());
                 if (attendee == null) {
-                    model.addAttribute("error", "Špatný email");
+                    error = "Špatný email";
                     return new RedirectView("/");
                 } else {
                     if (person.getPassword().equals(data.getPassword())) {
@@ -98,7 +110,7 @@ public class HomeController {
                         model.addAttribute("attendee", attendee);
                         return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
                     } else {
-                        model.addAttribute("error", "Špatné heslo");
+                        error = "Špatné heslo";
                     }
                 }
             }
@@ -118,6 +130,7 @@ public class HomeController {
         response.addCookie(cookieRole);
         response.addCookie(cookieAttendee);
         model.addAttribute("logout", "Odhlášení proběhlo úspěšně");
+        logout = true;
         return new RedirectView("/");
     }
 
