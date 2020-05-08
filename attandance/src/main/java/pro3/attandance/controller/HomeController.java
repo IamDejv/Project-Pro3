@@ -12,6 +12,7 @@ import pro3.attandance.model.User;
 import pro3.attandance.services.AttendeeService;
 import pro3.attandance.services.PersonService;
 import pro3.attandance.services.UserService;
+import pro3.attandance.utils.FlashMessageUtil;
 import pro3.attandance.utils.PermissionUtils;
 
 import javax.servlet.http.Cookie;
@@ -29,10 +30,6 @@ public class HomeController {
 
     private PersonService personService;
 
-    private String error;
-
-    private boolean logout = false;
-
     public HomeController(UserService userService, AttendeeService attendeeService, PersonService personService) {
         this.userService = userService;
         this.attendeeService = attendeeService;
@@ -41,13 +38,10 @@ public class HomeController {
 
     @GetMapping("/home")
     private String home(Model model){
-        if(error != null || error == "") {
-            model.addAttribute("error", error);
-            error = null;
-        }
-        if(logout) {
-            model.addAttribute("logout", "Byl jste úspěšně odhlášen");
-            logout = false;
+        if(FlashMessageUtil.message != null) {
+            model.addAttribute("message", FlashMessageUtil.message);
+            model.addAttribute("messageType", FlashMessageUtil.messageType);
+            FlashMessageUtil.message = null;
         }
         return "home/index";
     }
@@ -79,7 +73,8 @@ public class HomeController {
         if (!data.getRole()) {
             User user = userService.getByUsername(data.getUsername());
             if (user == null) {
-                error = "Špatné uživatelské jméno";
+                FlashMessageUtil.message = "Špatné uživatelské jméno";
+                FlashMessageUtil.messageType = 2;
                 return new RedirectView("/");
             } else {
                 if (user.getPerson().getPassword().equals(data.getPassword())) {
@@ -87,20 +82,25 @@ public class HomeController {
                     response.addCookie(new Cookie("role", "" + user.getPerson().getRoleid()));
                     model.addAttribute("personid", user.getPerson().getPersonid());
                     model.addAttribute("user", user);
+                    FlashMessageUtil.message = "Přihlášení proběhlo úspěšně";
+                    FlashMessageUtil.messageType = 0;
                     return new RedirectView("/profil/user/" + user.getUserid());
                 } else {
-                    error = "Špatné heslo";
+                    FlashMessageUtil.message = "Špatné heslo";
+                    FlashMessageUtil.messageType = 2;
                 }
             }
         } else {
             Person person = personService.getPersonByEmail(data.getUsername());
             if (person == null) {
-                error = "Špatný email";
+                FlashMessageUtil.message = "Špatný email";
+                FlashMessageUtil.messageType = 2;
                 return new RedirectView("/");
             } else {
                 Attendee attendee = attendeeService.getByPersonId(person.getPersonid());
                 if (attendee == null) {
-                    error = "Špatný email";
+                    FlashMessageUtil.message = "Špatný email";
+                    FlashMessageUtil.messageType = 2;
                     return new RedirectView("/");
                 } else {
                     if (person.getPassword().equals(data.getPassword())) {
@@ -108,9 +108,12 @@ public class HomeController {
                         response.addCookie(new Cookie("role", "" + person.getRoleid()));
                         model.addAttribute("personid", person.getPersonid());
                         model.addAttribute("attendee", attendee);
+                        FlashMessageUtil.message = "Přihlášení proběhlo úspěšně";
+                        FlashMessageUtil.messageType = 0;
                         return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
                     } else {
-                        error = "Špatné heslo";
+                        FlashMessageUtil.message = "Špatné heslo";
+                        FlashMessageUtil.messageType = 2;
                     }
                 }
             }
@@ -129,8 +132,8 @@ public class HomeController {
         response.addCookie(cookieUser);
         response.addCookie(cookieRole);
         response.addCookie(cookieAttendee);
-        model.addAttribute("logout", "Odhlášení proběhlo úspěšně");
-        logout = true;
+        FlashMessageUtil.message = "Odhlášení proběhlo úspěšně";
+        FlashMessageUtil.messageType = 1;
         return new RedirectView("/");
     }
 

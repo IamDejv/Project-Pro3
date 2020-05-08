@@ -5,11 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.view.RedirectView;
-import pro3.attandance.model.Attendee;
-import pro3.attandance.model.Person;
-import pro3.attandance.model.User;
-import pro3.attandance.model.UserAction;
+import pro3.attandance.model.*;
 import pro3.attandance.services.*;
+import pro3.attandance.utils.FlashMessageUtil;
 import pro3.attandance.utils.PermissionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +28,6 @@ public class ProfileController {
 
     private AttendanceService attendanceService;
 
-    private String message;
-
     public ProfileController(UserService userService, AttendeeService attendeeService, UserActionService userActionService, TrainingService trainingService, AttendanceService attendanceService, PersonService personService) {
         this.userService = userService;
         this.attendeeService = attendeeService;
@@ -49,9 +45,10 @@ public class ProfileController {
         model.addAttribute("personid", id);
         model.addAttribute("user", user);
         model.addAttribute("userActions", userActionService.getUsersAction(id));
-        if(message != null && !message.equals("")) {
-            model.addAttribute("message", message);
-            message = null;
+        if(FlashMessageUtil.message != null) {
+            model.addAttribute("message", FlashMessageUtil.message);
+            model.addAttribute("messageType", FlashMessageUtil.messageType);
+            FlashMessageUtil.message = null;
         }
         return "users/detail";
     }
@@ -64,25 +61,35 @@ public class ProfileController {
         model.addAttribute("personid", id);
         model.addAttribute("attendee", attendee);
         model.addAttribute("attendeeTrainings", attendanceService.getTrainingIDs(id));
-        if(message != null && !message.equals("")) {
-            model.addAttribute("message", message);
-            message = null;
+        if(FlashMessageUtil.message != null) {
+            model.addAttribute("message", FlashMessageUtil.message);
+            model.addAttribute("messageType", FlashMessageUtil.messageType);
+            FlashMessageUtil.message = null;
         }
         return "attendees/detail";
     }
 
-    @GetMapping("/edit")
-    public String editForm(HttpServletRequest request, Model model){
-        if(PermissionUtils.isPerson(request, "attendee")){
-            Attendee attendee = attendeeService.getById(Integer.parseInt(PermissionUtils.id)).orElse(null);
-            model.addAttribute("attendee", attendee);
-            return "attendees/edit";
-        } else if (PermissionUtils.isPerson(request, "user")){
-            User user = userService.getById(Integer.parseInt(PermissionUtils.id)).orElse(null);
+    @GetMapping("/profile/edit/{id}")
+    public String editForm(@PathVariable("id")int id, HttpServletRequest request, Model model){
+        String url = "home/index";
+        Attendee attendee = attendeeService.getByPersonId(id);
+        User user = userService.getUserByPersonId(id);
+        if(user != null) {
             model.addAttribute("user", user);
-            return "users/edit";
+            url = "users/edit";
+        } else if (attendee != null) {
+            model.addAttribute("attendee", attendee);
+            url = "attendees/edit";
+        } else {
+            FlashMessageUtil.message = "Osoba nenalezena";
+            FlashMessageUtil.messageType = 3;
+            url = "/users/index";
         }
-        return "home/index";
+        if(FlashMessageUtil.message != null) {
+            model.addAttribute("message", FlashMessageUtil.message);
+            model.addAttribute("messageType", FlashMessageUtil.messageType);
+        }
+        return url;
     }
 
     @GetMapping("/activate/{id}")
@@ -94,7 +101,8 @@ public class ProfileController {
                 personService.update(id, person);
             }
             User user = userService.getUserByPersonId(id);
-            message = "Uživatel byl aktivován";
+            FlashMessageUtil.message = "Uživatel byl aktivován";
+            FlashMessageUtil.messageType = 0;
             if(user != null) {
                 return new RedirectView("/profil/user/" + user.getUserid());
             } else {
@@ -102,7 +110,8 @@ public class ProfileController {
                 return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
             }
         } catch (Exception e) {
-            message = e.getMessage();
+            FlashMessageUtil.message = e.getMessage();
+            FlashMessageUtil.messageType = 3;
             return new RedirectView("/");
         }
     }
@@ -116,7 +125,8 @@ public class ProfileController {
                 personService.update(id, person);
             }
             User user = userService.getUserByPersonId(id);
-            message = "Uživatel byl deaktivován";
+            FlashMessageUtil.message = "Uživatel byl deaktivován";
+            FlashMessageUtil.messageType = 0;
             if(user != null) {
                 return new RedirectView("/profil/user/" + user.getUserid());
             } else {
@@ -124,7 +134,8 @@ public class ProfileController {
                 return new RedirectView("/profil/attendee/" + attendee.getAttendeeid());
             }
         } catch (Exception e) {
-            message = e.getMessage();
+            FlashMessageUtil.message = e.getMessage();
+            FlashMessageUtil.messageType = 3;
             return new RedirectView("/");
         }
     }
@@ -138,7 +149,8 @@ public class ProfileController {
                 userService.update(id, user);
             }
         } catch (Exception e){
-            message = e.getMessage();
+            FlashMessageUtil.message = e.getMessage();
+            FlashMessageUtil.messageType = 3;
         }
         return new RedirectView("/profil/user/" + id);
     }

@@ -8,9 +8,6 @@
 <body>
 <div th:include="layout.html"></div>
 <div class="page-content">
-    <div th:if="${message}">
-        <p><strong th:text="${message}"></strong></p>
-    </div>
     <button type="button1" class="btn btn-primary editButton"><a id="editLink">Editovat</a></button>
     <button type="button1" class="btn btn-primary deleteButton" style="display: none"><a id="deleteActionLink">Smazat</a></button>
     <div>
@@ -101,21 +98,10 @@
             $.ajax({
                 method: "POST",
                 async: false,
-                url: "/api/v1/useraction",
+                url: "/vystoupeni/addUser/[[${actionid}]]",
                 dataType: "json",
                 contentType: "application/json",
-                data: JSON.stringify({
-                    "userid": $("#user").val(),
-                    "actionid": "[[${actionid}]]"
-                }),
-                success: function () {
-                    location.reload();
-                    alert("Uživatel byl úspěšně přidán")
-                },
-                error: function (response) {
-                    alert(response.reponseJSON.message);
-                }
-
+                data: JSON.stringify($("#user").val()),
             })
         }
     });

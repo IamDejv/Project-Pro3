@@ -126,11 +126,16 @@
             url: url,
             method: "PUT",
             contentType: "application/json",
+            async: false,
             dataType: "json",
             data: JSON.stringify(personData),
             success: function () {
                 alert("Editace byla úspešná.");
-                $("#registrateForm").attr('action', "/");
+                $("#registrateForm").attr('action', "/profil/user/[[${user.userid}]]");
+            },
+            error: function (response) {
+                $("#registrateForm").attr("action", "javascript:void(0)");
+                alert(response.responseJSON.message)
             }
         })
     }

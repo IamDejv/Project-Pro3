@@ -172,13 +172,7 @@
             data: JSON.stringify({
                 "attendeeid" : getCookie("attendee"),
                 "trainingid": [[${training.trainingid}]]
-                }),
-            success: function () {
-                alert("Byl jste úspěšně přidán na trénik")
-            },
-            error: function (response) {
-                alert(response.responseJSON.message)
-            }
+                })
         })
     })
 </script>

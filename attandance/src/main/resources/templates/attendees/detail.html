@@ -10,13 +10,10 @@
 <span> </span>
 
 <div class="page-content">
-    <div th:if="${message}">
-        <p><strong th:text="${message}"></strong></p>
-    </div>
     <button type="button1" class="btn btn-primary assignUser" style="display: none"><a href="/prihlaska">Přihláška</a></button>
     <button type="button2" class="btn btn-primary excuseUser" style="display: none"><a href="/dochazka/excuse">Omluvit</a></button>
     <button type="button3" class="btn btn-primary pay" style="display: none">Zaplatit</button>
-    <button type="button4" class="btn btn-primary editButton" style="display: none"><a href="/edit">Editace</a></button>
+    <button type="button4" class="btn btn-primary editButton" style="display: none"><a class="editLink">Editace</a></button>
     <button type="button" class="btn btn-secondary deactivateButton" style="display: none"><a class="deactivateLink">Deaktivace</a></button>
     <button type="button" class="btn btn-terciary activateButton" style="display: none"><a class="activateLink">Aktivace</a></button>
     <div class="nadpis">
@@ -69,6 +66,7 @@
         if(personRole > 2) {
             $(".deactivateLink").attr("href", "/deactivate/" + [[${attendee.person.personid}]]);
             $(".activateLink").attr("href", "/activate/" + [[${attendee.person.personid}]]);
+            $(".editLink").attr("href", "/profile/edit/" + [[${attendee.person.personid}]]);
             if([[${attendee.person.active}]]) {
                 $(".deactivateButton").show();
                 $(".activateButton").hide();
@@ -140,6 +138,7 @@
             data: JSON.stringify(0),
             success: function () {
                 alert ("Úspěšně zaplaceno");
+                location.reload();
             },
             error: function (response) {
                 alert (response.responseJSON.message);

@@ -11,6 +11,7 @@
 
     <script type="text/javascript" src="../static/js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
     <script type="text/javascript" src="../static/js/jsgrid.min.js" th:src="@{/js/jsgrid.min.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </head>
 <body>
@@ -51,7 +52,10 @@
                     Účástníci
                 </a>
             </li>
-            <button class="btn btn-warning logout fixed-bottom" style="display: none"><a href="/logout"> Odhlásit se</a></button>
+            <div style="display: none" id="logoutBtn">
+                <button class="btn btn-warning fixed-bottom logout"><a href="/logout"> Odhlásit se</a></button>
+            </div>
+
 
         </ul>
 
@@ -62,19 +66,34 @@
         <small>Copyright &copy; Station 91</small>
     </div>
 </footer>
+<div th:switch="${messageType}">
+    <div th:case = "0" class="flashMessage alert alert-success alert-dismissible fade in" style="width: 60%; margin-left: 20%; opacity: 0.7; transition: visibility 3s, opacity 1s linear">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success! </strong><p th:text="${message}"></p>
+    </div>
+    <div th:case = "1" class="flashMessage alert alert-info alert-dismissible fade in" style="width: 60%; margin-left: 20%; opacity: 0.7; transition: visibility 3s, opacity 1s linear">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Info! </strong><p th:text="${message}"></p>
+    </div>
+    <div th:case = "2" class="flashMessage alert alert-warning alert-dismissible fade in" style="width: 60%; margin-left: 20%; opacity: 0.7; transition: visibility 3s, opacity 1s linear">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Warning! </strong><p th:text="${message}"></p>
+    </div>
+    <div th:case = "3" class="flashMessage alert alert-danger alert-dismissible fade in" style="width: 60%; margin-left: 20%; opacity: 0.7; transition: visibility 3s, opacity 1s linear">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Danger! </strong><p th:text="${message}"></p>
+    </div>
+</div>
 </body>
 </html>
 <script>
     $(document).ready(function () {
-        let user = getCookie("user");
         let role = getCookie("role");
-        let attendee = getCookie("attendee");
-        if (user === undefined && attendee === undefined) {
-            $(".logout").hide();
+        if (role === undefined) {
             $(".registration").show();
         } else {
+            $("#logoutBtn").show();
             $(".registration").hide();
-            $(".logout").show();
         }
         if (role > 0) {
             $(".users").show();

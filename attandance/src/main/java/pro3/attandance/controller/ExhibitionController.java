@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.view.RedirectView;
 import pro3.attandance.model.Action;
 import pro3.attandance.model.User;
@@ -12,6 +13,7 @@ import pro3.attandance.model.UserAction;
 import pro3.attandance.services.ActionService;
 import pro3.attandance.services.UserActionService;
 import pro3.attandance.services.UserService;
+import pro3.attandance.utils.FlashMessageUtil;
 import pro3.attandance.utils.PermissionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +30,6 @@ public class ExhibitionController {
 
     private UserService userService;
 
-    private String message;
-
     public ExhibitionController (ActionService actionService, UserActionService userActionService, UserService userService) {
         this.actionService = actionService;
         this.userActionService = userActionService;
@@ -40,20 +40,26 @@ public class ExhibitionController {
     public RedirectView exhibition(HttpServletRequest request){
         if (PermissionUtils.isAllowed(request, "action", "user")) {
             return new RedirectView("/actions");
+        } else {
+            FlashMessageUtil.message = "Nemáte dostatečná oprávnění";
+            FlashMessageUtil.messageType = 2;
         }
         return new RedirectView("/");
     }
 
     @GetMapping("/actions")
     private String actionList(Model model) {
-        if(message != null) {
-            model.addAttribute("message", message);
+        if(FlashMessageUtil.message != null) {
+            model.addAttribute("message", FlashMessageUtil.message);
+            model.addAttribute("messageType", FlashMessageUtil.messageType);
+            FlashMessageUtil.message = null;
         }
         return "exhibition/index";
     }
 
     @GetMapping("/action/{id}")
     public String actionDetail(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+        String url = "exhibition/index";
         if (PermissionUtils.isAllowed(request, "action", "user")) {
             Optional<Action> actionOpt = actionService.getById(id);
             List<UserAction> userActions = userActionService.getByActionId(id);
@@ -66,20 +72,34 @@ public class ExhibitionController {
             model.addAttribute("actionid", id);
             model.addAttribute("action", action);
             model.addAttribute("users", users.toArray());
-            if(message != null) {
-                model.addAttribute("message", message);
-            }
-            return "exhibition/detail";
+            url = "exhibition/detail";
+        } else {
+            FlashMessageUtil.message = "Nemáte dostatečná oprávnění";
+            FlashMessageUtil.messageType = 2;
         }
-        return "exhibition/index";
+        if(FlashMessageUtil.message != null) {
+            model.addAttribute("message", FlashMessageUtil.message);
+            model.addAttribute("messageType", FlashMessageUtil.messageType);
+            FlashMessageUtil.message = null;
+        }
+        return url;
     }
 
     @GetMapping("/vystoupeni/add")
-    public String actionForm(HttpServletRequest request) {
+    public String actionForm(HttpServletRequest request, Model model) {
+        String url = "home/index";
         if(PermissionUtils.isAllowed(request, "addAction", "user")) {
-            return "exhibition/form";
+            url = "exhibition/form";
+        } else {
+            FlashMessageUtil.message = "Nemáte dostatečná oprávnění";
+            FlashMessageUtil.messageType = 2;
         }
-        return "home/index";
+        if(FlashMessageUtil.message != null) {
+            model.addAttribute("message", FlashMessageUtil.message);
+            model.addAttribute("messageType", FlashMessageUtil.messageType);
+            FlashMessageUtil.message = null;
+        }
+        return url;
     }
 
     @GetMapping("/action/delete/{id}")
@@ -87,7 +107,11 @@ public class ExhibitionController {
         if(PermissionUtils.isAllowed(request, "manageAction", "user")) {
             userActionService.deleteAllByActionId(actionId);
             actionService.deleteById(actionId);
-            message = "Akce byla úspešně smazána";
+            FlashMessageUtil.message = "Akce byla úspešně smazána";
+            FlashMessageUtil.messageType = 0;
+        } else {
+            FlashMessageUtil.message = "Nemáte dostatečná oprávnění";
+            FlashMessageUtil.messageType = 2;
         }
         return new RedirectView("/vystoupeni");
 
@@ -97,24 +121,51 @@ public class ExhibitionController {
     public RedirectView deleleteUserAction(@PathVariable("userid") int userId, @PathVariable("actionid") int actionId, HttpServletRequest request) {
         if (PermissionUtils.isAllowed(request, "manageAction", "user")) {
             userActionService.deleteByUserIdAndActionId(userId, actionId);
-            message = "Uživatel byl úspešně odebrán z akce";
+            FlashMessageUtil.message = "Uživatel byl úspešně odebrán z akce";
+            FlashMessageUtil.messageType = 0;
             return new RedirectView("/action/" + actionId);
+        } else {
+            FlashMessageUtil.message = "Nemáte dostatečná oprávnění";
+            FlashMessageUtil.messageType = 2;
         }
         return new RedirectView("/vystoupeni");
     }
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") int id, HttpServletRequest request, Model model){
+        String url = "exhibition/index";
         Action action = actionService.getById(id).orElse(null);
         if(PermissionUtils.isAllowed(request, "editAction", "user")){
             model.addAttribute("action", action);
-            return "exhibition/edit";
+            url = "exhibition/edit";
         } else if (PermissionUtils.isPerson(request, "user")) {
             if (userActionService.getUsersAction(Integer.parseInt(PermissionUtils.id)).contains(id)){
                 model.addAttribute("action", action);
-                return "exhibition/edit";
+                url = "exhibition/edit";
             }
+        } else {
+            FlashMessageUtil.message = "Nemáte dostatečná oprávnění";
+            FlashMessageUtil.messageType = 2;
         }
-        return "exhibition/index";
+        return url;
+    }
+
+    @PostMapping("/vystoupeni/addUser/{id}")
+    public RedirectView addUserToAction(@PathVariable("id") int id, @RequestBody int userId, HttpServletRequest request, Model model) {
+        if(PermissionUtils.isAllowed(request, "addUserToAction", "user")) {
+            UserAction userAction = new UserAction();
+            userAction.setActionid(id);
+            userAction.setUserid(userId);
+            userActionService.add(userAction);
+            FlashMessageUtil.message = "Uživatel byl úspěšně přidán";
+            FlashMessageUtil.messageType = 0;
+        } else {
+            FlashMessageUtil.message = "Nemáte dostatečně oprávnění";
+            FlashMessageUtil.messageType = 2;
+        }
+        model.addAttribute("message", FlashMessageUtil.message);
+        model.addAttribute("messageType", FlashMessageUtil.messageType);
+        return new RedirectView("action/" + id);
+
     }
 }

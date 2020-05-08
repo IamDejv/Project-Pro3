@@ -107,19 +107,19 @@
                         "contactinfoid" : [[${attendee.person.contactInfo.contactinfoid}]],
                         "email": $('#email').val(),
                         "phone": $('#phone').val()
-                    },
-                },
-
+                    }
+                }
         };
         $.ajax({
             url: url,
             method: "PUT",
+            async: false,
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(personData),
             success: function () {
                 alert("Editace byla úspešná.");
-                $("#editForm").attr('action', "/");
+                $("#editForm").attr('action', "/profil/attendee/[[${attendee.attendeeid}]]");
             },
             error: function (response) {
                 $("#editForm").attr('action', "javascript:void(0)");

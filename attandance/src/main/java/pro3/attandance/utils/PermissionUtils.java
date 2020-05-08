@@ -7,8 +7,8 @@ public class PermissionUtils {
 
     public static String[] attendeeActions = {"application", "excuse", "simpleAction", "simpleTraining", "pay"};
     public static String[] externActions = {"simpleAttendance", "action", "addAction", "simpleUsers", "training", "actionList", "users"};
-    public static String[] trainerActions = {"attendance", "action", "addAction", "action", "users", "attendees", "training", "actionList"};
-    public static String[] managerActions = {"attendance", "action", "addAction", "action", "users", "attendees", "addTraining", "training", "actionList", "editAction", "manageAction", "activate", "deactivate"};
+    public static String[] trainerActions = {"attendance", "action", "addAction", "action", "users", "attendees", "training", "actionList", "addUserToAction"};
+    public static String[] managerActions = {"attendance", "action", "addAction", "action", "users", "attendees", "addTraining", "training", "actionList", "editAction", "manageAction", "activate", "deactivate", "addUserToAction"};
     public static String[] adminActions = {"all"};
 
     public static String id;

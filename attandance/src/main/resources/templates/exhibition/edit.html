@@ -85,7 +85,6 @@
             data: JSON.stringify(data),
             success: function () {
                 alert("Akce byla úspešně editována");
-                // $(location).attr("href", "/action/" + data.actionsid);
                 $("#editUserForm").attr("action", "/action/" + data.actionsid);
             },
             error: function (response) {

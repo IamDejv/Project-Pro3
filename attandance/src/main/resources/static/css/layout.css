@@ -128,3 +128,10 @@ a {
     width: 272px;
 }
 
+.alert {
+    width: 60%;
+    margin-left: 20%;
+    opacity: 0.7;
+    transition: visibility 3s, opacity 1s linear;
+}
+
