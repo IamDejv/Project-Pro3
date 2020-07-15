@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Omluvenka</title>
+    <link rel="stylesheet" href="../static/css/registration.css" th:href="@{/css/registration.css}">
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<span> </span>
+
+<div class="page-content">
+
+    <div class="nadpis">Omluvenka</div>
+
+    <form>
+        <div class="form-group" id="dateSelect">
+            <label for="date">Datum</label>
+            <select class="custom-select" id="date">
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary submitForm">Odeslat</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        let attendeeid = getCookie("attendee");
+        $.ajax({
+            method: "GET",
+            url: "/api/v1/attendance/" + attendeeid + "/attendee",
+            success: function (items) {
+                items.forEach(function (item) {
+                    if(item.presence < 1) {
+                        $('#date').append(new Option(item.training.name + " " + item.trainingDate, item.attendanceid))
+                    }
+                })
+            }
+        })
+    });
+
+    $(".submitForm").on("click", function () {
+        $.ajax({
+            method: "PUT",
+            async: false,
+            url: "/api/v1/attendance/" + $('#date').val(),
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(1),
+            success: function () {
+                alert("Byl jste úspěšně omluven");
+                location.reload();
+            },
+            error: function (response) {
+                alert(response.responseJSON.message);
+                location.reload();
+            }
+        })
+    })
+</script>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/home.css" th:href="@{/css/home.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<div class="page-content">
+    <div class="center">
+        <h1>Přihlášení</h1>
+        <div th:if="${error}">
+            <p><strong th:text="${error}"></strong></p>
+        </div>
+        <div th:if="${logout}">
+            <p><strong th:text="${logout}"></strong></p>
+        </div>
+        <form th:action="@{/login}" method="post">
+
+            <table>
+                <tr>
+                    <td><p id="username-label">Login:<p></td>
+                    <td><label><input type="text" name="username"/> </label></td>
+                </tr>
+                <tr>
+                    <td><p>Heslo:</p></td>
+                    <td><label><input type="password" name="password"/> </label></td>
+                </tr>
+                <tr>
+                    <td><p>Docházející:</p></td>
+                    <td><label><input type="checkbox" name="role" id="checkAttendee"/> </label></td>
+                </tr>
+
+            </table>
+
+            <div><input type="submit" value="Přihlásit" class="btn btn-primary"/></div>
+        </form>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $("#checkAttendee").on("change", function () {
+            if ($("#checkAttendee").is(":checked")) {
+                $("#username-label").text = "Email";
+            } else {
+                $("#username-label").text = "Uživatelské jméno";
+            }
+        })
+    });
+
+</script>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vystoupení Detail</title>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<div class="page-content">
+    <button type="button1" class="btn btn-primary editButton"><a id="editLink">Editovat</a></button>
+    <button type="button1" class="btn btn-primary deleteButton" style="display: none"><a id="deleteActionLink">Smazat</a></button>
+    <div>
+        <table class="horniTabulka">
+            <tr>
+                <th><p>Název:</p></th>
+                <th><p th:text="${action.actionName}"></p></th>
+            </tr>
+            <tr>
+                <td><p>Datum akce:</p></td>
+                <td><p th:text="${action.dateAction}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Typ akce:</p></td>
+                <td><p th:text="${action.type}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Město:</p></td>
+                <td><p th:text="${action.address.city}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Ulice:</p></td>
+                <td><p th:text="${action.address.street}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Popis:</p></td>
+                <td><p th:text="${action.description}"></p></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <div>
+            <div class="vyhledavani">
+                <div class="form-group" id="userSelect">
+                    <label for="user">Uživatel:</label>
+                    <select class="custom-select" id="user">
+                    </select>
+                </div>
+                <div class="btnLayout">
+                    <button type="button2" class="btn btn-primary submitForm" id="sendUser"><a id="addUser">Přidat na akci</a></button>
+                </div>
+                <div class="loader"></div>
+            </div>
+            <div id="jsGrid"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        if(getCookie("role") > 2) {
+            $(".deleteButton").show();
+        }
+        $("#editLink").attr("href", "/edit/" + [[${action.actionsid}]]);
+        $("#addUser").attr("href", "/action/" + [[${action.actionsid}]]);
+        $("#deleteActionLink").attr("href", "/action/delete/" + [[${action.actionsid}]]);
+        let data = [];
+        $.ajax({
+            url: "/api/v1/user/action/" + "[[${actionid}]]",
+            method: "GET",
+            success: function (items) {
+                for (let i = 0; i < items.length; i++) {
+                    if(items[i].person.active || getCookie("role") > 2) {
+                        let deleteLink = "/exhibition/deleteUser/" + items[i].userid + "/" + [[${action.actionsid}]];
+                        let item =
+                            {
+                                "firstname": "<a href=/profil/user/" + items[i].userid + ">" + items[i].person.firstname + "",
+                                "lastname": items[i].person.lastname,
+                                "username": items[i].username,
+                                "role": items[i].person.role.name,
+                                "delete": "<button type='button' class='btn btn-danger'><a href=" + deleteLink + ">Odstranit</a></button> "
+                            };
+                        data.push(item);
+                    }
+                }
+                let jsGrid = $("#jsGrid");
+                renderJsGrid(data, fields, jsGrid);
+                fillSelect();
+                $(".loader").hide();
+            }
+        });
+    });
+    var click = 0;
+    $("#sendUser").on('click', function () {
+        if (click === 0) {
+            click = 1;
+            $.ajax({
+                method: "POST",
+                async: false,
+                url: "/vystoupeni/addUser/[[${actionid}]]",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify($("#user").val()),
+            })
+        }
+    });
+
+    var fields = [
+        { name: "firstname", type: "text", title: "Jméno", width: 30 },
+        { name: "lastname", type: "text", title: "Příjmení", width: 30 },
+        { name: "username", type: "text", title: "Uživatelské jméno", width: 30 },
+        { name: "role", type: "text", title: "Typ", width: 30 },
+        { name: "delete", type: "text", title: "Smazat", width: 50}
+        ];
+
+    function fillSelect(){
+        let data = $("#jsGrid").jsGrid("option", "data");
+        let usernames = prepareUsernames(data);
+        $.ajax({
+            method: "GET",
+            url: "/api/v1/user",
+            success: function (items) {
+                items.forEach(function (user) {
+                    if (!usernames.includes(user.username)) {
+                        $('#user').append(new Option(user.person.firstname + " " + user.person.lastname + " (" + user.person.role.name + ")", user.userid))
+                    }
+                })
+            }
+        });
+    }
+
+    function prepareUsernames(data){
+        let usernames = [];
+        data.forEach(function (user) {
+            usernames.push(user.username);
+        });
+        return usernames;
+    }
+
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
+            width: "100%",
+            height: "100%",
+            searching: true,
+            sorting: true,
+
+            data: items,
+
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
+        });
+    }
+
+</script>

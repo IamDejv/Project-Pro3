@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Uživatelé</title>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<div class="page-content">
+    <div class="nadpis">Účastníci</div>
+    <div class="loader"></div>
+    <div id="jsGrid"></div>
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        let clients = [];
+        $.ajax({
+            url: "/api/v1/attendee",
+            data: "json",
+            contentType: "application/json",
+            method: "GET"
+        }).then(function (items) {
+            for (let i = 0; i < items.length; i++) {
+                if(items[i].person.active || getCookie("role") > 2){
+                    let client =
+                        {
+                            "firstname": "<a href=/profil/attendee/" + items[i].attendeeid + ">" + items[i].person.firstname + "",
+                            "lastname": "<a href=/profil/attendee/" + items[i].attendeeid + ">" + items[i].person.lastname + "",
+                            "sex": items[i].sex,
+                            "active": items[i].person.active,
+                            "isPaid": items[i].paid
+                        };
+                    clients.push(client);
+                    }
+                }
+            let jsGrid = $("#jsGrid");
+            renderJsGrid(clients, fields, jsGrid);
+            $(".loader").hide();
+        });
+
+    });
+
+    var fields = [
+        { name: "lastname", type: "text", title: "Příjmení", width: 60 },
+        { name: "firstname", type: "text", title: "Jméno", width: 60 },
+        { name: "sex", type: "text", title: "Pohlaví", width: 30 },
+        { name: "active", type: "checkbox", title: "Aktivní" , width: 20},
+        { name: "isPaid", type: "checkbox", title: "Zaplaceno" , width: 20},
+    ];
+
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
+            width: "100%",
+            height: "100%",
+
+            searching: true,
+            sorting: true,
+
+            data: items,
+
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
+            onDataLoaded: function () {
+                $("#jsGrid").jsGrid("sort", "lastname");
+            }
+        });
+    }
+
+</script>
+

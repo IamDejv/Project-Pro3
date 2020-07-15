@@ -1,30 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:Dejv" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:Laxarr" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:Laxxar" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6425d65f-de41-4b7b-a54f-f34488e68cf5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/attendence/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/attendence/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendence/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/attendence/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Project-Pro3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Project-Pro3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="ProjectId" id="1YAYHCuQq2feNHIF0o73cKBnS3j" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/attandance" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RunManager">
+    <configuration name="AttandanceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="pro3.attandance.AttandanceApplication" />
+      <module name="Project-Pro3" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pro3.attandance.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.AttandanceApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -40,40 +110,42 @@
       <workItem from="1582461213601" duration="17000" />
       <workItem from="1582461433636" duration="1320000" />
       <workItem from="1582492694036" duration="20000" />
+      <workItem from="1594825777836" duration="452000" />
+      <workItem from="1594826241699" duration="488000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="801" y="414" width="308" height="214" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1582388795490">
-      <screen x="0" y="27" width="1920" height="992" />
+    <state x="443" y="177" width="1024" height="852" key="#Project_Structure" timestamp="1594826164192">
+      <screen x="0" y="147" width="1920" height="1053" />
     </state>
-    <state x="801" y="414" width="308" height="214" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.27.1920.992@0.27.1920.992" timestamp="1582388795490" />
-    <state x="538" y="180" width="824" height="684" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor" timestamp="1582388792250">
-      <screen x="0" y="27" width="1920" height="992" />
+    <state x="443" y="177" width="1024" height="852" key="#Project_Structure/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1594826164192" />
+    <state x="543" y="310" width="814" height="592" key="FileChooserDialogImpl" timestamp="1594826727342">
+      <screen x="0" y="147" width="1920" height="1053" />
     </state>
-    <state x="538" y="180" width="824" height="684" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.27.1920.992@0.27.1920.992" timestamp="1582388792250" />
-    <state x="100" y="127" width="1720" height="788" key="DiffContextDialog" timestamp="1582462778497">
-      <screen x="0" y="27" width="1920" height="988" />
+    <state x="543" y="310" width="814" height="592" key="FileChooserDialogImpl/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1594826727342" />
+    <state x="443" y="177" width="1024" height="852" key="SettingsEditor" timestamp="1594826531012">
+      <screen x="0" y="147" width="1920" height="1053" />
     </state>
-    <state x="100" y="127" width="1720" height="788" key="DiffContextDialog/0.27.1920.988@0.27.1920.988" timestamp="1582462778497" />
-    <state x="733" y="280" width="501" height="482" key="FileChooserDialogImpl" timestamp="1582388953420">
-      <screen x="0" y="27" width="1920" height="992" />
+    <state x="443" y="177" width="1024" height="852" key="SettingsEditor/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1594826531012" />
+    <state x="269" y="202" width="1372" height="803" key="new project wizard" timestamp="1594826360327">
+      <screen x="0" y="147" width="1920" height="1053" />
     </state>
-    <state x="733" y="280" width="501" height="482" key="FileChooserDialogImpl/0.27.1920.992@0.27.1920.992" timestamp="1582388953420" />
-    <state x="545" y="176" width="819" height="689" key="NewModule_or_Project.wizard" timestamp="1582388961108">
-      <screen x="0" y="27" width="1920" height="992" />
-    </state>
-    <state x="545" y="176" width="819" height="689" key="NewModule_or_Project.wizard/0.27.1920.992@0.27.1920.992" timestamp="1582388961108" />
-    <state x="449" y="157" key="SettingsEditor" timestamp="1582388905565">
-      <screen x="0" y="27" width="1920" height="992" />
-    </state>
-    <state x="449" y="157" key="SettingsEditor/0.27.1920.992@0.27.1920.992" timestamp="1582388905565" />
-    <state x="718" y="175" width="473" height="689" key="VCS.ChangeListViewerDialog" timestamp="1582462779747">
-      <screen x="0" y="27" width="1920" height="988" />
-    </state>
-    <state x="718" y="175" width="473" height="689" key="VCS.ChangeListViewerDialog/0.27.1920.988@0.27.1920.988" timestamp="1582462779747" />
+    <state x="269" y="202" width="1372" height="803" key="new project wizard/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1594826360327" />
   </component>
 </project>

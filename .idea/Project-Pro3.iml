@@ -6,6 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/attendence/src/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/attendence/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/attendence/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/attandance/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/attandance/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/attandance/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

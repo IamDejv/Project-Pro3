@@ -26,4 +26,10 @@ public class RoleController {
     public Optional<Role> getById(@PathVariable("id") Integer id) {
         return roleService.getById(id);
     }
+
+    @PostMapping(produces = "application/json")
+    public Role add(@RequestBody Role role) {
+        roleService.add(role);
+        return role;
+    }
 }

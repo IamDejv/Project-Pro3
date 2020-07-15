@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="../static/css/exhibition.css" th:href="@{/css/exhibition.css}">
+    <meta charset="UTF-8">
+    <title>Přihláška</title>
+</head>
+<body>
+<div th:include="layout.html"></div>
+<div class="page-content">
+    <div class="form-group" id="applicationForm">
+        <h1 class="nadpis">Přihláška</h1>
+        <div class="loader"></div>
+        <div id="jsGrid"></div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        let data = [];
+        $.ajax({
+            url: "/api/v1/training",
+            data: "json",
+            contentType: "application/json",
+            method: "GET"
+        }).then(function (items) {
+            for (let i = 0; i < items.length; i++) {
+                let item =
+                    {
+                        "trainingName": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].name + "",
+                        "trainingDay": items[i].trainingDay,
+                        "type": items[i].type,
+                        "starttime": items[i].starttime,
+                        "endtime": items[i].endtime,
+                        "hall": items[i].hall.name,
+                        "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
+                    };
+                data.push(item);
+            }
+            let jsGrid = $("#jsGrid");
+            renderJsGrid(data, fields, jsGrid);
+            $(".loader").hide();
+        });
+
+    });
+
+    var fields = [
+        { name: "trainingName", type: "text", title: "Název", width: 60 },
+        { name: "trainingDay", type: "text", title: "Den", width: 60 },
+        { name: "type", type: "text", title: "Typ", width: 60 },
+        { name: "starttime", type: "text", title: "Začátek", width: 60 },
+        { name: "endtime", type: "text", title: "Konec", width: 30 },
+        { name: "hall", type: "text", title: "Hala", width: 30 },
+        { name: "user", type: "text", title: "Trenér", width: 30 }
+    ];
+
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
+            width: "100%",
+            height: "100%",
+
+            searching: true,
+            sorting: true,
+
+            data: items,
+
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
+            onDataLoaded: function () {
+                $("#jsGrid").jsGrid("sort", "trainingName");
+            }
+        });
+    }
+
+</script>

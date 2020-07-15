@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=" http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <link rel="stylesheet" href="../static/css/profile.css" th:href="@{/css/profile.css}">
+</head>
+<body>
+<div th:include="layout.html"></div>
+<span> </span>
+
+<div class="page-content">
+    <button type="button1" class="btn btn-primary assignUser" style="display: none"><a href="/prihlaska">Přihláška</a></button>
+    <button type="button2" class="btn btn-primary excuseUser" style="display: none"><a href="/dochazka/excuse">Omluvit</a></button>
+    <button type="button3" class="btn btn-primary pay" style="display: none">Zaplatit</button>
+    <button type="button4" class="btn btn-primary editButton" style="display: none"><a class="editLink">Editace</a></button>
+    <button type="button" class="btn btn-secondary deactivateButton" style="display: none"><a class="deactivateLink">Deaktivace</a></button>
+    <button type="button" class="btn btn-terciary activateButton" style="display: none"><a class="activateLink">Aktivace</a></button>
+    <div class="nadpis">
+        <p>Profil</p>
+    </div>
+
+    <div class="table-content">
+
+        <table>
+            <tr>
+                <td><p>Jméno:</p></td>
+                <td><p th:text="${attendee.person.firstname}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Příjmení:</p></td>
+                <td><p th:text="${attendee.person.lastname}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Pohlaví:</p></td>
+                <td><p th:text="${attendee.sex}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Zaplaceno:</p></td>
+                <td><p th:text="${attendee.paid} ? 'Ano' : 'NE'"></p></td>
+            </tr>
+            <tr>
+                <td><p>E-mail:</p></td>
+                <td><p th:text="${attendee.person.contactInfo.email}"></p></td>
+            </tr>
+            <tr>
+                <td><p>Telefon:</p></td>
+                <td><p th:text="${attendee.person.contactInfo.phone}"></p></td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <h2 class="nadpis" id="trainingHeaderAtt">Tréninky účastníka</h2>
+        <div class="loader"></div>
+        <div id="jsGrid"></div>
+    </div>
+
+</div>
+</body>
+</html>
+<script>
+
+    $(document).ready(function () {
+        let personRole= getCookie("role");
+        if(personRole > 2) {
+            $(".deactivateLink").attr("href", "/deactivate/" + [[${attendee.person.personid}]]);
+            $(".activateLink").attr("href", "/activate/" + [[${attendee.person.personid}]]);
+            $(".editLink").attr("href", "/profile/edit/" + [[${attendee.person.personid}]]);
+            if([[${attendee.person.active}]]) {
+                $(".deactivateButton").show();
+                $(".activateButton").hide();
+            } else {
+                $(".deactivateButton").hide();
+                $(".activateButton").show();
+            }
+        }
+        if((getCookie("attendee") == [[${attendee.attendeeid}]] && [[${attendee.person.active}]]) || personRole == 4) {
+            $(".assignUser").show();
+            $(".excuseUser").show();
+            $(".pay").show();
+        }
+        if (personRole == 4) {
+            $(".editButton").show();
+        }
+
+        $.ajax({
+            url: "/api/v1/training",
+            data: "json",
+            contentType: "application/json",
+            method: "GET",
+            success: function (items) {
+                let data = [];
+                for (let i = 0; i < items.length; i++) {
+                    if([[${attendeeTrainings}]].includes(items[i].trainingid)){
+                        let item =
+                            {
+                                "trainingDay": "<a href=/dochazka/" + items[i].trainingid + ">" + items[i].trainingDay + "",
+                                "trainingName": items[i].name,
+                                "type": items[i].type,
+                                "starttime": items[i].starttime,
+                                "endtime": items[i].endtime,
+                                "hall": items[i].hall.name,
+                                "user": items[i].user.person.lastname + " " + items[i].user.person.firstname
+                            };
+                        data.push(item);
+                    }
+                }
+                if(data.length !== 0) {
+                    let jsGrid = $("#jsGrid");
+                    renderJsGrid(data, fields, jsGrid);
+                } else {
+                    $('#trainingHeaderAtt').hide();
+                }
+                $(".loader").hide();
+            }
+        })
+    });
+
+
+    var fields = [
+        { name: "trainingDay", type: "text", title: "Den", width: 30 },
+        { name: "trainingName", type: "text", title: "Název", width: 30 },
+        { name: "type", type: "text", title: "Typ", width: 30 },
+        { name: "starttime", type: "text", title: "Začátek", width: 30 },
+        { name: "endtime", type: "text", title: "Konec", width: 30 },
+        { name: "hall", type: "text", title: "Hala", width: 40 },
+        { name: "user", type: "text", title: "Trenér", width: 40 }
+        ];
+
+    $(".pay").on("click", function () {
+        $.ajax({
+            method: "PUT",
+            async: false,
+            url: "/api/v1/attendee/pay/" + [[${attendee.attendeeid}]],
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(0),
+            success: function () {
+                alert ("Úspěšně zaplaceno");
+                location.reload();
+            },
+            error: function (response) {
+                alert (response.responseJSON.message);
+            }
+        })
+    });
+
+    function renderJsGrid(items, fields, grid) {
+        grid.jsGrid({
+            width: "100%",
+            height: "100%",
+
+            searching: true,
+            sorting: true,
+
+            data: items,
+
+            fields: fields,
+            _sortData: function () {
+                var a = this._sortFactor(), b = this._sortField;
+                b && this.data.sort(function (c, d) {
+                    let dbname;
+                    let cbname;
+                    if(d[b.name].includes("</a>")){
+                        dbname = d[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        dbname = d[b.name];
+                    }
+                    if(c[b.name].includes("</a>")){
+                        cbname = c[b.name].split(">")[1].split("<")[0];
+                    } else {
+                        cbname = c[b.name];
+                    }
+                    let temp =  a * b.sortingFunc(cbname, dbname);
+                    return temp;
+                })
+            },
+
+        });
+    }
+
+
+</script>
